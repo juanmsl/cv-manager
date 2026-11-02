@@ -1,10 +1,11 @@
 // ESLint (flat config): TypeScript + React en src/, Node en electron/ y scripts/.
 import js from '@eslint/js';
 import globals from 'globals';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 
-export default tseslint.config(
+export default defineConfig(
   { ignores: ['dist/', 'release/', 'node_modules/', 'Claude outputs/'] },
 
   // Interfaz (React + TypeScript)

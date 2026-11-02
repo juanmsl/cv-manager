@@ -1,6 +1,6 @@
 # ADR-0015: Repository layout and conventions
 
-- **Status:** Accepted
+- **Status:** Superseded by ADR-0017
 - **Date:** 2026-11-02
 
 ## Context

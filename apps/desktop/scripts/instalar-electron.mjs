@@ -10,14 +10,16 @@ import { createRequire } from 'node:module';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 if (process.platform !== 'darwin') process.exit(0); // en otros sistemas basta el instalador oficial
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const eDir = path.join(root, 'node_modules', 'electron');
-if (!fs.existsSync(eDir)) {
-  console.error('✖ Falta node_modules/electron. Ejecuta primero: pnpm install');
+// En el monorepo pnpm instala las dependencias en el node_modules de la raíz
+// (node-linker=hoisted), así que Electron se busca con la resolución de Node.
+let eDir;
+try {
+  eDir = path.dirname(createRequire(import.meta.url).resolve('electron/package.json'));
+} catch {
+  console.error('✖ Electron is not installed. Run first: pnpm install');
   process.exit(1);
 }
 

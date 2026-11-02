@@ -30,5 +30,7 @@ Statuses: **Proposed**, **Accepted**, **Superseded**, **Deprecated**.
 | [0012](0012-single-window-close-quits.md) | Single window: closing it quits the app | Accepted | 2026-11-02 |
 | [0013](0013-fictional-sample-data.md) | Fictional sample data and placeholders | Accepted | 2026-11-02 |
 | [0014](0014-cv-templates.md) | How CV templates are built and added | Accepted | 2026-11-02 |
-| [0015](0015-repository-layout.md) | Repository layout and conventions | Accepted | 2026-11-02 |
+| [0015](0015-repository-layout.md) | Repository layout and conventions | Superseded by 0017 | 2026-11-02 |
 | [0016](0016-lint-and-typecheck-ci.md) | Lint and type checks in CI | Accepted | 2026-11-02 |
+| [0017](0017-turborepo-monorepo.md) | Turborepo monorepo with desktop and website apps | Accepted | 2026-11-02 |
+| [0018](0018-astro-website.md) | Promotional website built with Astro | Accepted | 2026-11-02 |
