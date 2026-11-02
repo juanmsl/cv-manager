@@ -16,7 +16,10 @@ export const SLUGS: Record<Lang, { how: string; templates: string; privacy: stri
   pt: { how: 'como-usar', templates: 'modelos', privacy: 'privacidade', download: 'baixar' },
 };
 
-export const DOWNLOAD_URL = 'https://github.com/juanmsl/cv-manager/releases/latest';
+/** Nombre fijo del instalador en cada release (mac.artifactName en apps/desktop/package.json). */
+export const DMG_NAME = 'CV-Manager-macOS-arm64.dmg';
+/** Descarga directa del .dmg del último release (GitHub redirige `latest` al más reciente). */
+export const DOWNLOAD_URL = `https://github.com/juanmsl/cv-manager/releases/latest/download/${DMG_NAME}`;
 export const RELEASES_URL = 'https://github.com/juanmsl/cv-manager/releases';
 export const REPO_URL = 'https://github.com/juanmsl/cv-manager';
 

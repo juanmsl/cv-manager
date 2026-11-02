@@ -1,6 +1,6 @@
 ## Download
 
-Download **`CV-Manager-*-arm64.dmg`** below, open it and drag **CV Manager** to Applications.
+Download **`CV-Manager-macOS-arm64.dmg`** below, open it and drag **CV Manager** to Applications.
 
 Requires a Mac with Apple Silicon (M1 or later) and macOS 11 Big Sur or later.
 
