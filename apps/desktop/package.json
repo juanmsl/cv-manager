@@ -1,7 +1,7 @@
 {
   "name": "@cv-manager/desktop",
   "productName": "CV Manager",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "macOS desktop app: build your CV from templates and export it to PDF.",
   "private": true,
   "main": "electron/main.cjs",
