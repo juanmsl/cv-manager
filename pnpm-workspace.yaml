@@ -4,8 +4,12 @@ packages:
 # electron-builder packages better with a flat node_modules (no symlinks).
 nodeLinker: hoisted
 
-# Only these dependencies may run install scripts.
-onlyBuiltDependencies:
-  - electron
-  - esbuild
-  - sharp
+# Fail (instead of warning) when Node.js or pnpm don't match "engines" in package.json.
+engineStrict: true
+
+# Dependencies allowed (true) or not (false) to run install scripts.
+# pnpm 11 fails the install if a dependency with scripts is not listed.
+allowBuilds:
+  electron: true
+  esbuild: true
+  sharp: true

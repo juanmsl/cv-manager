@@ -14,8 +14,11 @@ Managed with [Turborepo](https://turbo.build) and [pnpm workspaces](https://pnpm
 
 ## Requirements
 
-- Node.js 20 or later
-- pnpm (`corepack enable` activates the version pinned in `package.json`)
+- Node.js 24 or later (`.nvmrc` pins 24: `nvm use` or `fnm use`)
+- pnpm 11.10 or later (`corepack enable` activates the version pinned in `package.json`)
+
+Both are checked on install: `engines` in `package.json` with `engineStrict` in
+`pnpm-workspace.yaml`, so `pnpm install` fails with an older Node.js or pnpm.
 - macOS to run or package the desktop app
 
 ## Getting started
@@ -42,7 +45,7 @@ Any app script can also be run with `pnpm --filter <package> <script>`, e.g.
 
 ## Continuous integration
 
-`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`: it installs dependencies
+`.github/workflows/lint-typecheck-build.yml` runs on every pull request (not on pushes to `main`, which only receives merged pull requests): it installs dependencies
 with pnpm (skipping the Electron binary) and runs lint, type check and build for every app through
 Turborepo. All must pass before merging.
 

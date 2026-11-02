@@ -1,12 +1,11 @@
-name: CI
+name: Lint, type check and build
 
+# Only on pull requests: changes reach main through pull requests, which already ran these checks.
 on:
-  push:
-    branches: [main]
   pull_request:
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: lint-typecheck-build-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -20,14 +19,14 @@ jobs:
       # None of these checks need the Electron binary.
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4 # uses the version pinned in package.json (packageManager)
-
-      - uses: actions/setup-node@v4
+      # pnpm from "packageManager" in package.json and Node.js from .nvmrc (24);
+      # the pnpm store is cached between runs.
+      - uses: pnpm/setup@v3
         with:
-          node-version: 20
-          cache: pnpm
+          cache: true
+          install: false
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

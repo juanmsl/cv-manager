@@ -1,6 +1,6 @@
 # ADR-0019: pnpm 10 with settings in pnpm-workspace.yaml
 
-- **Status:** Accepted
+- **Status:** Superseded by 0023 (pnpm version and build-script setting); the rest still applies
 - **Date:** 2026-11-02
 
 ## Context

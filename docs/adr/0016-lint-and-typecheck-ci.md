@@ -15,7 +15,7 @@ The project only had `tsc` as a local check, run by hand. With pull requests on 
   - `eslint-plugin-react-refresh` is not used: context providers intentionally export hooks and helpers next to components.
 - `pnpm lint` runs `eslint . --max-warnings 0`: warnings fail too.
 - `pnpm typecheck` runs `tsc --noEmit` (strict mode, no unused locals/parameters).
-- **GitHub Actions** (`.github/workflows/ci.yml`) runs on every pull request and on pushes to `main`, on `ubuntu-latest` with Node 20 and the pnpm version from `packageManager`:
+- **GitHub Actions** (`.github/workflows/lint-typecheck-build.yml`, originally `ci.yml`) runs on every pull request (only; not again after merging into `main`), on `ubuntu-latest` with the Node.js version from `.nvmrc` and the pnpm version from `packageManager` (see ADR-0023):
   - `pnpm install --frozen-lockfile` with `ELECTRON_SKIP_BINARY_DOWNLOAD=1` (the Electron binary isn't needed for these checks; `scripts/instalar-electron.mjs` only runs on macOS).
   - `pnpm lint` and `pnpm typecheck`; the type check runs even if lint fails, so both results are visible.
 - Both checks must pass before merging.

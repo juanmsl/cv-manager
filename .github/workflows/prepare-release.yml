@@ -40,7 +40,7 @@ jobs:
           echo "::error::Run this workflow from the main branch."
           exit 1
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0 # tags, to find the previous release
           token: ${{ secrets.RELEASE_TOKEN || github.token }}

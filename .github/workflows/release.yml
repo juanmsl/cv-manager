@@ -31,7 +31,7 @@ jobs:
       version: ${{ steps.version.outputs.version }}
       sha: ${{ steps.version.outputs.sha }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # The merge commit in main, so the build has the bumped version.
           ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
@@ -49,12 +49,12 @@ jobs:
             exit 1
           fi
 
-      - uses: pnpm/action-setup@v4 # version pinned in package.json (packageManager)
-
-      - uses: actions/setup-node@v4
+      # pnpm from "packageManager" in package.json and Node.js from .nvmrc (24);
+      # the pnpm store is cached between runs.
+      - uses: pnpm/setup@v3
         with:
-          node-version: 20
-          cache: pnpm
+          cache: true
+          install: false
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -76,7 +76,7 @@ jobs:
         working-directory: apps/desktop/release
         run: shasum -a 256 *.dmg > SHA256SUMS.txt && cat SHA256SUMS.txt
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: cv-manager-${{ steps.version.outputs.version }}-macos-arm64
           path: |
@@ -92,11 +92,11 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.build.outputs.sha }}
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: cv-manager-${{ needs.build.outputs.version }}-macos-arm64
           path: release
