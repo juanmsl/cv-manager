@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T00:00:00Z",
+  "title": "Design System: CV Manager",
+  "extensions": {
+    "colorMeta": {
+      "plum": { "role": "primary", "displayName": "Ciruela de catálogo", "canonical": "#5b3f73", "tonalRamp": ["#21162b", "#33233f", "#432d56", "#4d3463", "#5b3f73", "#8a74a0", "#d9cfe3", "#ece6f1"] },
+      "plum-hover": { "role": "primary", "displayName": "Ciruela hundido", "canonical": "#4d3463" },
+      "plum-tint": { "role": "primary", "displayName": "Velo ciruela", "canonical": "#ece6f1" },
+      "ruled-plum": { "role": "primary", "displayName": "Filete ciruela claro", "canonical": "#d9cfe3" },
+      "tab-ochre": { "role": "secondary", "displayName": "Pestaña ocre", "canonical": "#c8ae7a", "tonalRamp": ["#3a3020", "#5c4c30", "#806a43", "#a48b5c", "#c8ae7a", "#d8c49c", "#e8dbc0", "#f5efe3"] },
+      "tab-sage": { "role": "secondary", "displayName": "Pestaña salvia", "canonical": "#9fb29b", "tonalRamp": ["#232b22", "#3a4638", "#56664f", "#6f8a6b", "#9fb29b", "#b9c8b6", "#d4dfd2", "#edf2ec"] },
+      "tab-sky": { "role": "secondary", "displayName": "Pestaña cielo", "canonical": "#a3b4c6", "tonalRamp": ["#1f2832", "#36434f", "#506172", "#73879b", "#a3b4c6", "#bccad8", "#d6e0e9", "#eef2f6"] },
+      "tab-rose": { "role": "secondary", "displayName": "Pestaña rosa", "canonical": "#c6a4a6", "tonalRamp": ["#352325", "#523739", "#714f52", "#9b7678", "#c6a4a6", "#d6bdbe", "#e6d6d7", "#f5eeee"] },
+      "danger": { "role": "error", "displayName": "Rojo de eliminar", "canonical": "#a33a32", "tonalRamp": ["#2e100e", "#511d19", "#73281f", "#8f3029", "#a33a32", "#c9726b", "#e5b5b1", "#f7e6e4"] },
+      "window-stone": { "role": "neutral", "displayName": "Piedra de ventana", "canonical": "#f6f5f2", "tonalRamp": ["#1f1f1c", "#5c5852", "#67635c", "#d8d4cc", "#e4e1da", "#e8e5df", "#efede8", "#f6f5f2"] },
+      "sidebar-stone": { "role": "neutral", "displayName": "Piedra de barra lateral", "canonical": "#efede8" },
+      "desk-stone": { "role": "neutral", "displayName": "Piedra de mesa", "canonical": "#e8e5df" },
+      "surface": { "role": "neutral", "displayName": "Superficie", "canonical": "#ffffff" },
+      "ink": { "role": "neutral", "displayName": "Tinta", "canonical": "#1f1f1c" },
+      "ink-secondary": { "role": "neutral", "displayName": "Tinta secundaria", "canonical": "#5c5852" },
+      "ink-tertiary": { "role": "neutral", "displayName": "Tinta terciaria", "canonical": "#67635c" },
+      "line-separator": { "role": "neutral", "displayName": "Filete separador", "canonical": "#e4e1da" },
+      "line-field": { "role": "neutral", "displayName": "Filete de campo", "canonical": "#d8d4cc" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Título de cada pantalla. Josefin Sans 300, con 4px de compensación óptica arriba." },
+      "app-title": { "displayName": "Nombre de la app", "purpose": "\"CV Manager\" en la barra de herramientas." },
+      "title": { "displayName": "Title", "purpose": "Nombre de plantilla, títulos de estado vacío; 13px/600 en paneles e inspector." },
+      "body": { "displayName": "Body", "purpose": "Toda la UI y campos, cifras tabulares." },
+      "caption": { "displayName": "Caption", "purpose": "Subtítulos, descripciones, segmentado, banners." },
+      "label": { "displayName": "Label", "purpose": "Etiquetas de campo; 400 para contadores, pistas y fechas." },
+      "sidebar-header": { "displayName": "Encabezado de barra lateral", "purpose": "Solo el encabezado de grupo de la barra lateral, en mayúsculas; convención nativa de macOS." }
+    },
+    "shadows": [
+      { "name": "soft", "value": "0 12px 32px rgb(61 41 77 / 0.1)", "purpose": "Ficha abierta, plantilla seleccionada, pista de vista previa vacía." },
+      { "name": "control", "value": "0 1px 1px rgb(0 0 0 / 0.04)", "purpose": "Botones secundarios y menús emergentes." },
+      { "name": "paper", "value": "0 3px 12px rgb(0 0 0 / 0.16)", "purpose": "Página del CV sobre la mesa." },
+      { "name": "toast", "value": "0 12px 32px rgb(0 0 0 / 0.2)", "purpose": "Toast flotante oscuro." },
+      { "name": "focus-field", "value": "0 0 0 3px rgb(91 63 115 / 0.16)", "purpose": "Halo de foco de campos." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Curva única para transiciones de estado y entrada de vistas." },
+      { "name": "view-in", "value": "260ms, opacity 0.4→1, translateY 4px→0", "purpose": "Entrada de vista; desactivada con prefers-reduced-motion." },
+      { "name": "state", "value": "140–240ms", "purpose": "Hover y estados de controles (140–160ms), fichas y tarjetas (220–240ms), chevron 200ms." },
+      { "name": "toast-in", "value": "280ms, opacity 0→1, 8px de subida", "purpose": "Entrada del toast." }
+    ],
+    "breakpoints": [
+      { "name": "editor-compact", "value": "1239px", "purpose": "Editor pasa de 220/fluido/404 a 200/fluido/336." }
+    ],
+    "openItems": [
+      "Apariencia oscura: no diseñada; color-scheme fijo en light. Sin tokens oscuros.",
+      "Varios CV guardados e idioma(s) de UI: sin resolver."
+    ],
+    "cvTemplates": {
+      "note": "Maquetas de impresión del contenido del usuario; no usan tokens de la app.",
+      "pageSizesPt": { "A4": "595x842", "Letter": "612x792" },
+      "variables": ["--cv-primary", "--cv-text", "--cv-accent"],
+      "defaults": {
+        "columna": { "displayName": "Columna oscura", "primary": "#2D3039", "text": "#4A4B50", "accent": "#FFFFFF" },
+        "retrato": { "displayName": "Retrato", "primary": "#141414", "text": "#333333", "accent": "#B5B5B5" },
+        "editorial": { "displayName": "Editorial", "primary": "#161616", "text": "#333333", "accent": "#C8DD00" }
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "Botón primario",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Única acción primaria por vista (Revisar y exportar, Exportar PDF).",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Revisar y exportar</button>",
+      "css": ".ds-btn { height: 28px; display: inline-flex; align-items: center; gap: 6px; padding: 0 14px; border-radius: 8px; font: 500 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; cursor: default; transition: background 140ms cubic-bezier(0.16,1,0.3,1), transform 140ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary { background: #5b3f73; color: #fff; border: 0.5px solid transparent; font-weight: 600; } .ds-btn-primary:hover { background: #4d3463; } .ds-btn-primary:active { background: #432d56; transform: translateY(0.5px); } .ds-btn-primary:focus-visible { outline: 2px solid #5b3f73; outline-offset: 2px; }"
+    },
+    {
+      "name": "Botón secundario",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Acciones secundarias (Nueva ficha, Empezar en blanco).",
+      "html": "<button class=\"ds-btn-secondary\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M6 1.5v9M1.5 6h9\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>Nueva ficha</button>",
+      "css": ".ds-btn-secondary { height: 28px; display: inline-flex; align-items: center; gap: 6px; padding: 0 14px; border-radius: 8px; border: 0.5px solid #d8d4cc; background: #fff; color: #1f1f1c; box-shadow: 0 1px 1px rgb(0 0 0 / 0.04); font: 500 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; cursor: default; transition: background 140ms cubic-bezier(0.16,1,0.3,1); } .ds-btn-secondary:hover { background: #fbfaf8; } .ds-btn-secondary:active { background: #f1efea; transform: translateY(0.5px); } .ds-btn-secondary:focus-visible { outline: 2px solid #5b3f73; outline-offset: 2px; }"
+    },
+    {
+      "name": "Campo de texto",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Campo con etiqueta superior; foco ciruela con halo.",
+      "html": "<label class=\"ds-field\"><span>Cargo</span><input value=\"Diseñadora de producto senior\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 5px; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; } .ds-field span { font-size: 11px; font-weight: 500; color: #5c5852; } .ds-field input { border: 0.5px solid #d8d4cc; background: #fff; border-radius: 7px; padding: 6px 10px; font-size: 13px; line-height: 18px; color: #1f1f1c; caret-color: #5b3f73; transition: border-color 140ms, box-shadow 140ms; } .ds-field input:focus { outline: none; border-color: #5b3f73; box-shadow: 0 0 0 3px rgb(91 63 115 / 0.16); }"
+    },
+    {
+      "name": "Separador de sección",
+      "kind": "nav",
+      "refersTo": "sidebar-divider-item",
+      "description": "Item de barra lateral con pestaña de color, nombre y contador.",
+      "html": "<nav class=\"ds-sidebar\"><div class=\"ds-sidebar-label\">Secciones</div><button class=\"ds-divider\"><span class=\"ds-tab\" style=\"background:#9fb29b\"></span><span class=\"ds-name\">Perfil</span><span class=\"ds-count\">2</span></button><button class=\"ds-divider\" aria-current=\"true\"><span class=\"ds-tab\" style=\"background:#c6a4a6\"></span><span class=\"ds-name\">Experiencia</span><span class=\"ds-count\">3</span></button></nav>",
+      "css": ".ds-sidebar { background: #efede8; padding: 16px 10px; width: 220px; display: flex; flex-direction: column; gap: 2px; font: 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; color: #1f1f1c; } .ds-sidebar-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #67635c; padding: 0 10px 6px; } .ds-divider { height: 30px; display: flex; align-items: center; gap: 10px; padding: 0 10px 0 8px; border: 0; background: transparent; border-radius: 8px; text-align: left; font: inherit; color: inherit; cursor: default; transition: background 140ms; } .ds-divider:hover { background: rgb(255 255 255 / 0.5); } .ds-divider[aria-current='true'] { background: #fff; font-weight: 600; box-shadow: 0 1px 2px rgb(0 0 0 / 0.04); } .ds-divider:focus-visible { outline: 2px solid #5b3f73; outline-offset: 2px; } .ds-tab { width: 14px; height: 10px; border-radius: 3px 3px 1px 1px; flex: none; } .ds-name { flex: 1; } .ds-count { font-size: 11px; font-weight: 400; color: #67635c; }"
+    },
+    {
+      "name": "Ficha",
+      "kind": "card",
+      "refersTo": "entry-card",
+      "description": "Firma del sistema: tarjeta de catálogo con filete superior; ciruela 2px y sombra suave al abrirse.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-head\"><div class=\"ds-card-text\"><strong>Diseñador UI</strong><span>Mercado Ágil · Bogotá</span></div><span class=\"ds-card-dates\">2019 — 2021</span></div></div><div class=\"ds-card is-open\"><div class=\"ds-card-head\"><div class=\"ds-card-text\"><strong>Diseñador de producto senior</strong><span>Pagos Andinos · Bogotá</span></div><span class=\"ds-card-dates\">2021 — actual</span></div></div>",
+      "css": ".ds-card { background: #fff; border: 0.5px solid #e4e1da; border-radius: 12px; overflow: hidden; margin-bottom: 14px; font: 13px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; color: #1f1f1c; transition: box-shadow 240ms cubic-bezier(0.16,1,0.3,1), border-color 240ms; } .ds-card::before { content: ''; display: block; height: 1.5px; background: #d9cfe3; } .ds-card:hover { border-color: #d8d4cc; } .ds-card.is-open { border-color: rgb(91 63 115 / 0.35); box-shadow: 0 12px 32px rgb(61 41 77 / 0.1); } .ds-card.is-open::before { height: 2px; background: #5b3f73; } .ds-card-head { display: flex; align-items: center; gap: 12px; padding: 11px 16px; } .ds-card-text { flex: 1; } .ds-card-text strong { display: block; font-weight: 600; } .ds-card-text span { display: block; font-size: 12px; color: #5c5852; } .ds-card-dates { font-size: 11px; letter-spacing: 0.02em; color: #5c5852; } .ds-card.is-open .ds-card-dates { color: #5b3f73; }"
+    },
+    {
+      "name": "Control segmentado",
+      "kind": "nav",
+      "refersTo": "segmented",
+      "description": "Pasos Plantilla / Datos / Exportar en la barra de herramientas.",
+      "html": "<div class=\"ds-seg\"><button>Plantilla</button><button aria-pressed=\"true\">Datos</button><button>Exportar</button></div>",
+      "css": ".ds-seg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 7px; background: rgb(0 0 0 / 0.06); font: 12px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; } .ds-seg button { border: 0; background: transparent; padding: 4px 18px; border-radius: 5px; font: inherit; color: #5c5852; cursor: default; transition: background 160ms cubic-bezier(0.16,1,0.3,1), color 160ms; } .ds-seg button:hover { color: #1f1f1c; } .ds-seg button[aria-pressed='true'] { background: #fff; color: #1f1f1c; font-weight: 600; box-shadow: 0 1px 2px rgb(0 0 0 / 0.1); } .ds-seg button:focus-visible { outline: 2px solid #5b3f73; outline-offset: 2px; }"
+    },
+    {
+      "name": "Banner informativo",
+      "kind": "custom",
+      "refersTo": "banner",
+      "description": "Aviso de datos de ejemplo, sobre velo ciruela.",
+      "html": "<div class=\"ds-banner\"><p>Estás viendo datos de ejemplo. Puedes editarlos o empezar con un CV en blanco.</p><button class=\"ds-banner-link\">Conservar y editar</button></div>",
+      "css": ".ds-banner { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 10px 12px 10px 14px; border-radius: 10px; background: #ece6f1; color: #1f1f1c; font: 12px -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif; } .ds-banner p { flex: 1 1 220px; margin: 0; } .ds-banner-link { border: 0; background: none; color: #5b3f73; font: 500 13px inherit; padding: 0 4px; height: 24px; cursor: default; } .ds-banner-link:hover { text-decoration: underline; text-underline-offset: 3px; } .ds-banner-link:focus-visible { outline: 2px solid #5b3f73; outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El fichero de catálogo",
+    "overview": "Los datos del CV son un fichero de tarjetas; las plantillas son solo maneras de imprimirlas. La app es Boutique Minimalista sobre macOS nativo: neutros de piedra cálidos, filetes finos (0.5px), sombras suaves y difusas, y una única voz de color, el ciruela, para acciones primarias y selección. La gramática de catálogo (filete superior en cada ficha, pestañas de color en los separadores) se mantiene callada: estructura, nunca decoración.\n\nLa densidad es la de una app de Mac (cuerpo de 13px, controles de 28px), con el CV como protagonista en una mesa de piedra más oscura a la derecha. El cromo de la app nunca compite con la página.",
+    "keyCharacteristics": [
+      "Neutros de piedra en capas tonales: ventana, barra lateral, mesa.",
+      "Ciruela como único acento; el resto del color vive en las pestañas apagadas.",
+      "Fichas con filete superior: ciruela 2px cuando está abierta, ciruela claro 1.5px en reposo.",
+      "Josefin Sans Light solo para títulos de pantalla y nombre de la app; SF Pro para toda la UI.",
+      "Controles y convenciones nativas de macOS (semáforos, barra lateral, ⌘)."
+    ],
+    "rules": [
+      { "name": "The One Voice Rule", "body": "El ciruela es el único color de acción y selección. Si algo es interactivo y primario, es ciruela; si no lo es, no lo es.", "section": "colors" },
+      { "name": "The Quiet Tabs Rule", "body": "Las pestañas de color solo identifican secciones en la barra lateral. No se usan como fondos, botones ni estados.", "section": "colors" },
+      { "name": "The Light Display Rule", "body": "Josefin Sans aparece solo en 300 y solo en el título de pantalla y el nombre de la app. Nunca en botones, etiquetas ni cuerpo.", "section": "typography" },
+      { "name": "The Flat-At-Rest Rule", "body": "Fichas y tarjetas no tienen sombra en reposo; la ganan al abrirse o seleccionarse, junto con el borde ciruela al 35%.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do usar el ciruela solo para la acción primaria, selección y foco.",
+      "Do marcar cada ficha o tarjeta de catálogo con su filete superior: 1.5px ciruela claro en reposo, 2px ciruela activa.",
+      "Do expresar profundidad con las tres piedras (ventana, barra lateral, mesa) y filetes de 0.5px antes que con sombras.",
+      "Do usar iconos SVG de un solo trazo de 1.5px, currentColor.",
+      "Do respetar controles nativos de macOS: 28px de alto, cuerpo de 13px, ⌘ en las pistas de teclado."
+    ],
+    "donts": [
+      "Don't usar las pestañas ochre/sage/sky/rose fuera de la barra lateral de secciones.",
+      "Don't usar Josefin Sans fuera del título de pantalla y el nombre de la app, ni en pesos distintos de 300.",
+      "Don't poner etiquetas pequeñas en mayúsculas sobre títulos de contenido; el estilo en mayúsculas existe solo como encabezado de grupo de la barra lateral.",
+      "Don't dar sombra a fichas o tarjetas en reposo.",
+      "Don't aplicar tokens de la app dentro de las plantillas del CV."
+    ]
+  }
+}

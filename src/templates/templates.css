@@ -1,0 +1,665 @@
+/* ---------------------------------------------------------------------------
+   Plantillas de CV. Medidas en pt (las mismas del diseño en Figma y del PDF).
+   Colores configurables: --cv-primary, --cv-text, --cv-accent.
+--------------------------------------------------------------------------- */
+
+.cv-page {
+  width: var(--page-w);
+  min-height: var(--page-h);
+  box-sizing: border-box;
+  background: #fff;
+  color: var(--cv-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 9pt;
+  line-height: 1.4;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+.cv-page *,
+.cv-page *::before,
+.cv-page *::after {
+  box-sizing: border-box;
+}
+/* Reset sin especificidad (:where) para que cada plantilla mande. */
+:where(.cv-page) :where(h1, h2, h3, p, ul, ol, dl, dd) {
+  margin: 0;
+  padding: 0;
+}
+:where(.cv-page) :where(ul, ol) {
+  list-style: none;
+}
+.cv-page article,
+.cv-page li {
+  break-inside: avoid;
+}
+
+/* Foto ------------------------------------------------------------------- */
+.cv-photo {
+  overflow: hidden;
+  background: #bdbdbd;
+}
+.cv-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform-origin: center;
+}
+.cv-photo--empty svg {
+  width: 100%;
+  height: 100%;
+  fill: #a3a3a3;
+  display: block;
+}
+
+/* Ficha resaltada en la vista previa en vivo (nunca se imprime) ---------- */
+.cv-page .is-highlight {
+  outline: 1pt dashed #5b3f73;
+  outline-offset: 3pt;
+  background-color: rgb(91 63 115 / 0.07);
+  border-radius: 2pt;
+}
+@media print {
+  .cv-page .is-highlight {
+    outline: none;
+    background-color: transparent;
+  }
+}
+
+/* 1 · Columna oscura ------------------------------------------------------ */
+.cv-columna {
+  background: linear-gradient(to right, var(--cv-primary) 214pt, #fff 214pt);
+}
+.col-grid {
+  display: grid;
+  grid-template-columns: 214pt 1fr;
+  min-height: var(--page-h);
+}
+.col-photo {
+  height: 250pt;
+}
+.col-side {
+  color: var(--cv-accent);
+}
+.col-side-body {
+  padding: 26pt 28pt 32pt;
+}
+.col-name {
+  font-size: 30pt;
+  line-height: 31pt;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.col-title {
+  font-size: 11pt;
+  opacity: 0.85;
+  margin-top: 6pt;
+}
+.col-rule {
+  border: 0;
+  height: 1.5pt;
+  width: 32pt;
+  background: var(--cv-accent);
+  margin: 6pt 0 14pt;
+}
+.col-rule--wide {
+  width: 44pt;
+  margin: 12pt 0 10pt;
+}
+.col-links {
+  font-size: 8.5pt;
+  line-height: 13pt;
+  opacity: 0.8;
+}
+.col-side-sec {
+  margin-top: 30pt;
+}
+.col-side-sec h2 {
+  font-size: 15pt;
+  font-weight: 700;
+}
+.col-side-sec dt {
+  font-size: 7.5pt;
+  opacity: 0.6;
+}
+.col-side-sec dd {
+  font-size: 9pt;
+  margin-bottom: 11pt;
+  word-break: break-word;
+}
+.col-bars li,
+.col-skills li {
+  display: grid;
+  grid-template-columns: 76pt 1fr;
+  align-items: center;
+  font-size: 9pt;
+  margin-bottom: 7pt;
+}
+.col-bars i,
+.col-skills i {
+  display: block;
+  height: 5pt;
+  background: color-mix(in srgb, var(--cv-accent) 18%, transparent);
+}
+.col-bars b,
+.col-skills b {
+  display: block;
+  height: 100%;
+  background: var(--cv-accent);
+}
+.col-main {
+  padding: 40pt 36pt 40pt 32pt;
+}
+.col-main section {
+  margin-bottom: 26pt;
+}
+.col-h {
+  font-size: 17pt;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--cv-primary);
+}
+.col-h::after {
+  content: '';
+  display: block;
+  width: 32pt;
+  height: 2pt;
+  background: var(--cv-primary);
+  margin: 6pt 0 14pt;
+}
+.col-profile {
+  font-size: 8.8pt;
+  line-height: 14pt;
+}
+.col-row {
+  display: grid;
+  grid-template-columns: 118pt 1fr;
+  gap: 14pt;
+  margin-bottom: 15pt;
+}
+.col-row-meta strong {
+  display: block;
+  font-size: 8.5pt;
+  font-weight: 600;
+  color: var(--cv-primary);
+  line-height: 11pt;
+  margin-bottom: 3pt;
+}
+.col-row-meta span {
+  display: block;
+  font-size: 8pt;
+  line-height: 12pt;
+}
+.col-row-desc {
+  font-size: 8.5pt;
+  line-height: 13pt;
+}
+.col-row-desc ul {
+  margin-top: 4pt;
+}
+.col-row-desc li {
+  padding-left: 9pt;
+  position: relative;
+}
+.col-row-desc li::before {
+  content: '';
+  position: absolute;
+  left: 1pt;
+  top: 5.5pt;
+  width: 3pt;
+  height: 3pt;
+  border-radius: 50%;
+  background: currentColor;
+}
+.col-skills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 16pt;
+}
+.col-skills li {
+  grid-template-columns: 72pt 1fr;
+  font-size: 8.5pt;
+  color: var(--cv-primary);
+}
+.col-skills i {
+  background: #e1e1e4;
+}
+.col-skills b {
+  background: var(--cv-primary);
+}
+
+/* 2 · Retrato con línea de tiempo ---------------------------------------- */
+.cv-retrato {
+  background: linear-gradient(to right, var(--cv-primary) 250pt, #ededed 250pt);
+}
+.ret-grid {
+  display: grid;
+  grid-template-columns: 250pt 1fr;
+  min-height: var(--page-h);
+}
+.ret-side {
+  display: flex;
+  flex-direction: column;
+}
+.ret-name {
+  background: #f7f7f7;
+  color: var(--cv-primary);
+  height: 64pt;
+  padding: 24pt 28pt 0;
+  font-size: 20pt;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ret-photo-wrap {
+  position: relative;
+  height: 280pt;
+}
+.ret-photo {
+  height: 100%;
+}
+.ret-diagonal {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 62pt;
+  background: var(--cv-primary);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 90%);
+}
+.ret-dark {
+  flex: 1;
+  background: var(--cv-primary);
+  color: #fff;
+  padding: 24pt 28pt 36pt;
+}
+.ret-dark section {
+  margin-bottom: 26pt;
+}
+.ret-dark p {
+  font-size: 8.5pt;
+  line-height: 13.5pt;
+  opacity: 0.85;
+}
+.ret-h-light {
+  font-size: 10pt;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-bottom: 10pt;
+}
+.ret-city {
+  margin-bottom: 10pt;
+}
+.ret-city strong {
+  font-weight: 600;
+  font-size: 8pt;
+}
+.ret-contact li {
+  position: relative;
+  padding-left: 16pt;
+  font-size: 8.5pt;
+  line-height: 18pt;
+  opacity: 0.85;
+}
+.ret-contact li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4.5pt;
+  width: 9pt;
+  height: 9pt;
+  border-radius: 50%;
+  background: #fff;
+}
+.ret-main {
+  padding: 40pt 28pt 40pt 22pt;
+  color: var(--cv-primary);
+}
+.ret-main section {
+  margin-bottom: 26pt;
+}
+.ret-bar {
+  height: 3pt;
+  background: linear-gradient(to right, var(--cv-accent) 40%, var(--cv-primary) 40%);
+  margin-bottom: 15pt;
+}
+.ret-h {
+  font-size: 10pt;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 18pt;
+}
+.ret-tl li {
+  display: grid;
+  grid-template-columns: 82pt 1fr;
+  position: relative;
+  padding-bottom: 14pt;
+}
+.ret-tl li:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 81.5pt;
+  top: 9pt;
+  bottom: 0;
+  width: 1pt;
+  background: var(--cv-primary);
+}
+.ret-date {
+  font-size: 8pt;
+  font-weight: 600;
+}
+.ret-tl li > div {
+  position: relative;
+  padding-left: 16pt;
+}
+.ret-tl li > div::before {
+  content: '';
+  position: absolute;
+  left: -4.5pt;
+  top: 1.5pt;
+  width: 9pt;
+  height: 9pt;
+  border-radius: 50%;
+  background: #ededed;
+  border: 1.2pt solid var(--cv-primary);
+}
+.ret-tl strong {
+  display: block;
+  font-size: 8.5pt;
+  font-weight: 600;
+}
+.ret-tl span:not(.ret-date) {
+  display: block;
+  font-size: 8pt;
+  color: var(--cv-text);
+}
+.ret-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16pt 20pt;
+}
+.ret-skills li {
+  width: 56pt;
+  text-align: center;
+}
+.ret-ring-box {
+  position: relative;
+  width: 56pt;
+  height: 56pt;
+}
+.ret-ring {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ret-ring-track {
+  fill: #fff;
+  stroke: var(--cv-accent);
+  stroke-width: 4;
+}
+.ret-ring-bar {
+  fill: none;
+  stroke: var(--cv-primary);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.ret-ring-box b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 13pt;
+  font-weight: 700;
+}
+.ret-skills span {
+  display: block;
+  margin: 7pt -8pt 0;
+  font-size: 8pt;
+}
+.ret-note strong {
+  font-size: 8.5pt;
+}
+.ret-note p {
+  font-size: 8.5pt;
+  line-height: 13pt;
+  color: var(--cv-text);
+  margin-top: 4pt;
+}
+
+/* 3 · Editorial con acento ------------------------------------------------ */
+.cv-editorial {
+  background: #f3f3f3;
+  color: var(--cv-primary);
+  padding-bottom: 40pt;
+}
+.edi-head {
+  position: relative;
+  height: 226pt;
+}
+.edi-vertical {
+  position: absolute;
+  left: 50pt;
+  top: 52pt;
+  height: 190pt;
+  border-left: 1pt solid var(--cv-primary);
+  z-index: 2;
+}
+.edi-vertical span {
+  position: absolute;
+  left: 7pt;
+  bottom: 0;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 13pt;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.edi-band {
+  position: absolute;
+  left: 30pt;
+  top: 150pt;
+  width: calc(100% - 60pt);
+  height: 26pt;
+  background: var(--cv-accent);
+  z-index: 1;
+}
+.edi-photo-back {
+  position: absolute;
+  left: 108pt;
+  top: 40pt;
+  width: 92pt;
+  height: 180pt;
+  background: #dcdcdc;
+  padding: 10pt 0 0 6pt;
+  z-index: 3;
+}
+.edi-photo {
+  width: 86pt;
+  height: 160pt;
+}
+.edi-id {
+  position: absolute;
+  left: 224pt;
+  right: 30pt;
+  top: 94pt;
+  z-index: 2;
+}
+.edi-name {
+  font-size: 30pt;
+  line-height: 32pt;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.edi-name span {
+  font-weight: 300;
+}
+.edi-name strong {
+  font-weight: 700;
+}
+.edi-title {
+  margin-top: 30pt;
+  font-size: 9pt;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+}
+.edi-contact {
+  margin-top: 22pt;
+  font-size: 7.5pt;
+}
+.edi-contact span + span::before {
+  content: '|';
+  margin: 0 9pt;
+}
+.edi-profile {
+  position: relative;
+  margin: 20pt 52pt 0 48pt;
+  padding-left: 14pt;
+  font-size: 8.3pt;
+  font-weight: 500;
+  line-height: 12.5pt;
+}
+.edi-profile::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4pt;
+  background: var(--cv-accent);
+}
+.edi-cols {
+  display: grid;
+  grid-template-columns: 150pt 1fr;
+  gap: 28pt;
+  padding: 34pt 46pt 0 48pt;
+}
+.edi-cols aside section {
+  margin-bottom: 26pt;
+}
+.edi-h {
+  font-size: 11pt;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-bottom: 12pt;
+}
+.edi-sub {
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 8pt;
+}
+.edi-bullets li {
+  position: relative;
+  padding-left: 15pt;
+  font-size: 8pt;
+  line-height: 18pt;
+  color: var(--cv-text);
+}
+.edi-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 2pt;
+  top: 7.5pt;
+  width: 3.5pt;
+  height: 3.5pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+.edi-plain li {
+  font-size: 8pt;
+  line-height: 14pt;
+  color: var(--cv-text);
+}
+.edi-tl li {
+  position: relative;
+  padding: 0 0 16pt 16pt;
+  font-size: 7.5pt;
+}
+.edi-tl li::before {
+  content: '';
+  position: absolute;
+  left: -0.5pt;
+  top: 2pt;
+  width: 6pt;
+  height: 6pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+.edi-tl li::after {
+  content: '';
+  position: absolute;
+  left: 2pt;
+  top: 2pt;
+  bottom: 0;
+  width: 1pt;
+  background: var(--cv-primary);
+}
+.edi-tl span {
+  display: block;
+  letter-spacing: 0.1em;
+}
+.edi-tl span:last-child {
+  letter-spacing: 0;
+  color: var(--cv-text);
+}
+.edi-tl strong {
+  display: block;
+  margin: 2pt 0;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.edi-job {
+  margin-bottom: 22pt;
+}
+.edi-date {
+  font-size: 7.5pt;
+  letter-spacing: 0.1em;
+}
+.edi-role {
+  display: block;
+  font-size: 7.5pt;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 3pt 0 7pt;
+}
+.edi-job p,
+.edi-note {
+  font-size: 8pt;
+  line-height: 12pt;
+  color: var(--cv-text);
+}
+.edi-job ul {
+  margin-top: 8pt;
+}
+.edi-job li {
+  position: relative;
+  padding-left: 20pt;
+  font-size: 7.8pt;
+  line-height: 13pt;
+  color: var(--cv-text);
+}
+.edi-job li::before {
+  content: '';
+  position: absolute;
+  left: 10pt;
+  top: 5pt;
+  width: 3pt;
+  height: 3pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+
+.scaled-page {
+  overflow: hidden;
+  flex: none;
+  position: relative;
+}

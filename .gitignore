@@ -1,0 +1,22 @@
+# Dependencias
+node_modules/
+
+# Generado por Vite / electron-builder
+dist/
+release/
+*.tsbuildinfo
+.vite/
+
+# Archivos de trabajo de Claude
+Claude outputs/
+
+# Impeccable (revisiones temporales)
+.impeccable/review/
+
+# Sistema y editores
+.DS_Store
+.idea/
+.vscode/
+*.log
+npm-debug.log*
+pnpm-debug.log*

@@ -1,0 +1,276 @@
+/* Acciones de datos (barra lateral) ------------------------------------- */
+.data-actions {
+  margin-top: auto;
+  padding: 12px 6px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: 0.5px solid var(--line-separator);
+}
+.data-actions .btn--block svg {
+  color: var(--accent);
+}
+.data-actions .btn--block {
+  justify-content: flex-start;
+  padding: 0 10px;
+}
+
+/* Documento en la barra de herramientas */
+.toolbar-left {
+  justify-self: start;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  -webkit-app-region: drag;
+}
+.doc-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+.doc-name em {
+  font-style: normal;
+  color: var(--accent);
+}
+.data-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+.data-links .btn--link {
+  font-size: 12px;
+  height: 22px;
+}
+.data-confirm {
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--bg-surface);
+  border: 0.5px solid var(--line-separator);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.data-confirm p {
+  margin: 0 0 8px;
+}
+.data-confirm div {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+.data-confirm .btn {
+  height: 24px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+.sidebar .save-state {
+  margin-top: 8px;
+}
+
+/* Ventana modal ------------------------------------------------------------ */
+.modal {
+  width: min(560px, calc(100vw - 48px));
+  max-height: calc(100vh - 96px);
+  padding: 0;
+  border: 0.5px solid var(--line-field);
+  border-radius: 14px;
+  background: var(--bg-window);
+  color: var(--text-primary);
+  box-shadow: 0 24px 64px rgb(31 31 28 / 0.22), 0 2px 6px rgb(31 31 28 / 0.08);
+  overflow: auto;
+  user-select: text;
+}
+.modal[open] {
+  animation: modal-in 240ms var(--ease-out);
+}
+.modal::backdrop {
+  background: rgb(31 31 28 / 0.28);
+  animation: fade-in 200ms var(--ease-out);
+}
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .modal[open],
+  .modal::backdrop {
+    animation: none;
+  }
+}
+.modal-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 16px 0 22px;
+}
+.modal-head h2 {
+  flex: 1;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 24px;
+  padding-top: 3px;
+}
+.modal-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: var(--accent-tint);
+  color: var(--accent);
+}
+.modal-body {
+  padding: 14px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.modal-lead {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+.modal-lead strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.steps {
+  margin: 0;
+  padding: 14px 16px 14px 18px;
+  list-style: none;
+  counter-reset: step;
+  background: var(--bg-surface);
+  border: 0.5px solid var(--line-separator);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 32px;
+  line-height: 1.45;
+  min-height: 22px;
+}
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--accent-tint);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+}
+.steps strong {
+  font-weight: 600;
+}
+.modal-body > .btn--link {
+  align-self: flex-start;
+  margin-top: -6px;
+}
+.pdf-drop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 96px;
+  padding: 16px;
+  border: 1px dashed var(--line-field);
+  border-radius: 12px;
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  text-align: left;
+  line-height: 1.45;
+  cursor: default;
+  transition: border-color 160ms, background 160ms;
+}
+.pdf-drop svg {
+  color: var(--accent);
+  flex: none;
+}
+.pdf-drop strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.pdf-drop:hover,
+.pdf-drop.is-over {
+  border-color: var(--accent);
+  background: var(--accent-tint);
+}
+.pdf-drop:disabled {
+  opacity: 0.7;
+}
+.modal-error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgb(163 58 50 / 0.08);
+  color: var(--danger);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.modal-note {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--text-tertiary);
+}
+.import-summary {
+  margin: 0;
+  background: var(--bg-surface);
+  border: 0.5px solid var(--line-separator);
+  border-radius: 12px;
+  padding: 4px 16px;
+}
+.import-summary div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 0.5px solid var(--line-separator);
+}
+.import-summary div:last-child {
+  border-bottom: 0;
+}
+.import-summary dt {
+  color: var(--text-secondary);
+}
+.import-summary dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 500;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.import-summary dd.is-empty {
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+.modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
