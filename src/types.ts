@@ -3,7 +3,17 @@ import type { Lang } from './i18n';
 // Modelo de datos del CV. Todas las plantillas leen de este mismo modelo,
 // así que cambiar de plantilla nunca pierde información.
 
-export type TemplateId = 'columna' | 'retrato' | 'editorial';
+export type TemplateId =
+  | 'columna'
+  | 'retrato'
+  | 'editorial'
+  | 'lineal'
+  | 'marco'
+  | 'ejecutivo'
+  | 'tarjetas'
+  | 'boutique'
+  | 'panel'
+  | 'sereno';
 export type Step = 'templates' | 'editor' | 'export';
 
 export type SectionId =

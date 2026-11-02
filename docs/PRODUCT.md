@@ -30,11 +30,11 @@ Three-step flow: 1) template selector (gallery), 2) data configuration (form by 
 
 ## Capabilities and Constraints
 
-- Data model: photo (crop, B/W option), name, job title, profile summary, contact (email, phone, city), social links[], experience[] (role, company, dates or "current", description, bullet achievements; reorderable), education[] (institution, degree, dates), skills[] (name, category, optional level 0–100), languages[] (language, level), free note, template colors (primary, secondary, accent).
-- Local persistence; works offline.
-- Templates must handle long content and overflow to a second page.
+- Data model: photo (crop, B/W option), name, job title, profile summary, contact (email, phone, city), social links[], experience[] (role, company, dates or "current", description, bullet achievements; reorderable), education[] (institution, degree, dates), skills[] (name, category, optional level 0–100), languages[] (language, level), free note, template colors (primary, text, accent).
+- Works offline; nothing is stored automatically. Every launch starts clean with fictional sample data; CVs are kept only as `.cv` files the user saves (see `docs/adr/0008`, `0009`).
+- The PDF is always a single page: Letter width, at least Letter height, growing downward to fit long content (see `docs/adr/0007`).
 - PDF must match the preview exactly (fonts, colors, sharp images).
-- Undecided: multiple saved CVs/profiles per install; UI language(s) for distribution (user writes in Spanish).
+- UI in Spanish, English and Portuguese, always starting in the system language; the CV's section titles can use a different language (see `docs/adr/0010`). Multiple CVs are handled as separate `.cv` files.
 
 ## Brand Commitments
 
@@ -42,7 +42,7 @@ Name: CV Manager (working name).
 
 ## Evidence on Hand
 
-Three CV template mockups in `cv-templates/`: Template 1.jpg ("dark sidebar"), Template 2.jpg ("portrait + timeline"), Template 3.jpg ("editorial with lime accent"). No logo, no app icon, no real user testimonials exist; do not fabricate them.
+Ten CV template mockups in `cv-templates/` (Template 1–10.jpg), implemented in `src/templates/` as: 1 Columna (dark sidebar), 2 Retrato (portrait + timeline), 3 Editorial (lime accent), 4 Lineal (fine vertical rule), 5 Marco (framed page), 6 Ejecutivo (dark contact tab), 7 Tarjetas (soft cards), 8 Boutique (round photo, two-tone background), 9 Panel (gray side panel, vertical year pills), 10 Sereno (light-blue column, script name). An app icon and a `.cv` document icon exist in `build/`. No logo or real user testimonials exist; do not fabricate them.
 
 ## Product Principles
 

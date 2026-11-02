@@ -1,0 +1,227 @@
+/* 4 · Línea fina ------------------------------------------------------------ */
+.lin {
+  min-height: var(--page-h);
+  display: flex;
+  flex-direction: column;
+  padding: 50pt 0 40pt;
+  color: var(--cv-text);
+}
+.lin-head {
+  margin-left: 46pt;
+  padding: 2pt 0 10pt 18pt;
+  border-left: 1pt solid var(--cv-primary);
+  color: var(--cv-primary);
+}
+.lin-head h1 {
+  display: flex;
+  flex-direction: column;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.lin-first {
+  font-size: 20pt;
+  font-weight: 300;
+  letter-spacing: 0.42em;
+}
+.lin-last {
+  font-size: 28pt;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+}
+
+/* Franja: cargo en un recuadro que nace en el borde, y el contacto con su pestaña */
+.lin-band {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16pt;
+  margin: 12pt 0 0;
+  padding-right: 40pt;
+}
+.lin-band::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 12pt;
+  height: 28pt;
+  transform: translateY(-50%);
+  background: var(--cv-primary);
+}
+.lin-title {
+  flex: 1;
+  min-height: 26pt;
+  display: flex;
+  align-items: center;
+  border: 0.75pt solid var(--cv-primary);
+  border-left: 0;
+  padding: 6pt 14pt 6pt 46pt;
+  color: var(--cv-primary);
+}
+.lin-title span {
+  position: relative;
+  padding-left: 18pt;
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+}
+.lin-title span::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 4.5pt;
+  height: 4.5pt;
+  margin-top: -2.25pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+.lin-contact {
+  border-left: 9pt solid var(--cv-primary);
+  padding: 2pt 0 2pt 8pt;
+  max-width: 170pt;
+  font-size: 7pt;
+  line-height: 11pt;
+}
+.lin-contact li {
+  display: flex;
+  align-items: center;
+  gap: 5pt;
+  overflow-wrap: anywhere;
+}
+.lin-contact i {
+  display: inline-flex;
+  font-size: 7pt;
+  color: var(--cv-primary);
+}
+
+/* Cuerpo con el filete vertical a la izquierda */
+.lin-body {
+  flex: 1;
+  margin-left: 46pt;
+  margin-top: 16pt;
+  padding: 10pt 40pt 0 22pt;
+  border-left: 1pt solid var(--cv-primary);
+}
+.lin-sec {
+  margin-bottom: 18pt;
+}
+.lin-h {
+  color: var(--cv-primary);
+  font-size: 10.5pt;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 9pt;
+}
+.lin-text {
+  font-size: 7.5pt;
+  line-height: 11.5pt;
+}
+.lin-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150pt;
+  gap: 30pt;
+}
+.lin-job {
+  position: relative;
+  margin-bottom: 14pt;
+}
+.lin-job::before {
+  content: '';
+  position: absolute;
+  left: -25pt;
+  top: 2pt;
+  width: 5pt;
+  height: 5pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+.lin-job h3 {
+  color: var(--cv-primary);
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.lin-meta {
+  font-size: 7.5pt;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 2pt 0 5pt;
+}
+.lin-list {
+  margin-top: 4pt;
+}
+.lin-list li {
+  position: relative;
+  padding-left: 9pt;
+}
+.lin-list li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+}
+.lin-sub {
+  color: var(--cv-primary);
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 7pt;
+}
+.lin-bullets li {
+  position: relative;
+  padding-left: 11pt;
+  font-size: 7.5pt;
+  line-height: 15pt;
+}
+.lin-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6pt;
+  width: 3.5pt;
+  height: 3.5pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+.lin-bullets em {
+  font-style: normal;
+  opacity: 0.7;
+}
+.lin-edu {
+  border-left: 1pt solid var(--cv-primary);
+  padding-left: 10pt;
+}
+.lin-edu-item {
+  position: relative;
+  margin-bottom: 11pt;
+}
+.lin-edu-item::before {
+  content: '';
+  position: absolute;
+  left: -12.5pt;
+  top: 2pt;
+  width: 4pt;
+  height: 4pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+.lin-edu-item h3 {
+  color: var(--cv-primary);
+  font-size: 7.5pt;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.lin-edu-item p {
+  font-size: 7.5pt;
+  letter-spacing: 0.06em;
+}
+.lin-edu-desc {
+  letter-spacing: 0 !important;
+  line-height: 11pt;
+  opacity: 0.85;
+}

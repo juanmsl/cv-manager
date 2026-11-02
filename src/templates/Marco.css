@@ -1,0 +1,155 @@
+/* 5 · Marco clásico --------------------------------------------------------- */
+.mar {
+  min-height: var(--page-h);
+  display: flex;
+  padding: 56pt 30pt 30pt;
+}
+.mar-frame {
+  flex: 1;
+  border: 0.75pt solid var(--cv-primary);
+  padding: 0 26pt 26pt;
+}
+.mar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: -16pt;
+}
+.mar-id {
+  background: #fff;
+  margin-left: -10pt;
+  padding: 0 12pt 0 10pt;
+  color: var(--cv-primary);
+}
+.mar-id h1 {
+  display: flex;
+  flex-direction: column;
+  font-size: 25pt;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.mar-title {
+  margin-top: 5pt;
+  font-size: 7.5pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.mar-photo {
+  width: 72pt;
+  height: 84pt;
+  margin: -30pt -8pt 0 0;
+  border: 6pt solid #fff;
+  background: #fff;
+  flex: none;
+}
+.mar-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6pt 16pt;
+  margin: 18pt 0 22pt;
+  font-size: 7pt;
+}
+.mar-contact li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6pt;
+}
+.mar-contact i {
+  display: inline-grid;
+  place-items: center;
+  width: 12pt;
+  height: 12pt;
+  border: 0.75pt solid var(--cv-primary);
+  font-size: 7pt;
+  color: var(--cv-primary);
+}
+.mar-sec {
+  margin-bottom: 18pt;
+}
+.mar-h {
+  display: grid;
+  grid-template-columns: 82pt 1fr;
+  gap: 14pt;
+  align-items: center;
+  margin-bottom: 10pt;
+}
+.mar-h i {
+  height: 3.5pt;
+  background: var(--cv-primary);
+}
+.mar-h h2 {
+  color: var(--cv-primary);
+  font-size: 9.5pt;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.mar-text {
+  font-size: 7pt;
+  line-height: 11pt;
+}
+.mar-row {
+  display: grid;
+  grid-template-columns: 82pt 120pt minmax(0, 1fr);
+  gap: 0 14pt;
+  margin-bottom: 11pt;
+  font-size: 7pt;
+  line-height: 11pt;
+}
+.mar-row--two {
+  grid-template-columns: 82pt minmax(0, 1fr);
+  margin-bottom: 4pt;
+}
+.mar-meta {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+}
+.mar-meta strong,
+.mar-what strong {
+  color: var(--cv-primary);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.mar-meta span,
+.mar-what span {
+  opacity: 0.6;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.mar-what {
+  display: flex;
+  flex-direction: column;
+}
+.mar-dot,
+.mar-dots li {
+  position: relative;
+  padding-left: 9pt;
+}
+.mar-dot::before,
+.mar-dots li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4.5pt;
+  width: 2.5pt;
+  height: 2.5pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+.mar-dots {
+  font-size: 7pt;
+  line-height: 11pt;
+}
+.mar-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18pt;
+}
+.mar-pair .mar-h {
+  grid-template-columns: 82pt 1fr;
+}

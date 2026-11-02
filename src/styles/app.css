@@ -386,7 +386,9 @@ input[type='range'] {
   margin-top: 36px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  column-gap: 32px; /* sin row-gap: cada tarjeta ocupa 2 filas (miniatura y texto) */
+  /* sin row-gap: cada tarjeta ocupa 2 filas (miniatura y texto); la separación
+     entre filas de tarjetas la da su margin-bottom */
+  column-gap: 32px;
 }
 .tpl-card {
   width: 100%;
@@ -396,6 +398,7 @@ input[type='range'] {
   display: grid;
   grid-row: span 2;
   grid-template-rows: subgrid;
+  margin-bottom: 32px;
   text-align: left;
   padding: 0;
   border: 0.5px solid var(--line-separator);

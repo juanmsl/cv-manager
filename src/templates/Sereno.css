@@ -1,0 +1,228 @@
+/* 10 · Sereno --------------------------------------------------------------- */
+.ser {
+  min-height: var(--page-h);
+  display: grid;
+  grid-template-columns: 186pt minmax(0, 1fr);
+}
+.ser-side {
+  position: relative;
+  overflow: hidden;
+  background: var(--cv-accent);
+  padding: 0 22pt 30pt;
+}
+/* Forma suave detrás de la foto */
+.ser-side::before {
+  content: '';
+  position: absolute;
+  top: -60pt;
+  left: -50pt;
+  width: 260pt;
+  height: 250pt;
+  border-radius: 0 0 50% 45%;
+  background: color-mix(in srgb, var(--cv-accent) 82%, var(--cv-primary));
+  opacity: 0.35;
+}
+.ser-side > * {
+  position: relative;
+}
+.ser-photo-wrap {
+  display: flex;
+  justify-content: center;
+  padding-top: 24pt;
+  margin-bottom: 26pt;
+}
+.ser-photo {
+  width: 132pt;
+  height: 132pt;
+  border-radius: 50%;
+  border: 4pt solid #fff;
+  box-shadow: 0 2pt 8pt rgb(0 0 0 / 0.12);
+}
+.ser-sec {
+  margin-bottom: 20pt;
+}
+.ser-side-h {
+  color: var(--cv-primary);
+  font-size: 9.5pt;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding-bottom: 5pt;
+  border-bottom: 0.75pt solid color-mix(in srgb, var(--cv-primary) 45%, transparent);
+  margin-bottom: 10pt;
+}
+.ser-contact li {
+  display: flex;
+  align-items: center;
+  gap: 9pt;
+  margin-bottom: 7pt;
+  font-size: 7.5pt;
+  overflow-wrap: anywhere;
+}
+.ser-contact i {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 17pt;
+  height: 17pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+  color: #fff;
+  font-size: 8.5pt;
+}
+.ser-bullets li {
+  position: relative;
+  padding-left: 12pt;
+  font-size: 7.5pt;
+  line-height: 14pt;
+}
+.ser-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 2pt;
+  top: 5.5pt;
+  width: 3pt;
+  height: 3pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+.ser-bars li {
+  display: grid;
+  grid-template-columns: 52pt minmax(0, 1fr) 24pt;
+  align-items: center;
+  gap: 8pt;
+  font-size: 7.5pt;
+  line-height: 15pt;
+}
+.ser-bars i {
+  height: 4pt;
+  border-radius: 2pt;
+  background: rgb(255 255 255 / 0.7);
+  overflow: hidden;
+}
+.ser-bars b {
+  display: block;
+  height: 100%;
+  border-radius: 2pt;
+  background: var(--cv-primary);
+}
+.ser-bars em {
+  font-style: normal;
+  text-align: right;
+}
+.ser-main {
+  padding: 30pt 30pt 30pt 26pt;
+}
+.ser-head {
+  margin-bottom: 22pt;
+}
+.ser-head h1 {
+  color: var(--cv-primary);
+  font-family: 'Snell Roundhand', 'Apple Chancery', 'Brush Script MT', cursive;
+  font-weight: 400;
+  font-size: 36pt;
+  line-height: 1.1;
+}
+.ser-head p {
+  margin-top: 4pt;
+  color: var(--cv-primary);
+  font-size: 10.5pt;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.ser-block {
+  margin-bottom: 18pt;
+}
+.ser-h {
+  display: flex;
+  align-items: center;
+  gap: 10pt;
+  margin-bottom: 10pt;
+}
+.ser-h i {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 24pt;
+  height: 24pt;
+  border-radius: 50%;
+  background: var(--cv-accent);
+  color: var(--cv-primary);
+  font-size: 12pt;
+}
+.ser-h span {
+  color: var(--cv-primary);
+  font-size: 10pt;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ser-h::after {
+  content: '';
+  flex: 1;
+  border-top: 0.75pt solid color-mix(in srgb, var(--cv-primary) 30%, transparent);
+}
+.ser-text {
+  font-size: 7.5pt;
+  line-height: 12pt;
+}
+.ser-block > .ser-text {
+  padding-left: 34pt;
+}
+.ser-timeline {
+  margin-left: 12pt;
+  padding-left: 22pt;
+  border-left: 0.75pt solid color-mix(in srgb, var(--cv-primary) 35%, transparent);
+}
+.ser-item {
+  position: relative;
+  margin-bottom: 11pt;
+}
+.ser-item::before {
+  content: '';
+  position: absolute;
+  left: -25pt;
+  top: 3pt;
+  width: 5pt;
+  height: 5pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+.ser-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10pt;
+}
+.ser-item-head h3 {
+  color: var(--cv-primary);
+  font-size: 8.5pt;
+  font-weight: 600;
+}
+.ser-item-head span {
+  font-size: 7.5pt;
+  white-space: nowrap;
+}
+.ser-place {
+  font-style: italic;
+  font-size: 7.5pt;
+  margin: 1pt 0 4pt;
+}
+.ser-list {
+  margin-top: 4pt;
+}
+.ser-list li {
+  position: relative;
+  padding-left: 12pt;
+}
+.ser-list li::before {
+  content: '';
+  position: absolute;
+  left: 2pt;
+  top: 4.5pt;
+  width: 3pt;
+  height: 3pt;
+  border-radius: 50%;
+  background: currentColor;
+}

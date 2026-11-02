@@ -1,132 +1,142 @@
 # CV Manager
 
-App de escritorio para macOS que crea tu CV a partir de una plantilla y lo exporta a PDF.
-Construida con Electron + React + Vite, según el diseño aprobado en Figma
+A macOS desktop app that builds your CV from a template and exports it as a PDF.
+Built with Electron + React + Vite, following the design approved in Figma
 (https://www.figma.com/design/q1QwAG3r9TZonK53v5IXFv).
 
-## Requisitos
+## Requirements
 
 - macOS
-- Node.js 18 o superior (`node -v` para comprobarlo; se instala desde https://nodejs.org)
-- pnpm (`corepack enable` lo activa con la versión fijada en `package.json`)
+- Node.js 18 or later (check with `node -v`; install from https://nodejs.org)
+- pnpm (`corepack enable` activates the version pinned in `package.json`)
 
-## Primeros pasos
+## Getting started
 
 ```bash
-cd ~/Desktop/CV
-pnpm install       # solo la primera vez
-pnpm dev           # abre la app en modo desarrollo (se recarga al guardar cambios)
+pnpm install       # first time only
+pnpm dev           # runs the app in development mode (reloads on save)
 ```
 
-`pnpm install` y `pnpm dev` revisan que Electron esté completo y lo reparan solos
-(`scripts/instalar-electron.mjs`, que descomprime con `ditto` de macOS). Para forzar
-una reinstalación limpia: `pnpm reparar:electron`.
+`pnpm install` and `pnpm dev` check that Electron is installed correctly and repair it if needed
+(`scripts/instalar-electron.mjs`, which unzips with macOS `ditto` and re-signs it ad-hoc). To force a
+clean reinstall: `pnpm reparar:electron`.
 
+Other scripts: `pnpm typecheck` (TypeScript) and `pnpm build` (Vite production build).
 
-## Crear la app con ícono (para el Dock / Aplicaciones)
+## Building the app (Dock / Applications)
 
 ```bash
 pnpm dist
 ```
 
-Genera un instalador `.dmg` en la carpeta `release/`. Ábrelo y arrastra **CV Manager** a Aplicaciones.
+Creates a `.dmg` installer in `release/`. Open it and drag **CV Manager** to Applications.
 
-La app se firma "ad-hoc" (sin certificado de Apple), suficiente para usarla en tu propio Mac.
-Si macOS dice que no puede verificar que la app esté libre de malware:
+The app is signed ad-hoc (no Apple certificate), which is enough to use it on your own Mac.
+If macOS says it can't verify the app is free of malware:
 
-1. Intenta abrirla una vez y cierra el aviso.
-2. Ve a **Configuración del Sistema → Privacidad y seguridad**, baja hasta el mensaje sobre
-   "CV Manager" y pulsa **Abrir de todos modos**.
+1. Try to open it once and dismiss the warning.
+2. Go to **System Settings → Privacy & Security**, scroll to the message about
+   “CV Manager” and click **Open Anyway**.
 
-O, desde Terminal (quita la marca de cuarentena):
+Or, from Terminal (removes the quarantine flag):
 
 ```bash
 xattr -dr com.apple.quarantine "/Applications/CV Manager.app"
 ```
 
-### Para distribuirla a otras personas
+### Distributing it to other people
 
-Que abra sin avisos en cualquier Mac requiere una cuenta del Apple Developer Program,
-un certificado **Developer ID Application** y notarizar la app con Apple. Cuando lo tengas,
-quita `"identity": null` y `afterPack` de `package.json` y configura las variables de
-entorno de electron-builder (`CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`,
-`APPLE_APP_SPECIFIC_PASSWORD`, `APPLE_TEAM_ID`).
+Opening without warnings on any Mac requires an Apple Developer Program account, a
+**Developer ID Application** certificate and notarizing the app with Apple. Once you have them,
+remove `"identity": null` and `afterPack` from `package.json` and set the electron-builder
+environment variables (`CSC_LINK`, `CSC_KEY_PASSWORD`, `APPLE_ID`,
+`APPLE_APP_SPECIFIC_PASSWORD`, `APPLE_TEAM_ID`). See ADR-0003.
 
-## Atajos
+## How it works
 
-| Atajo | Acción |
+Three steps — **Template**, **Details** and **Export** — with a live preview. Every template reads
+the same data, so switching templates never loses content. The exported PDF is always a **single
+page**: Letter width, at least Letter height, growing downward when the content needs it.
+
+There are ten templates (`src/templates/`), based on the mockups in `cv-templates/`.
+
+## Shortcuts
+
+| Shortcut | Action |
 | --- | --- |
-| ⌘1 / ⌘2 / ⌘3 | Ir a Plantilla / Datos / Exportar |
-| ⌘O | Abrir un archivo .cv |
-| ⌘S / ⇧⌘S | Guardar / Guardar como… |
-| ⌘I | Importar desde LinkedIn |
-| ⌘E | Exportar PDF |
+| ⌘1 / ⌘2 / ⌘3 | Go to Template / Details / Export |
+| ⌘O | Open a .cv file |
+| ⌘S / ⇧⌘S | Save / Save As… |
+| ⌘I | Import from LinkedIn |
+| ⌘E | Export PDF |
 
-## Importar desde LinkedIn
+## Import from LinkedIn
 
-En **Datos**, el botón **Importar de LinkedIn** (o ⌘I) abre una ventana que explica cómo
-descargar tu perfil en PDF (**Más → Guardar en PDF** en tu perfil de LinkedIn) y permite
-subirlo ahí mismo. El PDF se lee en tu Mac con pdf.js (`src/linkedin/`), se muestra un
-resumen de lo encontrado y, al confirmar, reemplaza los datos del CV (la foto, la plantilla
-y los colores se conservan). Funciona con LinkedIn en español e inglés.
+In **Details**, **Import from LinkedIn** (or ⌘I) opens a dialog that explains how to download your
+profile as a PDF (**More → Save to PDF** on your LinkedIn profile) and lets you upload it right there.
+The PDF is read on your Mac with pdf.js (`src/linkedin/`); you see a summary of what was found and,
+after confirming, it replaces the CV data (photo, template and colors are kept). Works with
+LinkedIn profiles in Spanish, English and Portuguese.
 
-Debajo están **Restaurar ejemplo** (vuelve a los datos de muestra) y **Borrar todo**;
-ambos piden confirmación.
+Below it are **Restore sample** (back to the sample data) and **Clear all**; both ask for confirmation.
 
-## Archivos .cv
+## .cv files
 
-Con **Guardar como archivo .cv** (⌘S) el CV completo (datos, foto, plantilla, colores e
-idioma) se guarda en un archivo `.cv` donde quieras. Es un JSON legible.
+**Save as .cv file** (⌘S) stores the whole CV (data, photo, template, colors and CV language) in a
+`.cv` file wherever you want. It's readable JSON.
 
-- Doble clic sobre un `.cv` en el Finder abre CV Manager con ese CV (también funciona
-  arrastrarlo al ícono del Dock y **Archivo → Abrir recientes**).
-- El nombre del archivo aparece en la barra superior; si hay cambios sin guardar dice
-  "Editado" y el botón rojo de la ventana muestra un punto.
-- Si abres otro `.cv` con cambios sin guardar, la app pregunta si quieres guardarlos.
-- El doble clic funciona con la app instalada (`pnpm dist`), no con `pnpm dev`, porque macOS
-  asocia la extensión al instalar la app.
-- Los `.cv` se ven en el Finder con su propio ícono (una hoja con el ícono de la app y la
-  etiqueta "CV"). Si después de instalar siguen con el ícono genérico, abre la app una vez
-  desde Aplicaciones; si aún así no cambia, reinicia el Finder (⌥ + clic derecho en su
-  ícono del Dock → Reiniciar).
-- Los íconos están en `build/`: `icon.*` (app) y `cv-document.*` (archivos .cv). Los `.svg`
-  son la fuente; los `.icns` son los que usa macOS.
+- Double-clicking a `.cv` in Finder opens CV Manager with that CV (dropping it on the Dock icon and
+  **File → Open Recent** also work).
+- The file name shows in the toolbar; with unsaved changes it says “Edited” and the window's red
+  button shows a dot.
+- Opening another `.cv` with unsaved changes asks whether to save them first.
+- Double-click works with the installed app (`pnpm dist`), not with `pnpm dev`, because macOS
+  registers the extension when the app is installed.
+- `.cv` files have their own icon in Finder (a page with the app icon and a “CV” label). If they
+  still show a generic icon after installing, open the app once from Applications; if it still
+  doesn't change, relaunch Finder (⌥ + right-click its Dock icon → Relaunch).
+- Icons live in `build/`: `icon.*` (app) and `cv-document.*` (.cv files). The `.svg` files are the
+  source; macOS uses the `.icns` files.
 
-## Idiomas
+## Languages
 
-La app está en **español, inglés y portugués** (`src/i18n/`).
+The app UI is available in **Spanish, English and Portuguese** (`src/i18n/`).
 
-- **Idioma de la app:** siempre arranca en el idioma del sistema (español, inglés o portugués;
-  cualquier otro abre en español). Se puede cambiar cuando quieras en el paso **Plantilla**
-  (selector arriba a la derecha) o en **Ver → Idioma**; el cambio dura hasta cerrar la app.
-- **Idioma del CV:** en **Exportar → Idioma del CV** se eligen los títulos del CV impreso
-  (Perfil/Profile/Perfil, Experiencia/Experience/Experiência…). Se guarda en el archivo `.cv`;
-  si no se elige, sigue al idioma de la app. Así puedes usar la app en español y sacar un CV en inglés.
-- Tu contenido (cargos, descripciones…) no se traduce: se escribe en el idioma que quieras.
-- Para agregar o corregir textos: `src/i18n/es.ts` es la base; `en.ts` y `pt.ts` deben tener
-  las mismas claves (TypeScript avisa si falta alguna). El menú y los diálogos nativos están en
-  `electron/i18n.cjs`.
+- **App language:** always starts in the system language (Spanish, English or Portuguese; any
+  other opens in Spanish). Change it anytime from the **Template** step (selector at the top right)
+  or **View → Language**; the change lasts until the app closes.
+- **CV language:** **Export → CV language** sets the printed section titles
+  (Perfil/Profile/Perfil, Experiencia/Experience/Experiência…). It's saved in the `.cv` file and
+  follows the app language by default, so you can use the app in Spanish and produce an English CV.
+- Your own content (titles, descriptions…) is never translated.
+- To add or fix strings: `src/i18n/es.ts` is the base; `en.ts` and `pt.ts` must have the same keys
+  (TypeScript flags any missing one). Native menu and dialog strings are in `electron/i18n.cjs`.
 
-## Dónde se guardan tus datos
+## Where your data is stored
 
-En ningún lado, a menos que tú lo guardes: cada vez que abres la app empieza de cero, con los
-datos de ejemplo, en el selector de plantillas y sin ningún archivo cargado. Para conservar un
-CV guárdalo como archivo `.cv` (⌘S). Si cierras la ventana o sales (⌘Q) con cambios sin
-guardar, la app pregunta si quieres guardarlos.
+Nowhere, unless you save it: every launch starts from scratch, on the template selector, with the
+sample data and no file loaded. To keep a CV, save it as a `.cv` file (⌘S). If you close the window
+or quit (⌘Q) with unsaved changes, the app asks whether to save them.
 
-Tampoco se recuerda el idioma: siempre arranca en el del sistema. Al arrancar, la app borra
-lo que guardaban versiones anteriores (`cv.json`, `prefs.json`) y cualquier dato del navegador
-interno (localStorage, sessionStorage, IndexedDB). Nada sale de tu Mac.
+The language isn't remembered either: it always starts in the system language. On launch the app
+deletes what earlier versions stored (`cv.json`, `prefs.json`) and any data in the embedded browser
+(localStorage, sessionStorage, IndexedDB). Nothing leaves your Mac.
 
-## Estructura
+## Project structure
 
-- `electron/` — ventana nativa, menú, guardado y exportación a PDF (`printToPDF`).
-- `src/views/` — las tres vistas: selector de plantillas, datos (fichas) y exportar.
-- `src/templates/` — las plantillas de CV (medidas en pt, iguales al PDF).
-- `src/styles/app.css` — tokens y estilos de la app (Boutique Minimalist, acento ciruela).
-- `docs/DESIGN.md` — sistema de diseño documentado.
-- `docs/PRODUCT.md` — contexto del producto.
+- `electron/` — native window, menu, `.cv` files and PDF export (`printToPDF`).
+- `src/views/` — the three views: template selector, details (cards) and export.
+- `src/templates/` — the CV templates (measured in pt, identical to the PDF).
+- `src/styles/app.css` — app tokens and styles (Boutique Minimalist, plum accent).
+- `cv-templates/` — reference mockups for the templates.
+- `build/` — app and document icons used for packaging.
+- `docs/DESIGN.md` — design system.
+- `docs/PRODUCT.md` — product context.
+- `docs/adr/` — Architecture Decision Records: the rules and definitions that guide each iteration.
+  Read them before changing something they cover; a new decision goes in a new ADR.
 
-## Pendiente
+Repository documentation is written in English; the app UI is localized.
 
-- Modo oscuro (necesita su propio diseño).
+## Roadmap
+
+- Dark appearance (needs its own design pass).
