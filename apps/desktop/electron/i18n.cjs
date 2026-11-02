@@ -101,9 +101,13 @@ const LANGS = [
   { id: 'pt', label: 'Português' },
 ];
 
-function pickLang(locale) {
-  const l = String(locale || '').slice(0, 2).toLowerCase();
-  return l === 'en' || l === 'pt' ? l : 'es';
+/** Primer idioma soportado (es/en/pt) de la lista del sistema; si no hay ninguno, inglés. */
+function pickLang(locales) {
+  for (const locale of [].concat(locales || [])) {
+    const l = String(locale || '').slice(0, 2).toLowerCase();
+    if (l === 'es' || l === 'en' || l === 'pt') return l;
+  }
+  return 'en';
 }
 
 function makeT(lang) {

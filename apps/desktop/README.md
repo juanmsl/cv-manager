@@ -108,8 +108,8 @@ Below it are **Restore sample** (back to the sample data) and **Clear all**; bot
 
 The app UI is available in **Spanish, English and Portuguese** (`src/i18n/`).
 
-- **App language:** always starts in the system language (Spanish, English or Portuguese; any
-  other opens in Spanish). Change it anytime from the **Template** step (selector at the top right)
+- **App language:** always starts in the system language (the first of your preferred languages
+  that is Spanish, English or Portuguese; if none is, it opens in English). Change it anytime from the **Template** step (selector at the top right)
   or **View → Language**; the change lasts until the app closes.
 - **CV language:** **Export → CV language** sets the printed section titles
   (Perfil/Profile/Perfil, Experiencia/Experience/Experiência…). It's saved in the `.cv` file and

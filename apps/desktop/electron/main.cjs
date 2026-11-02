@@ -16,7 +16,7 @@ let allowClose = false;
 let quitting = false;
 let pendingQuit = false;
 // Idioma del menú y los diálogos: el del sistema hasta que la interfaz avise.
-let lang = 'es';
+let lang = 'en';
 let t = makeT(lang);
 let rendererReady = false;
 // Archivo .cv recibido antes de que la interfaz esté lista (p. ej. al abrir la
@@ -288,7 +288,7 @@ app.whenReady().then(async () => {
       // Sin el PNG (o fuera de macOS) se deja el icono por defecto.
     }
   }
-  lang = pickLang(app.getLocale());
+  lang = pickLang([...app.getPreferredSystemLanguages(), app.getLocale()]);
   t = makeT(lang);
   buildMenu();
   createWindow();
