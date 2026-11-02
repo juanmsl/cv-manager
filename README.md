@@ -64,6 +64,19 @@ to create and approve pull requests**. CI doesn't run on pull requests opened by
 token; to have it run on the release pull request, add a `RELEASE_TOKEN` secret (fine-grained
 personal access token for this repository with *Contents* and *Pull requests*: read and write).
 
+## Website deployment
+
+The website is published at **https://cv-manager.juanmsl.com** with GitHub Pages (ADR-0022).
+`.github/workflows/deploy-website.yml` builds and deploys it on every push to `main` that changes
+`apps/website`, and can also be run by hand from the Actions tab.
+
+One-time setup:
+
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+2. DNS of `juanmsl.com`: a `CNAME` record `cv-manager` pointing to `juanmsl.github.io`.
+3. **Settings → Pages → Custom domain:** `cv-manager.juanmsl.com`, then enable **Enforce HTTPS**
+   once the certificate is issued.
+
 ## Repository layout
 
 ```
