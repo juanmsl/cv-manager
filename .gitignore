@@ -1,19 +1,21 @@
-# Dependencias
+# Dependencies
 node_modules/
 
-# Generado por Vite / electron-builder
+# Build output (Vite, Astro, electron-builder) and tool caches
 dist/
 release/
+.turbo/
+.astro/
 *.tsbuildinfo
 .vite/
 
-# Archivos de trabajo de Claude
+# Claude working files
 Claude outputs/
 
-# Impeccable (revisiones temporales)
-.impeccable/review/
+# Impeccable (temporary reviews)
+**/.impeccable/review/
 
-# Sistema y editores
+# OS and editors
 .DS_Store
 .idea/
 .vscode/

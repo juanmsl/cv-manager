@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Placeholder landing page: the real design comes in a later iteration.
+const downloadUrl = 'https://github.com/juanmsl/cv-manager/releases/latest';
+---
+
+<Layout
+  title="CV Manager — Your CV, designed in minutes"
+  description="A free macOS app to build a designed CV from templates and export it as a PDF."
+>
+  <main>
+    <img src="/favicon.svg" alt="" width="96" height="96" />
+    <h1>CV Manager</h1>
+    <p>Pick a template, fill in your details once and export a polished, single-page PDF. A native app for macOS.</p>
+    <a class="button" href={downloadUrl}>Download for macOS</a>
+    <small>Website in progress.</small>
+  </main>
+</Layout>
+
+<style>
+  main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 48px 16px;
+    text-align: center;
+  }
+  h1 {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+  p {
+    max-width: 34rem;
+    margin: 0;
+    color: var(--ink-secondary);
+  }
+  .button {
+    margin-top: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: var(--plum);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .button:hover {
+    background: var(--plum-hover);
+  }
+  small {
+    color: var(--ink-secondary);
+  }
+</style>

@@ -14,10 +14,10 @@ permissions:
 
 jobs:
   checks:
-    name: Lint and type check
+    name: Lint, type check and build
     runs-on: ubuntu-latest
     env:
-      # Lint and type checks don't need the Electron binary.
+      # None of these checks need the Electron binary.
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
     steps:
       - uses: actions/checkout@v4
@@ -32,9 +32,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: ESLint
-        run: pnpm lint
+      # Turborepo runs lint and typecheck in every app (desktop and website);
+      # --continue reports all failures instead of stopping at the first one.
+      - name: Lint and type check
+        run: pnpm turbo run lint typecheck --continue
 
-      - name: Type check
-        if: ${{ !cancelled() }}
-        run: pnpm typecheck
+      - name: Build
+        run: pnpm turbo run build
