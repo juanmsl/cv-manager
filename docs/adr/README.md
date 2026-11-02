@@ -36,3 +36,4 @@ Statuses: **Proposed**, **Accepted**, **Superseded**, **Deprecated**.
 | [0018](0018-astro-website.md) | Promotional website built with Astro | Accepted | 2026-11-02 |
 | [0019](0019-pnpm-10-workspace-settings.md) | pnpm 10 with settings in pnpm-workspace.yaml | Accepted | 2026-11-02 |
 | [0020](0020-website-language-without-url-paths.md) | Website language chosen in the browser, not in the URL | Accepted | 2026-11-02 |
+| [0021](0021-release-workflow.md) | Releases prepared and published by GitHub Actions | Accepted | 2026-11-02 |

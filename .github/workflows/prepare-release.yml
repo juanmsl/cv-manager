@@ -1,0 +1,143 @@
+name: Prepare release
+
+# Step 1 of a release (ADR-0021). Run it from Actions → Prepare release → Run workflow
+# and choose how to bump the desktop app version. It:
+#   - bumps "version" in apps/desktop/package.json (patch, minor or major),
+#   - adds the changelog of the merged pull requests since the last release to CHANGELOG.md,
+#   - opens a pull request "release: vX.Y.Z" from the branch release/vX.Y.Z.
+# Merging that pull request runs release.yml, which tags the merge commit, builds the
+# .dmg and publishes the GitHub release.
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump
+        type: choice
+        options: [patch, minor, major]
+        default: patch
+
+concurrency:
+  group: prepare-release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  prepare:
+    name: Bump version and open the release PR
+    runs-on: ubuntu-latest
+    env:
+      # Pull requests opened with the default token don't trigger other workflows (CI).
+      # Add a RELEASE_TOKEN secret (fine-grained token with Contents and Pull requests:
+      # read and write) to have CI run on the release PR too.
+      GH_TOKEN: ${{ secrets.RELEASE_TOKEN || github.token }}
+    steps:
+      - name: Only from main
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::Run this workflow from the main branch."
+          exit 1
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # tags, to find the previous release
+          token: ${{ secrets.RELEASE_TOKEN || github.token }}
+
+      - name: Compute the new version
+        id: version
+        env:
+          BUMP: ${{ inputs.bump }}
+        run: |
+          current=$(node -p "require('./apps/desktop/package.json').version")
+          next=$(node -e '
+            const [major, minor, patch] = process.argv[1].split("-")[0].split(".").map(Number);
+            const bump = process.env.BUMP;
+            console.log(bump === "major" ? `${major + 1}.0.0` : bump === "minor" ? `${major}.${minor + 1}.0` : `${major}.${minor}.${patch + 1}`);
+          ' "$current")
+          previous=$(git describe --tags --abbrev=0 --match 'v[0-9]*' 2>/dev/null || true)
+          if git rev-parse -q --verify "refs/tags/v$next" >/dev/null || git ls-remote --exit-code --heads origin "release/v$next" >/dev/null; then
+            echo "::error::v$next already exists (tag or release branch)."
+            exit 1
+          fi
+          echo "Current $current → next $next (previous release: ${previous:-none})"
+          {
+            echo "current=$current"
+            echo "next=$next"
+            echo "previous=$previous"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Bump apps/desktop/package.json
+        env:
+          NEXT: ${{ steps.version.outputs.next }}
+        run: |
+          node -e '
+            const fs = require("fs");
+            const file = "apps/desktop/package.json";
+            const pkg = JSON.parse(fs.readFileSync(file, "utf8"));
+            pkg.version = process.env.NEXT;
+            fs.writeFileSync(file, JSON.stringify(pkg, null, 2) + "\n");
+          '
+
+      - name: Generate the changelog
+        env:
+          NEXT: ${{ steps.version.outputs.next }}
+          PREVIOUS: ${{ steps.version.outputs.previous }}
+        run: |
+          # GitHub's automatic release notes: merged pull requests since the previous tag.
+          args=(-f tag_name="v$NEXT" -f target_commitish=main)
+          [[ -n "$PREVIOUS" ]] && args+=(-f previous_tag_name="$PREVIOUS")
+          gh api "repos/$GITHUB_REPOSITORY/releases/generate-notes" "${args[@]}" --jq .body > notes.md
+          sed -i 's/^## /### /' notes.md # one level below the version heading
+
+          {
+            echo "## [$NEXT] - $(date -u +%Y-%m-%d)"
+            echo
+            cat notes.md
+            echo
+          } > section.md
+
+          if [[ -f CHANGELOG.md ]]; then
+            # New section right after the file header (everything before the first "## [").
+            awk 'BEGIN { done = 0 }
+                 /^## \[/ && !done { while ((getline line < "section.md") > 0) print line; done = 1 }
+                 { print }
+                 END { if (!done) while ((getline line < "section.md") > 0) print line }' CHANGELOG.md > CHANGELOG.new
+            mv CHANGELOG.new CHANGELOG.md
+          else
+            {
+              echo "# Changelog"
+              echo
+              echo "Versions of the CV Manager desktop app. Each section is generated from the pull requests"
+              echo "merged since the previous release (see ADR-0021)."
+              echo
+              cat section.md
+            } > CHANGELOG.md
+          fi
+          rm notes.md section.md
+
+      - name: Open the release pull request
+        env:
+          NEXT: ${{ steps.version.outputs.next }}
+          CURRENT: ${{ steps.version.outputs.current }}
+          BUMP: ${{ inputs.bump }}
+        run: |
+          branch="release/v$NEXT"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$branch"
+          git add apps/desktop/package.json CHANGELOG.md
+          git commit -m "release: v$NEXT"
+          git push -u origin "$branch"
+
+          awk -v v="$NEXT" '$0 ~ "^## \\[" v "\\]" { on = 1; next } /^## \[/ && on { exit } on' CHANGELOG.md > changes.md
+          {
+            echo "Release **v$NEXT** of the desktop app ($BUMP bump from $CURRENT)."
+            echo
+            echo "Merging this pull request tags the merge commit as \`v$NEXT\`, builds the \`.dmg\` and publishes the GitHub release (\`release.yml\`)."
+            echo
+            echo "## Changes"
+            cat changes.md
+          } > body.md
+          gh pr create --base main --head "$branch" --title "release: v$NEXT" --body-file body.md

@@ -50,6 +50,13 @@ Or, from Terminal (removes the quarantine flag):
 xattr -dr com.apple.quarantine "/Applications/CV Manager.app"
 ```
 
+### Published releases
+
+Releases on GitHub are prepared and built by GitHub Actions: *Prepare release* bumps the version and
+opens a release pull request; merging it builds the `.dmg` and publishes the release (see the root
+README and ADR-0021). They use the same ad-hoc signature, so the first launch needs
+the same **Open Anyway** step.
+
 ### Distributing it to other people
 
 Opening without warnings on any Mac requires an Apple Developer Program account, a

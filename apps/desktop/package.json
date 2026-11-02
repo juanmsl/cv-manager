@@ -46,6 +46,7 @@
       "target": [
         "dmg"
       ],
+      "artifactName": "CV-Manager-${version}-${arch}.${ext}",
       "identity": null,
       "extendInfo": {
         "UTExportedTypeDeclarations": [

@@ -46,6 +46,24 @@ Any app script can also be run with `pnpm --filter <package> <script>`, e.g.
 with pnpm (skipping the Electron binary) and runs lint, type check and build for every app through
 Turborepo. All must pass before merging.
 
+## Releasing the desktop app
+
+Two workflows publish a new version (ADR-0021):
+
+1. **Actions → Prepare release → Run workflow** (on `main`) and choose `patch`, `minor` or `major`.
+   It bumps `apps/desktop/package.json`, adds the changes since the last release to `CHANGELOG.md`
+   and opens the pull request `release: vX.Y.Z`.
+2. Review the pull request (you can edit the changelog there) and merge it. `release.yml` then
+   builds the `.dmg` on an Apple Silicon runner, tags the merge commit `vX.Y.Z` and publishes the
+   GitHub release with the installer and the changelog.
+
+Running **Release** by hand only builds the `.dmg` and attaches it to the run, without publishing.
+
+The first time, enable **Settings → Actions → General → Workflow permissions → Allow GitHub Actions
+to create and approve pull requests**. CI doesn't run on pull requests opened by the default
+token; to have it run on the release pull request, add a `RELEASE_TOKEN` secret (fine-grained
+personal access token for this repository with *Contents* and *Pull requests*: read and write).
+
 ## Repository layout
 
 ```

@@ -1,0 +1,133 @@
+name: Release
+
+# Step 2 of a release (ADR-0021). Runs when a pull request from a release/vX.Y.Z branch
+# (opened by prepare-release.yml) is merged into main:
+#   - builds the .dmg on an Apple Silicon runner from the merge commit,
+#   - creates the tag vX.Y.Z on that commit and the GitHub release with the .dmg,
+#     a SHA256SUMS.txt and the version's section of CHANGELOG.md.
+# Running it by hand (Actions → Release → Run workflow) only builds the .dmg and
+# attaches it to the run, without publishing anything.
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: release-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build the macOS app
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/v'))
+    runs-on: macos-14 # Apple Silicon (arm64), like the Macs the app supports
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      sha: ${{ steps.version.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The merge commit in main, so the build has the bumped version.
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+
+      - name: Read the app version
+        id: version
+        env:
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          version=$(node -p "require('./apps/desktop/package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          if [[ -n "$BRANCH" && "$BRANCH" != "release/v$version" ]]; then
+            echo "::error::Branch $BRANCH does not match apps/desktop/package.json version ($version)."
+            exit 1
+          fi
+
+      - uses: pnpm/action-setup@v4 # version pinned in package.json (packageManager)
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint and type check
+        run: pnpm turbo run lint typecheck --filter=@cv-manager/desktop
+
+      # Same as `pnpm dist` (vite build + electron-builder, ad-hoc signed, ADR-0003).
+      # --publish never: the release is created by the next job, not by electron-builder.
+      - name: Build the .dmg
+        working-directory: apps/desktop
+        run: |
+          pnpm exec vite build
+          pnpm exec electron-builder --mac --arm64 --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false' # no Apple certificate: keep the ad-hoc signature
+
+      - name: Checksum
+        working-directory: apps/desktop/release
+        run: shasum -a 256 *.dmg > SHA256SUMS.txt && cat SHA256SUMS.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cv-manager-${{ steps.version.outputs.version }}-macos-arm64
+          path: |
+            apps/desktop/release/*.dmg
+            apps/desktop/release/SHA256SUMS.txt
+          if-no-files-found: error
+
+  release:
+    name: Tag and publish the GitHub release
+    needs: build
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.build.outputs.sha }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: cv-manager-${{ needs.build.outputs.version }}-macos-arm64
+          path: release
+
+      - name: Create the tag and the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.build.outputs.version }}
+          SHA: ${{ needs.build.outputs.sha }}
+        run: |
+          tag="v$VERSION"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "::error::Release $tag already exists."
+            exit 1
+          fi
+
+          # Notes: download and first-launch steps, then this version's CHANGELOG.md section.
+          {
+            cat .github/release-notes.md
+            echo
+            echo "## Changes"
+            awk -v v="$VERSION" '$0 ~ "^## \\[" v "\\]" { on = 1; next } /^## \[/ && on { exit } on' CHANGELOG.md
+          } > notes.md
+
+          # Versions like 1.0.0-beta.1 are marked as pre-releases.
+          prerelease=()
+          [[ "$VERSION" == *-* ]] && prerelease=(--prerelease)
+
+          # --target creates the tag on the merge commit.
+          gh release create "$tag" release/*.dmg release/SHA256SUMS.txt \
+            --target "$SHA" \
+            --title "CV Manager $VERSION" \
+            --notes-file notes.md \
+            "${prerelease[@]}"
