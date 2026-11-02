@@ -21,7 +21,13 @@ pnpm dev           # runs the app in development mode (reloads on save)
 (`scripts/instalar-electron.mjs`, which unzips with macOS `ditto` and re-signs it ad-hoc). To force a
 clean reinstall: `pnpm reparar:electron`.
 
-Other scripts: `pnpm typecheck` (TypeScript) and `pnpm build` (Vite production build).
+Other scripts: `pnpm lint` (ESLint), `pnpm typecheck` (TypeScript) and `pnpm build` (Vite production build).
+
+## Continuous integration
+
+`.github/workflows/ci.yml` runs on every pull request and on pushes to `main`: it installs dependencies
+with pnpm (skipping the Electron binary) and runs `pnpm lint` and `pnpm typecheck`. Both must pass
+before merging. See ADR-0016.
 
 ## Building the app (Dock / Applications)
 

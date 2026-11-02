@@ -31,3 +31,4 @@ Statuses: **Proposed**, **Accepted**, **Superseded**, **Deprecated**.
 | [0013](0013-fictional-sample-data.md) | Fictional sample data and placeholders | Accepted | 2026-11-02 |
 | [0014](0014-cv-templates.md) | How CV templates are built and added | Accepted | 2026-11-02 |
 | [0015](0015-repository-layout.md) | Repository layout and conventions | Accepted | 2026-11-02 |
+| [0016](0016-lint-and-typecheck-ci.md) | Lint and type checks in CI | Accepted | 2026-11-02 |

@@ -284,7 +284,9 @@ app.whenReady().then(async () => {
   if (!app.isPackaged && process.platform === 'darwin') {
     try {
       app.dock.setIcon(path.join(__dirname, '..', 'build', 'icon.png'));
-    } catch {}
+    } catch {
+      // Sin el PNG (o fuera de macOS) se deja el icono por defecto.
+    }
   }
   lang = pickLang(app.getLocale());
   t = makeT(lang);
