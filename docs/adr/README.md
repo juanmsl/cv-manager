@@ -34,3 +34,4 @@ Statuses: **Proposed**, **Accepted**, **Superseded**, **Deprecated**.
 | [0016](0016-lint-and-typecheck-ci.md) | Lint and type checks in CI | Accepted | 2026-11-02 |
 | [0017](0017-turborepo-monorepo.md) | Turborepo monorepo with desktop and website apps | Accepted | 2026-11-02 |
 | [0018](0018-astro-website.md) | Promotional website built with Astro | Accepted | 2026-11-02 |
+| [0019](0019-pnpm-10-workspace-settings.md) | pnpm 10 with settings in pnpm-workspace.yaml | Accepted | 2026-11-02 |

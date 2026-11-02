@@ -2,7 +2,7 @@
   "name": "cv-manager",
   "private": true,
   "description": "CV Manager monorepo: macOS desktop app and promotional website.",
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@10.34.9",
   "scripts": {
     "dev": "turbo run dev",
     "dev:desktop": "turbo run dev --filter=@cv-manager/desktop",
@@ -14,12 +14,5 @@
   },
   "devDependencies": {
     "turbo": "^2.5.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "electron",
-      "esbuild",
-      "sharp"
-    ]
   }
 }
