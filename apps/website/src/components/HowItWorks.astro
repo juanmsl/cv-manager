@@ -1,0 +1,324 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { SLUGS, TEMPLATES, useT, type Lang } from '../i18n/ui';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useT(lang);
+
+// Miniaturas exportadas por la app con los datos de ejemplo de cada idioma.
+const thumbs = import.meta.glob<{ default: ImageMetadata }>('../assets/templates/*/*.png', { eager: true });
+const templates = TEMPLATES.map((tpl) => ({
+  ...tpl,
+  name: tpl[lang],
+  src: thumbs[`../assets/templates/${lang}/${tpl.id}.png`].default,
+}));
+
+const sections = [
+  ['PiUserCircle', t('section.personal')],
+  ['PiQuotes', t('section.profile')],
+  ['PiAddressBook', t('section.contact')],
+  ['PiBriefcase', t('section.experience')],
+  ['PiGraduationCap', t('section.education')],
+  ['PiWrench', t('section.skills')],
+  ['PiTranslate', t('section.languages')],
+] as const;
+---
+
+<section id={SLUGS[lang].how} class="how" aria-labelledby={`how-title-${lang}`}>
+  <div class="wrap">
+    <header class="head">
+      <h2 id={`how-title-${lang}`} class="display h2">{t('how.title')}</h2>
+      <p class="lead">{t('how.sub')}</p>
+    </header>
+
+    <ol class="steps">
+      <li class="step step--t" id={SLUGS[lang].templates}>
+        <div class="text">
+          <h3><span class="num" aria-hidden="true">1</span>{t('how.t.title')}</h3>
+          <p>{t('how.t.body')}</p>
+        </div>
+        <ul class="gallery">
+          {
+            templates.map((tpl, i) => (
+              <li class:list={['thumb', { 'is-on': i === 0 }]}>
+                <Image src={tpl.src} alt="" widths={[230, 459]} sizes="(min-width: 960px) 150px, 30vw" />
+                <span>{tpl.name}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </li>
+
+      <li class="step step--d">
+        <div class="text">
+          <h3><span class="num" aria-hidden="true">2</span>{t('how.d.title')}</h3>
+          <p>{t('how.d.body')}</p>
+        </div>
+        <div class="editor" aria-hidden="true">
+          <span class="import"><Icon name="PiDownloadSimple" size={14} />{t('how.d.import')}</span>
+          <ul>
+            {
+              sections.map(([icon, label], i) => (
+                <li class:list={['ficha', 'row', { 'is-open': i === 3 }]}>
+                  <Icon name="PiDotsSixVertical" size={14} class="grip" />
+                  <Icon name={icon} size={16} class="row-icon" />
+                  <span>{label}</span>
+                  <Icon name="PiCaretRight" size={12} class="caret" />
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </li>
+
+      <li class="step step--e">
+        <div class="text">
+          <h3><span class="num" aria-hidden="true">3</span>{t('how.e.title')}</h3>
+          <p>{t('how.e.body')}</p>
+        </div>
+        <div class="export" aria-hidden="true">
+          <div class="page paper">
+            <Image src={templates[0].src} alt="" widths={[230, 459]} sizes="220px" />
+            <span class="letter"></span>
+            <span class="grow">{t('how.e.grows')}</span>
+          </div>
+          <div class="export-bar">
+            <span>{t('how.e.size')}</span>
+            <span class="btn btn--primary btn--sm">{t('how.e.button')}</span>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<style>
+  .how {
+    padding: clamp(64px, 8vw, 120px) 0;
+    background: var(--sidebar);
+    border-block: 0.5px solid var(--sep);
+  }
+  .head {
+    display: grid;
+    gap: 16px;
+    max-width: 44rem;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(56px, 7vw, 96px) clamp(32px, 5vw, 80px);
+    margin-top: clamp(48px, 6vw, 80px);
+  }
+  .step {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+    scroll-margin-top: 32px;
+  }
+  .step--t {
+    grid-column: 1 / -1;
+  }
+  .step--d,
+  .step--e {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: subgrid;
+    grid-row: span 2;
+    row-gap: 32px;
+  }
+  .editor,
+  .export {
+    width: 100%;
+    max-width: none;
+  }
+  .text {
+    display: grid;
+    gap: 12px;
+    max-width: 26rem;
+  }
+  .num {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 12px;
+    border-radius: 50%;
+    border: 1px solid var(--ruled);
+    background: var(--surface);
+    color: var(--plum);
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 600;
+    vertical-align: 0.2em;
+  }
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(26px, 2.4vw, 32px);
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .text p:last-child {
+    color: var(--ink-2);
+  }
+
+  /* 1 · Galería */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px 16px;
+  }
+  .thumb {
+    display: grid;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-2);
+    text-align: center;
+  }
+  .thumb img {
+    width: 100%;
+    border-radius: 3px;
+    box-shadow: var(--shadow-paper);
+    background: #fff;
+  }
+  .thumb.is-on img {
+    outline: 2px solid var(--plum);
+    outline-offset: 4px;
+  }
+  .thumb.is-on span {
+    color: var(--plum);
+    font-weight: 600;
+  }
+
+  /* 2 · Editor */
+  .editor {
+    display: grid;
+    gap: 12px;
+    padding: 24px;
+    border-radius: 16px;
+    background: var(--window);
+    border: 0.5px solid var(--sep);
+  }
+  .import {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 7px;
+    border: 0.5px solid var(--field);
+    background: var(--surface);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .editor ul {
+    display: grid;
+    gap: 6px;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    padding: 0 12px 0 6px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .row span {
+    flex: 1;
+  }
+  .row :global(.grip) {
+    color: var(--field);
+  }
+  .row :global(.row-icon) {
+    color: var(--plum);
+  }
+  .row :global(.caret) {
+    color: var(--ink-3);
+  }
+  .row.is-open::before {
+    background: var(--plum);
+  }
+
+  /* 3 · Exportar */
+  .export {
+    display: grid;
+    gap: 16px;
+    justify-items: center;
+    padding: 32px 24px 24px;
+    border-radius: 16px;
+    background: var(--desk);
+  }
+  .page {
+    position: relative;
+    width: 220px;
+    aspect-ratio: 612 / 810;
+    border-radius: 2px;
+  }
+  .page img {
+    width: 100%;
+    border-radius: 2px 2px 0 0;
+  }
+  .letter {
+    position: absolute;
+    inset: 0 0 auto;
+    height: calc(100% * 792 / 810);
+    border-bottom: 1px dashed var(--ruled);
+  }
+  .grow {
+    position: absolute;
+    left: calc(100% + 12px);
+    bottom: 0;
+    font-size: 12px;
+    color: var(--plum);
+    white-space: nowrap;
+  }
+  .export-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .btn--sm {
+    min-height: 32px;
+    padding: 0 14px;
+    font-size: 13px;
+    border-radius: 7px;
+  }
+
+  @media (max-width: 959px) {
+    .steps {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .step {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .step--d,
+    .step--e {
+      grid-row: auto;
+      grid-template-rows: none;
+    }
+    .gallery {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 420px) {
+    .gallery {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .grow {
+      left: auto;
+      right: 0;
+      bottom: -20px;
+    }
+  }
+</style>

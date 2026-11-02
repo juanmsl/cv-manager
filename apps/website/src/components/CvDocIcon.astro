@@ -1,0 +1,17 @@
+---
+// Ícono de los archivos .cv (mismo dibujo que apps/desktop/build/cv-document.svg).
+interface Props { size?: number; class?: string }
+const { size = 120, class: className } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 8);
+const fold = 'doc-fold-' + uid;
+const bg = 'doc-bg-' + uid;
+---
+
+<svg class={className} width={size} height={size} viewBox="0 0 1024 1024" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id={fold} x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#E4DEE9" /><stop offset="1" stop-color="#FFFFFF" /></linearGradient>
+    <linearGradient id={bg} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#77598F" /><stop offset="1" stop-color="#4A3160" /></linearGradient>
+  </defs>
+  <path d="M200 40 H664 L858 234 V950 A34 34 0 0 1 824 984 H200 A34 34 0 0 1 166 950 V74 A34 34 0 0 1 200 40 Z" fill="#FFFFFF" stroke="#D8D2DD" stroke-width="3"/><path d="M664 40 V200 A34 34 0 0 0 698 234 H858 Z" fill={`url(#${fold})`} stroke="#D8D2DD" stroke-width="3"/><rect x="352" y="250" width="320" height="320" rx="72" fill={`url(#${bg})`}/><g transform="translate(436 296) scale(0.3636)"><rect x="0" y="0" width="440" height="560" rx="22" fill="#FFFFFF"/><path d="M22 0 H150 V560 H22 A22 22 0 0 1 0 538 V22 A22 22 0 0 1 22 0 Z" fill="#2F2538"/><circle cx="75" cy="92" r="44" fill="#CDBFD9"/><rect x="34" y="168" width="82" height="12" rx="6" fill="#FFFFFF"/><rect x="34" y="194" width="58" height="9" rx="4.5" fill="#FFFFFF" fill-opacity=".55"/><rect x="34" y="262" width="70" height="9" rx="4.5" fill="#FFFFFF" fill-opacity=".55"/><rect x="34" y="284" width="82" height="9" rx="4.5" fill="#FFFFFF" fill-opacity=".55"/><rect x="34" y="306" width="50" height="9" rx="4.5" fill="#FFFFFF" fill-opacity=".55"/><rect x="34" y="374" width="82" height="7" rx="3.5" fill="#FFFFFF" fill-opacity=".9"/><rect x="34" y="396" width="64" height="7" rx="3.5" fill="#FFFFFF" fill-opacity=".9"/><rect x="34" y="418" width="74" height="7" rx="3.5" fill="#FFFFFF" fill-opacity=".9"/><g fill="#5B3F73"><rect x="186" y="56" width="120" height="16" rx="8"/><rect x="186" y="84" width="34" height="5" rx="2.5"/><rect x="186" y="222" width="140" height="16" rx="8"/><rect x="186" y="250" width="34" height="5" rx="2.5"/><rect x="186" y="408" width="104" height="16" rx="8"/><rect x="186" y="436" width="34" height="5" rx="2.5"/></g><g fill="#D9D3DE"><rect x="186" y="110" width="218" height="9" rx="4.5"/><rect x="186" y="132" width="200" height="9" rx="4.5"/><rect x="186" y="154" width="150" height="9" rx="4.5"/><rect x="186" y="276" width="218" height="9" rx="4.5"/><rect x="186" y="298" width="184" height="9" rx="4.5"/><rect x="186" y="320" width="208" height="9" rx="4.5"/><rect x="186" y="342" width="120" height="9" rx="4.5"/><rect x="186" y="462" width="218" height="9" rx="4.5"/><rect x="186" y="484" width="170" height="9" rx="4.5"/></g></g>
+  <text x="512" y="800" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-weight="300" font-size="150" letter-spacing="14" fill="#5B3F73">CV</text>
+</svg>

@@ -1,0 +1,467 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { DOWNLOAD_URL, REPO_URL, useT, type Lang } from '../i18n/ui';
+import sheetEs from '../assets/sheets/columna-es.png';
+import sheetEn from '../assets/sheets/columna-en.png';
+import sheetPt from '../assets/sheets/columna-pt.png';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useT(lang);
+const sheet = { es: sheetEs, en: sheetEn, pt: sheetPt }[lang];
+
+// Datos de ejemplo: los mismos que imprime la hoja en cada idioma (ficticios,
+// ADR-0013). Cajas en % de la página, medidas sobre la hoja exportada por la app.
+const DATA = {
+  es: { senior: 'Diseñador de producto senior', role: 'Diseñador de producto', win1: 'Reduje en 30 % los pagos abandonados.', win2: 'Diseñé el checkout y coordiné pruebas A/B en seis países.' },
+  en: { senior: 'Senior Product Designer', role: 'Product Designer', win1: 'Cut abandoned payments by 30%.', win2: 'Designed the checkout and ran A/B tests in six countries.' },
+  pt: { senior: 'Designer de produto sênior', role: 'Designer de produto', win1: 'Reduzi em 30% os pagamentos abandonados.', win2: 'Desenhei o checkout e coordenei testes A/B em seis países.' },
+}[lang];
+const cards = [
+  {
+    id: 'exp1',
+    icon: 'PiBriefcase',
+    title: t('section.experience'),
+    summary: 'Pagos Andinos',
+    box: { left: 38.7, top: 23.5, width: 56.9, height: 10.8 },
+    fields: [
+      [t('field.role'), DATA.senior],
+      [t('field.company'), 'Pagos Andinos'],
+      [t('field.achievement'), DATA.win1],
+    ],
+  },
+  {
+    id: 'exp2',
+    icon: 'PiBriefcase',
+    title: t('section.experience'),
+    summary: 'Mercado Ágil',
+    box: { left: 38.7, top: 33.9, width: 56.9, height: 6.9 },
+    fields: [
+      [t('field.role'), DATA.role],
+      [t('field.company'), 'Mercado Ágil'],
+      [t('field.achievement'), DATA.win2],
+    ],
+  },
+  {
+    id: 'name',
+    icon: 'PiUserCircle',
+    title: t('card.personal'),
+    summary: 'Jhon Doe',
+    box: { left: 3.1, top: 33, width: 28.8, height: 12.5 },
+    fields: [
+      [t('field.firstName'), 'Jhon'],
+      [t('field.lastName'), 'Doe'],
+      [t('field.role'), DATA.role],
+    ],
+  },
+] as const;
+const pct = (n: number) => `${n}%`;
+// Agrupa los códigos de idioma (ES · EN · PT) para que no se partan al final de línea.
+const metaParts = t('hero.meta')
+  .split(' · ')
+  .reduce<string[]>((acc, part) => {
+    const prev = acc[acc.length - 1];
+    if (part.length <= 2 && prev && /^[A-Z]{2}( · [A-Z]{2})*$/.test(prev)) acc[acc.length - 1] = `${prev} · ${part}`;
+    else acc.push(part);
+    return acc;
+  }, []);
+---
+
+<section class="hero" aria-labelledby={`hero-title-${lang}`}>
+  <div class="wrap hero-grid" data-ledger>
+    <div class="copy">
+      <h1 id={`hero-title-${lang}`} class="display">
+        <span>{t('hero.title1')}</span>
+        <span class="accent">{t('hero.title2')}</span>
+      </h1>
+      <p class="lead">{t('hero.sub')}</p>
+      <div class="ctas">
+        <a class="btn btn--primary" href={DOWNLOAD_URL}>
+          <Icon name="PiDownloadSimple" size={18} />
+          {t('cta.download')}
+        </a>
+        <a class="btn btn--secondary" href={REPO_URL}>
+          <Icon name="PiGithubLogo" size={18} />
+          {t('cta.github')}
+        </a>
+      </div>
+      <p class="meta">
+        {
+          metaParts.map((part, i) => (
+              <>
+                {i > 0 && ' · '}
+                <span class="nowrap">{part}</span>
+              </>
+            ))
+        }
+      </p>
+    </div>
+
+    <ul class="cards" aria-label={t('hero.cardsLabel')}>
+      {
+        cards.map((c, i) => (
+          <li class="ficha card" data-card={c.id} data-open={i === 0 ? '' : undefined}>
+            <h2 class="card-h">
+              <button
+                type="button"
+                class="card-btn"
+                aria-expanded={i === 0 ? 'true' : 'false'}
+                aria-controls={`card-${c.id}-${lang}`}
+                data-target={c.id}
+              >
+                <Icon name="PiDotsSixVertical" size={14} class="grip" />
+                <Icon name={c.icon} size={18} class="card-icon" />
+                <span class="card-title">{c.title}</span>
+                <span class="card-sum">{c.summary}</span>
+                <Icon name="PiCaretDown" size={14} class="caret" />
+              </button>
+            </h2>
+            <div class="card-body" id={`card-${c.id}-${lang}`} hidden={i !== 0}>
+              {c.fields.map(([label, value], j) => (
+                <div class={j === c.fields.length - 1 ? 'field wide' : 'field'}>
+                  <span>{label}</span>
+                  <output>{value}</output>
+                </div>
+              ))}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <figure class="desk">
+      <div class="sheet paper">
+        <Image src={sheet} alt={t('hero.sheetAlt')} widths={[480, 720, 1224]} sizes="(min-width: 960px) 540px, 92vw" loading="lazy" />
+        {
+          cards.map((c, i) => (
+            <span
+              class="hl"
+              data-hl={c.id}
+              data-on={i === 0 ? '' : undefined}
+              style={{ left: pct(c.box.left), top: pct(c.box.top), width: pct(c.box.width), height: pct(c.box.height) }}
+              aria-hidden="true"
+            />
+          ))
+        }
+      </div>
+      <figcaption>{t('hero.caption')}</figcaption>
+    </figure>
+
+    <svg class="ledger" aria-hidden="true" focusable="false">
+      <path class="ledger-path" d="" />
+      <circle class="ledger-dot" r="3.5" cx="-10" cy="-10" />
+      <circle class="ledger-dot" r="3.5" cx="-10" cy="-10" />
+    </svg>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: clamp(32px, 4.5vw, 64px) 0 clamp(56px, 7vw, 104px);
+  }
+  .hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas:
+      'copy desk'
+      'cards desk';
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(48px, 7vw, 112px);
+    row-gap: 40px;
+  }
+  .copy {
+    grid-area: copy;
+  }
+  .cards {
+    grid-area: cards;
+    align-self: start;
+  }
+  .desk {
+    grid-area: desk;
+  }
+
+  h1 {
+    display: grid;
+    font-size: clamp(38px, 3.6vw, 54px);
+    line-height: 1.08;
+  }
+  h1 .accent {
+    color: var(--plum);
+  }
+  .lead {
+    margin-top: 24px;
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+  .meta {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  /* Fichas */
+  .cards {
+    display: grid;
+    gap: 10px;
+    max-width: 460px;
+  }
+  .card {
+  }
+  .card[data-open]::before {
+    background: var(--plum);
+  }
+  .card-h {
+    font: inherit;
+  }
+  .card-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px 0 8px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 12px;
+  }
+  .card-btn:focus-visible {
+    outline-offset: -2px;
+  }
+  .card-btn :global(.grip) {
+    color: var(--field);
+  }
+  .card-btn :global(.card-icon) {
+    color: var(--plum);
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .card-sum {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+  .card-btn :global(.caret) {
+    color: var(--ink-3);
+    transform: rotate(-90deg);
+    transition: transform 200ms var(--ease-out);
+  }
+  .card-btn[aria-expanded='true'] :global(.caret) {
+    transform: none;
+  }
+  .card-body {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 10px 12px;
+    padding: 2px 16px 16px 40px;
+  }
+  .card-body[hidden] {
+    display: none;
+  }
+  .card-body .wide {
+    grid-column: 1 / -1;
+  }
+
+  /* Escritorio con la hoja */
+  .desk {
+    margin: 0;
+    align-self: start;
+    padding: clamp(24px, 4vw, 56px);
+    border-radius: 20px;
+    background: var(--desk);
+  }
+  .sheet {
+    position: relative;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .sheet img {
+    width: 100%;
+  }
+  .hl {
+    position: absolute;
+    border: 1.5px dashed var(--plum);
+    border-radius: 4px;
+    background: rgb(91 63 115 / 0.08);
+    opacity: 0;
+    transition: opacity 240ms var(--ease-out);
+  }
+  .hl[data-on] {
+    opacity: 1;
+  }
+  /* Sobre la columna oscura el ciruela no se ve: lila claro */
+  .hl[data-hl='name'] {
+    border-color: #cdbfd9;
+    background: rgb(205 191 217 / 0.12);
+  }
+  figcaption {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+
+  /* Línea del libro mayor */
+  .ledger {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .ledger-path {
+    fill: none;
+    stroke: var(--plum);
+    stroke-width: 1.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ledger-dot {
+    fill: var(--window);
+    stroke: var(--plum);
+    stroke-width: 1.25;
+  }
+
+  @media (max-width: 959px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'copy' 'cards' 'desk';
+      grid-template-rows: none;
+    }
+    .cards {
+      max-width: none;
+      /* Deja libre el margen derecho para la línea */
+      margin-right: 14px;
+    }
+    .desk {
+      padding: 20px 28px 20px 20px;
+    }
+  }
+  @media (max-width: 480px) {
+    .card-body {
+      grid-template-columns: 1fr;
+      padding-left: 16px;
+    }
+    .ctas .btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+
+<script>
+  const R = 12;
+
+  // Recorrido con esquinas redondeadas a partir de puntos ortogonales.
+  function roundedPath(pts: [number, number][]) {
+    let d = `M${pts[0][0]},${pts[0][1]}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const [px, py] = pts[i - 1];
+      const [x, y] = pts[i];
+      const [nx, ny] = pts[i + 1];
+      const r = Math.min(R, Math.hypot(x - px, y - py) / 2, Math.hypot(nx - x, ny - y) / 2);
+      const ax = x - Math.sign(x - px) * r;
+      const ay = y - Math.sign(y - py) * r;
+      const bx = x + Math.sign(nx - x) * r;
+      const by = y + Math.sign(ny - y) * r;
+      d += ` L${ax},${ay} Q${x},${y} ${bx},${by}`;
+    }
+    const last = pts[pts.length - 1];
+    return d + ` L${last[0]},${last[1]}`;
+  }
+
+  function setup(root: HTMLElement) {
+    const svg = root.querySelector<SVGSVGElement>('.ledger')!;
+    const path = svg.querySelector<SVGPathElement>('.ledger-path')!;
+    const [dotA, dotB] = Array.from(svg.querySelectorAll<SVGCircleElement>('.ledger-dot'));
+    const desk = root.querySelector<HTMLElement>('.desk')!;
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('.card-btn'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let active = buttons[0]?.dataset.target ?? '';
+
+    function draw(animate: boolean) {
+      const card = root.querySelector<HTMLElement>(`[data-card="${active}"]`);
+      const hl = root.querySelector<HTMLElement>(`[data-hl="${active}"]`);
+      if (!card || !hl) return;
+      const base = root.getBoundingClientRect();
+      const c = card.getBoundingClientRect();
+      const h = hl.getBoundingClientRect();
+      const d = desk.getBoundingClientRect();
+      const sx = c.right - base.left;
+      const sy = c.top - base.top + 24;
+      const ty = h.top - base.top + h.height / 2;
+      let pts: [number, number][];
+      if (d.left > c.right) {
+        // Columnas: por el canal entre fichas y escritorio, luego hacia el resaltado.
+        const gx = (c.right + d.left) / 2 - base.left;
+        const tx = h.left - base.left;
+        pts = [[sx, sy], [gx, sy], [gx, ty], [tx, ty]];
+      } else {
+        // Apilado: baja por el margen derecho y entra al resaltado desde la derecha.
+        const mx = base.width - 4;
+        const tx = h.right - base.left;
+        pts = [[sx, sy], [mx, sy], [mx, ty], [tx, ty]];
+      }
+      path.setAttribute('d', roundedPath(pts));
+      dotA.setAttribute('cx', String(pts[0][0]));
+      dotA.setAttribute('cy', String(pts[0][1]));
+      dotB.setAttribute('cx', String(pts[pts.length - 1][0]));
+      dotB.setAttribute('cy', String(pts[pts.length - 1][1]));
+
+      const len = path.getTotalLength();
+      path.style.transition = 'none';
+      path.style.strokeDasharray = `${len}`;
+      if (animate && !reduce.matches) {
+        path.style.strokeDashoffset = `${len}`;
+        path.getBoundingClientRect();
+        path.style.transition = 'stroke-dashoffset 520ms cubic-bezier(0.16, 1, 0.3, 1)';
+      }
+      path.style.strokeDashoffset = '0';
+    }
+
+    function select(id: string) {
+      active = id;
+      for (const b of buttons) {
+        const on = b.dataset.target === id;
+        b.setAttribute('aria-expanded', String(on));
+        const card = b.closest<HTMLElement>('[data-card]')!;
+        card.toggleAttribute('data-open', on);
+        document.getElementById(b.getAttribute('aria-controls')!)!.hidden = !on;
+        root.querySelector<HTMLElement>(`[data-hl="${b.dataset.target}"]`)!.toggleAttribute('data-on', on);
+      }
+      draw(true);
+    }
+
+    for (const b of buttons) {
+      b.addEventListener('click', () => {
+        if (b.dataset.target && b.dataset.target !== active) select(b.dataset.target);
+      });
+    }
+
+    new ResizeObserver(() => draw(false)).observe(root);
+    const img = root.querySelector('img');
+    if (img && !img.complete) img.addEventListener('load', () => draw(false), { once: true });
+    draw(true);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-ledger]').forEach(setup);
+</script>

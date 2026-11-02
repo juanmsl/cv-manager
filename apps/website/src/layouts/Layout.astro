@@ -1,43 +1,75 @@
 ---
-interface Props {
-  title: string;
-  description: string;
-}
+import '@fontsource/josefin-sans/300.css';
+import '../styles/global.css';
+import { DEFAULT_LANG, LANGS, LANG_STORAGE_KEY, useT } from '../i18n/ui';
 
-const { title, description } = Astro.props;
+// Una sola URL para los tres idiomas: el idioma se elige en el navegador
+// (preferencia guardada → idioma del navegador → inglés) antes de pintar.
+const titles = Object.fromEntries(LANGS.map((l) => [l, useT(l)('meta.title')]));
+const t = useT(DEFAULT_LANG);
+const site = Astro.site;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={DEFAULT_LANG}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
+    <script is:inline define:vars={{ langs: LANGS, fallback: DEFAULT_LANG, key: LANG_STORAGE_KEY, titles }}>
+      (function () {
+        let lang = null;
+        try {
+          lang = localStorage.getItem(key);
+        } catch {
+          /* almacenamiento bloqueado: se usa el idioma del navegador */
+        }
+        if (langs.indexOf(lang) < 0) {
+          lang = fallback;
+          const prefs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+          for (let i = 0; i < prefs.length; i++) {
+            const code = String(prefs[i]).slice(0, 2).toLowerCase();
+            if (langs.indexOf(code) >= 0) {
+              lang = code;
+              break;
+            }
+          }
+        }
+        document.documentElement.lang = lang;
+        document.title = titles[lang];
+        window.__cvmTitles = titles;
+      })();
+    </script>
+    <meta name="description" content={t('meta.description')} />
+    <meta name="theme-color" content="#f6f5f2" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    {site && <link rel="canonical" href={new URL('/', site).href} />}
+    <meta property="og:title" content={t('meta.title')} />
+    <meta property="og:description" content={t('meta.description')} />
+    <meta property="og:type" content="website" />
+    <title>{t('meta.title')}</title>
   </head>
-  <body>
+  <body id="top">
     <slot />
+    <script is:inline define:vars={{ key: LANG_STORAGE_KEY }}>
+      // Cambiar de idioma: se muestra otra versión de la página, sin recargar.
+      document.addEventListener('click', function (event) {
+        const target = event.target instanceof Element ? event.target.closest('[data-set-lang]') : null;
+        if (!target) return;
+        const lang = target.getAttribute('data-set-lang');
+        if (!lang || lang === document.documentElement.lang) return;
+        document.documentElement.lang = lang;
+        document.title = window.__cvmTitles[lang];
+        try {
+          localStorage.setItem(key, lang);
+        } catch {
+          /* sin almacenamiento: el cambio dura hasta recargar */
+        }
+        // El botón pulsado queda oculto con su versión: el foco pasa al equivalente.
+        const same = document.querySelector(
+          '[data-lang="' + lang + '"] [data-set-lang="' + lang + '"][data-switch="' + target.getAttribute('data-switch') + '"]',
+        );
+        if (same instanceof HTMLElement) same.focus({ preventScroll: true });
+      });
+    </script>
   </body>
 </html>
-
-<style is:global>
-  :root {
-    --bg: #f6f5f2;
-    --ink: #1f1f1c;
-    --ink-secondary: #5c5852;
-    --plum: #5b3f73;
-    --plum-hover: #4d3463;
-    color-scheme: light;
-  }
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
-    line-height: 1.5;
-  }
-</style>

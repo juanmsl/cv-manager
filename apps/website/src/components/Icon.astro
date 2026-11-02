@@ -1,0 +1,27 @@
+---
+// Íconos Phosphor (los mismos de la app) renderizados como SVG estático en el build.
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import * as Pi from 'react-icons/pi';
+import type { IconType } from 'react-icons';
+
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+}
+
+const { name, size = 16, class: className } = Astro.props;
+const Comp = (Pi as Record<string, IconType>)[name];
+if (!Comp) throw new Error(`Unknown Phosphor icon: ${name}`);
+const svg = renderToStaticMarkup(createElement(Comp, { size, 'aria-hidden': true, focusable: 'false' }));
+---
+
+<span class:list={['icon', className]} set:html={svg} />
+
+<style>
+  .icon {
+    display: inline-flex;
+    flex: none;
+  }
+</style>
