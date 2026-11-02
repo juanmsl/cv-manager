@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useState, type ReactNode } from 'react';
 import type { AppState, CvData } from './types';
-import { EMPTY_DATA, SAMPLE_DATA, initialState, suggestFileName } from './sample';
+import { EMPTY_DATA, initialState, sampleData, suggestFileName } from './sample';
+import { detectLang, type Lang } from './i18n';
 
 declare global {
   interface Window {
@@ -36,8 +37,8 @@ interface Ctx {
   removeItem: (key: ListKey, id: string) => void;
   moveItem: (key: ListKey, from: number, to: number) => void;
   startBlank: () => void;
-  /** Vuelve a los datos de ejemplo (conserva plantilla y colores). */
-  resetSample: () => void;
+  /** Vuelve a los datos de ejemplo en ese idioma (conserva plantilla y colores). */
+  resetSample: (lang: Lang) => void;
   /** Borra todos los datos del CV, incluida la foto. */
   clearAll: () => void;
   /** Reemplaza los datos del CV con los importados (conserva la foto). */
@@ -49,7 +50,7 @@ interface Ctx {
 const CvContext = createContext<Ctx | null>(null);
 
 export function CvProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AppState>(initialState);
+  const [state, setState] = useState<AppState>(() => initialState(detectLang()));
   const ready = true;
 
   const set = useCallback((patch: Partial<AppState>) => setState((s) => ({ ...s, ...patch })), []);
@@ -94,8 +95,9 @@ export function CvProvider({ children }: { children: ReactNode }) {
     setState((s) => ({ ...s, data: structuredClone(EMPTY_DATA), isSample: false, fileName: 'Mi-CV.pdf' }));
   }, []);
 
-  const resetSample = useCallback(() => {
-    setState((s) => ({ ...s, data: structuredClone(SAMPLE_DATA), isSample: true, fileName: suggestFileName(SAMPLE_DATA) }));
+  const resetSample = useCallback((lang: Lang) => {
+    const data = sampleData(lang);
+    setState((s) => ({ ...s, data, isSample: true, fileName: suggestFileName(data) }));
   }, []);
 
   const clearAll = useCallback(() => {

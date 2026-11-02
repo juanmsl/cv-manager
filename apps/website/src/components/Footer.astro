@@ -1,0 +1,80 @@
+---
+import AppIcon from './AppIcon.astro';
+import { LANGS, LANG_LABEL, RELEASES_URL, REPO_URL, useT, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useT(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="wrap row">
+    <p class="brand">
+      <AppIcon size={20} />
+      <span>CV Manager · {year}</span>
+    </p>
+    <div class="langs" role="group" aria-label={t('nav.language')}>
+      {
+        LANGS.map((l) => (
+          <button type="button" lang={l} data-set-lang={l} data-switch="footer" aria-pressed={l === lang ? 'true' : 'false'}>
+            {LANG_LABEL[l]}
+          </button>
+        ))
+      }
+    </div>
+    <nav aria-label="GitHub">
+      <a href={REPO_URL}>{t('footer.github')}</a>
+      <a href={RELEASES_URL}>{t('footer.releases')}</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    border-top: 0.5px solid var(--sep);
+    background: var(--sidebar);
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 32px;
+    padding-block: 28px;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: auto;
+  }
+  nav,
+  .langs {
+    display: flex;
+    gap: 20px;
+  }
+  a,
+  button {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: inherit;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  a:hover,
+  button:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+  button[aria-pressed='true'] {
+    color: var(--ink);
+    font-weight: 600;
+  }
+</style>

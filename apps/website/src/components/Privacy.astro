@@ -1,0 +1,115 @@
+---
+import CvDocIcon from './CvDocIcon.astro';
+import Icon from './Icon.astro';
+import { SLUGS, useT, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useT(lang);
+const points = [
+  ['PiWifiSlash', t('priv.1h'), t('priv.1b')],
+  ['PiLaptop', t('priv.2h'), t('priv.2b')],
+  ['PiFloppyDisk', t('priv.3h'), t('priv.3b')],
+] as const;
+---
+
+<section id={SLUGS[lang].privacy} class="priv" aria-labelledby={`priv-title-${lang}`}>
+  <div class="wrap grid">
+    <figure class="file">
+      <CvDocIcon size={152} />
+      <figcaption>
+        <strong>Jhon Doe.cv</strong>
+        <span>{t('priv.file')}</span>
+      </figcaption>
+    </figure>
+    <div>
+      <h2 id={`priv-title-${lang}`} class="display h2">{t('priv.title')}</h2>
+      <ul class="points">
+        {
+          points.map(([icon, h, b]) => (
+            <li>
+              <Icon name={icon} size={22} class="p-icon" />
+              <h3>{h}</h3>
+              <p>{b}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .priv {
+    padding: clamp(64px, 8vw, 120px) 0;
+    background: var(--sidebar);
+    border-block: 0.5px solid var(--sep);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: center;
+  }
+  .file {
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 40px 24px 32px;
+    border-radius: 20px;
+    background: var(--window);
+    border: 0.5px solid var(--sep);
+  }
+  figcaption {
+    display: grid;
+    gap: 2px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  figcaption strong {
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .points {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+    margin-top: 40px;
+  }
+  .points li {
+    display: grid;
+    gap: 8px;
+    align-content: start;
+    padding-top: 16px;
+    border-top: 1.5px solid var(--ruled);
+  }
+  .points :global(.p-icon) {
+    color: var(--plum);
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .points p {
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+  @media (max-width: 959px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .file {
+      justify-self: start;
+      width: min(100%, 320px);
+    }
+    .points {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+  }
+</style>

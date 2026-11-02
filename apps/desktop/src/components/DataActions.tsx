@@ -11,7 +11,7 @@ export function DataActions({ onImport, onDone }: { onImport: () => void; onDone
   const { resetSample, clearAll } = useCv();
   const [confirm, setConfirm] = useState<Confirm>(null);
   const doc = useDocument();
-  const { t } = useT();
+  const { t, lang } = useT();
 
   return (
     <div className="data-actions">
@@ -41,7 +41,7 @@ export function DataActions({ onImport, onDone }: { onImport: () => void; onDone
               type="button"
               className="btn btn--danger-solid"
               onClick={() => {
-                if (confirm === 'sample') resetSample();
+                if (confirm === 'sample') resetSample(lang);
                 else clearAll();
                 setConfirm(null);
                 onDone();

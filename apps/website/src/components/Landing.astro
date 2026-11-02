@@ -1,0 +1,30 @@
+---
+// La página completa en un idioma. index.astro incluye las tres versiones y
+// Layout muestra solo la del idioma activo (ver ADR-0020).
+import Nav from './Nav.astro';
+import Hero from './Hero.astro';
+import HowItWorks from './HowItWorks.astro';
+import Compare from './Compare.astro';
+import Privacy from './Privacy.astro';
+import Download from './Download.astro';
+import Footer from './Footer.astro';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<div data-lang={lang} lang={lang}>
+  <Nav lang={lang} />
+  <main>
+    <Hero lang={lang} />
+    <HowItWorks lang={lang} />
+    <Compare lang={lang} />
+    <Privacy lang={lang} />
+    <Download lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</div>

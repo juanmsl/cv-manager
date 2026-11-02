@@ -1,0 +1,103 @@
+---
+import AppIcon from './AppIcon.astro';
+import { LANGS, SLUGS, useT, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useT(lang);
+const slug = SLUGS[lang];
+const links = [
+  [`#${slug.how}`, t('nav.how')],
+  [`#${slug.templates}`, t('nav.templates')],
+  [`#${slug.privacy}`, t('nav.privacy')],
+  [`#${slug.download}`, t('nav.download')],
+] as const;
+---
+
+<header class="nav">
+  <div class="wrap nav-row">
+    <a class="brand" href="#top" aria-label={t('nav.home')}>
+      <AppIcon size={32} />
+      <span>CV Manager</span>
+    </a>
+    <nav class="links" aria-label="Main">
+      {links.map(([href, label]) => <a href={href}>{label}</a>)}
+    </nav>
+    <div class="seg lang" role="group" aria-label={t('nav.language')}>
+      {
+        LANGS.map((l) => (
+          <button type="button" lang={l} data-set-lang={l} data-switch="nav" aria-pressed={l === lang ? 'true' : 'false'}>
+            {l.toUpperCase()}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav {
+    border-bottom: 1px solid var(--sep);
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    min-height: 76px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: auto;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 24px;
+    letter-spacing: 0.02em;
+    border-radius: 8px;
+  }
+  .links {
+    display: flex;
+    gap: 32px;
+  }
+  .links a {
+    color: var(--ink-2);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  .links a:hover {
+    color: var(--ink);
+  }
+  .lang button {
+    padding: 4px 10px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .lang button[aria-pressed='true'] {
+    background: var(--surface);
+    color: var(--ink);
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+  }
+  .lang button:hover:not([aria-pressed='true']) {
+    color: var(--ink);
+  }
+  @media (max-width: 900px) {
+    .links {
+      display: none;
+    }
+    .brand {
+      font-size: 20px;
+    }
+    .nav-row {
+      min-height: 60px;
+    }
+  }
+</style>

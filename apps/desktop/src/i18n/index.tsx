@@ -4,6 +4,7 @@
 //   en el documento y por defecto sigue al idioma de la app.
 import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react';
 import { useCv } from '../state';
+import { sampleData, sampleLangOf, suggestFileName } from '../sample';
 import { es } from './es';
 import { en } from './en';
 import { pt } from './pt';
@@ -35,9 +36,14 @@ export function makeT(lang: Lang) {
 }
 export type T = ReturnType<typeof makeT>;
 
+/** Primer idioma soportado (es/en/pt) entre los del sistema; si no hay ninguno, inglés. */
 export function detectLang(): Lang {
-  const l = (typeof navigator !== 'undefined' ? navigator.language : 'es').slice(0, 2).toLowerCase();
-  return l === 'en' || l === 'pt' ? l : 'es';
+  const prefs = typeof navigator === 'undefined' ? [] : navigator.languages?.length ? navigator.languages : [navigator.language];
+  for (const pref of prefs) {
+    const l = String(pref).slice(0, 2).toLowerCase();
+    if (isLang(l)) return l;
+  }
+  return 'en';
 }
 
 export const isLang = (v: unknown): v is Lang => v === 'es' || v === 'en' || v === 'pt';
@@ -59,7 +65,7 @@ interface I18nCtx {
   setLang: (l: Lang) => void;
 }
 
-const Ctx = createContext<I18nCtx>({ lang: 'es', t: makeT('es'), setLang: () => {} });
+const Ctx = createContext<I18nCtx>({ lang: 'en', t: makeT('en'), setLang: () => {} });
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const { state, set } = useCv();
@@ -70,6 +76,16 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     document.documentElement.lang = lang;
     window.cvApi?.setLanguage(lang); // menú y diálogos nativos
   }, [lang]);
+
+  // Si los datos siguen siendo los de ejemplo sin tocar, cambian con el idioma.
+  useEffect(() => {
+    if (state.doc) return;
+    const sampleLang = sampleLangOf(state.data);
+    if (sampleLang && sampleLang !== lang) {
+      const data = sampleData(lang);
+      set({ data, fileName: suggestFileName(data) });
+    }
+  }, [lang, state.data, state.doc, set]);
 
   // Idioma elegido desde el menú de la app.
   useEffect(() => {

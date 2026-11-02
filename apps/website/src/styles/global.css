@@ -1,0 +1,247 @@
+/* Tokens heredados de la app de escritorio (apps/desktop/docs/DESIGN.md). */
+:root {
+  --window: #f6f5f2;
+  --sidebar: #efede8;
+  --desk: #e8e5df;
+  --surface: #ffffff;
+  --ink: #1f1f1c;
+  --ink-2: #5c5852;
+  --ink-3: #67635c;
+  --sep: #e4e1da;
+  --field: #d8d4cc;
+  --ruled: #d9cfe3;
+  --plum: #5b3f73;
+  --plum-hover: #4d3463;
+  --tint: #ece6f1;
+  --danger: #a33a32;
+
+  --font-display: 'Josefin Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+
+  --shadow-soft: 0 12px 32px rgb(61 41 77 / 0.1);
+  --shadow-control: 0 1px 1px rgb(0 0 0 / 0.04);
+  --shadow-paper: 0 3px 12px rgb(0 0 0 / 0.16);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --gutter: clamp(20px, 5.5vw, 80px);
+  --max: 1280px;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--window);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol {
+  margin: 0;
+}
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--tint);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--plum);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Piezas compartidas -------------------------------------------------- */
+.wrap {
+  width: 100%;
+  max-width: calc(var(--max) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.h2 {
+  font-size: clamp(32px, 3.4vw, 46px);
+  line-height: 1.13;
+}
+
+.lead {
+  color: var(--ink-2);
+  font-size: clamp(16px, 1.3vw, 18px);
+  line-height: 1.56;
+  max-width: 40rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 160ms var(--ease-out),
+    transform 120ms var(--ease-out);
+}
+.btn:active {
+  transform: translateY(0.5px);
+}
+.btn--primary {
+  background: var(--plum);
+  color: #fff;
+}
+.btn--primary:hover {
+  background: var(--plum-hover);
+}
+.btn--secondary {
+  background: var(--surface);
+  border: 1px solid var(--field);
+  box-shadow: var(--shadow-control);
+}
+.btn--secondary:hover {
+  border-color: #c8c3b9;
+}
+
+/* Control segmentado de la app */
+.seg {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background: rgb(0 0 0 / 0.06);
+}
+.seg > * {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--ink-2);
+  text-decoration: none;
+  line-height: 1.4;
+}
+.seg > [aria-current='true'],
+.seg > .is-on {
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+}
+
+/* Ficha (card) de la app: filete superior, abierta en ciruela */
+.ficha {
+  position: relative;
+  background: var(--surface);
+  border: 0.5px solid var(--sep);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ficha::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1.5px;
+  background: var(--ruled);
+}
+
+/* Campo de texto de la app */
+.field {
+  display: grid;
+  gap: 4px;
+}
+.field > span {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.field > output {
+  display: block;
+  padding: 6px 10px;
+  border: 0.5px solid var(--field);
+  border-radius: 7px;
+  background: var(--surface);
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.paper {
+  background: #fff;
+  box-shadow: var(--shadow-paper);
+}
+
+/* Idioma: las tres versiones están en la página; solo se ve la del <html lang>. */
+[data-lang] {
+  display: none;
+}
+html[lang='es'] [data-lang='es'],
+html[lang='en'] [data-lang='en'],
+html[lang='pt'] [data-lang='pt'] {
+  display: contents;
+}

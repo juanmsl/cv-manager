@@ -2,7 +2,7 @@
 // desde el Finder) y saber si hay cambios sin guardar.
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useCv } from './state';
-import { SAMPLE_DATA, TEMPLATES, fullName, initialState } from './sample';
+import { TEMPLATES, fullName, initialState, sampleLangOf } from './sample';
 import type { AppState } from './types';
 import { useT } from './i18n';
 
@@ -48,13 +48,11 @@ function hasContent(s: AppState) {
   );
 }
 
-const SAMPLE_JSON = JSON.stringify(SAMPLE_DATA);
-
 /** Hay trabajo que se perdería al cerrar: cambios sin guardar en el .cv, o
  *  (sin archivo) datos distintos de los de ejemplo. */
 export function isDirty(s: AppState) {
   if (s.doc) return hashDoc(s) !== s.doc.savedHash;
-  return hasContent(s) && JSON.stringify(s.data) !== SAMPLE_JSON;
+  return hasContent(s) && sampleLangOf(s.data) === null;
 }
 
 const suggestedName = (s: AppState) => {
@@ -140,7 +138,7 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
     (file: CvFilePayload) => {
       try {
         const payload = deserialize(file.content);
-        const base = initialState();
+        const base = initialState(tRef.current.lang);
         const next: AppState = {
           ...base,
           ...payload,

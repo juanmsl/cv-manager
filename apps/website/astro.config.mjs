@@ -1,7 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// Static site. Set `site` to the final domain when it is deployed.
+// Un solo index.html para es/en/pt: el idioma se elige en el navegador
+// (ver src/layouts/Layout.astro y ADR-0020).
 export default defineConfig({
   output: 'static',
 });

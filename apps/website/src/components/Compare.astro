@@ -1,0 +1,123 @@
+---
+import Icon from './Icon.astro';
+import { useT, type Key, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useT(lang);
+const rows = [1, 2, 3, 4, 5].map((n) => [t(`cmp.${n}a` as Key), t(`cmp.${n}b` as Key)]);
+---
+
+<section class="cmp" aria-labelledby={`cmp-title-${lang}`}>
+  <div class="wrap grid">
+    <header class="head">
+      <h2 id={`cmp-title-${lang}`} class="display h2">{t('cmp.title')}</h2>
+      <p class="lead">{t('cmp.sub')}</p>
+    </header>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">{t('cmp.usual')}</th>
+          <th scope="col">{t('cmp.ours')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map(([usual, ours]) => (
+            <tr>
+              <td>{usual}</td>
+              <td>
+                <Icon name="PiCheck" size={16} class="check" />
+                {ours}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style>
+  .cmp {
+    padding: clamp(64px, 8vw, 120px) 0;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+  }
+  .head {
+    display: grid;
+    gap: 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  th {
+    padding: 0 20px 14px 0;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-3);
+    border-bottom: 1px solid var(--ink);
+  }
+  th:last-child {
+    color: var(--plum);
+    padding-left: 26px;
+  }
+  td {
+    padding: 18px 20px 18px 0;
+    vertical-align: top;
+    border-bottom: 0.5px solid var(--field);
+    color: var(--ink-2);
+  }
+  td:last-child {
+    position: relative;
+    padding-left: 26px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  td :global(.check) {
+    position: absolute;
+    left: 0;
+    top: 21px;
+    color: var(--plum);
+  }
+  @media (max-width: 959px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 560px) {
+    thead {
+      display: none;
+    }
+    tr,
+    td {
+      display: block;
+    }
+    tr {
+      padding: 16px 0;
+      border-bottom: 0.5px solid var(--field);
+    }
+    td {
+      border: 0;
+      padding: 0;
+    }
+    td:first-child {
+      color: var(--ink-3);
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+    td :global(.check) {
+      top: 3px;
+    }
+  }
+</style>
