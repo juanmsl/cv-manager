@@ -7,8 +7,8 @@ Built with Electron + React + Vite, following the design approved in Figma
 ## Requirements
 
 - macOS
-- Node.js 18 or later (check with `node -v`; install from https://nodejs.org)
-- pnpm (`corepack enable` activates the version pinned in `package.json`)
+- Node.js 24 or later (check with `node -v`; install from https://nodejs.org)
+- pnpm 11.10 or later (`corepack enable` activates the version pinned in `package.json`)
 
 ## Getting started
 
