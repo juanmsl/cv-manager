@@ -72,6 +72,16 @@ jobs:
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false' # no Apple certificate: keep the ad-hoc signature
 
+      # The website links to releases/latest/download/CV-Manager-macOS-arm64.dmg
+      # (DMG_NAME in apps/website/src/i18n/ui.ts), so the name must not change.
+      - name: Check the installer name
+        working-directory: apps/desktop/release
+        run: |
+          if [[ ! -f CV-Manager-macOS-arm64.dmg ]]; then
+            echo "::error::Expected CV-Manager-macOS-arm64.dmg (the website links to it). Found: $(ls *.dmg)"
+            exit 1
+          fi
+
       - name: Checksum
         working-directory: apps/desktop/release
         run: shasum -a 256 *.dmg > SHA256SUMS.txt && cat SHA256SUMS.txt

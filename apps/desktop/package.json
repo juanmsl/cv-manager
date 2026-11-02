@@ -46,7 +46,7 @@
       "target": [
         "dmg"
       ],
-      "artifactName": "CV-Manager-${version}-${arch}.${ext}",
+      "artifactName": "CV-Manager-macOS-${arch}.${ext}",
       "identity": null,
       "extendInfo": {
         "UTExportedTypeDeclarations": [
