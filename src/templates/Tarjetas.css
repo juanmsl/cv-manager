@@ -1,0 +1,196 @@
+/* 7 · Tarjetas suaves ------------------------------------------------------- */
+.cv-page.cv-tarjetas {
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--cv-accent) 7%, #fff) 0%,
+    #f8f9fc 50%,
+    color-mix(in srgb, var(--cv-accent) 10%, #fff) 100%
+  );
+}
+.tar {
+  min-height: var(--page-h);
+  padding: 26pt 26pt 28pt;
+  display: flex;
+  flex-direction: column;
+  gap: 14pt;
+}
+.tar-card {
+  background: rgb(255 255 255 / 0.9);
+  border: 0.5pt solid rgb(20 26 46 / 0.06);
+  border-radius: 12pt;
+  box-shadow: 0 2pt 9pt rgb(20 26 46 / 0.08);
+  padding: 18pt 20pt;
+}
+.tar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20pt;
+  padding: 24pt 26pt;
+}
+.tar-head h1 {
+  color: var(--cv-primary);
+  font-size: 30pt;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.tar-title {
+  margin-top: 8pt;
+  color: var(--cv-accent);
+  font-size: 10pt;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.tar-contact {
+  text-align: right;
+  font-size: 7.5pt;
+  line-height: 13pt;
+  overflow-wrap: anywhere;
+  max-width: 190pt;
+}
+.tar-cols {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 166pt;
+  gap: 14pt;
+  align-items: start;
+}
+.tar-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14pt;
+}
+.tar-h {
+  display: flex;
+  align-items: center;
+  gap: 8pt;
+  color: var(--cv-primary);
+  font-size: 9.5pt;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 12pt;
+}
+.tar-h i {
+  display: inline-flex;
+  color: var(--cv-accent);
+  font-size: 11pt;
+}
+.tar-text {
+  font-size: 7.5pt;
+  line-height: 12pt;
+}
+.tar-timeline {
+  border-left: 0.75pt solid color-mix(in srgb, var(--cv-accent) 25%, #fff);
+  margin-left: 4pt;
+  padding-left: 14pt;
+}
+.tar-job {
+  position: relative;
+  margin-bottom: 14pt;
+}
+.tar-job:last-child {
+  margin-bottom: 0;
+}
+.tar-job::before {
+  content: '';
+  position: absolute;
+  left: -18.5pt;
+  top: 3pt;
+  width: 8pt;
+  height: 8pt;
+  border-radius: 50%;
+  background: var(--cv-accent);
+}
+.tar-job-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10pt;
+}
+.tar-job-head h3 {
+  color: var(--cv-primary);
+  font-size: 11pt;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.tar-pill {
+  flex: none;
+  padding: 2.5pt 8pt;
+  border-radius: 8pt;
+  background: #fff;
+  border: 0.5pt solid rgb(20 26 46 / 0.08);
+  box-shadow: 0 1pt 3pt rgb(20 26 46 / 0.1);
+  color: var(--cv-primary);
+  font-size: 6pt;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.tar-company {
+  margin: 2pt 0 5pt;
+  color: var(--cv-accent);
+  font-size: 7.5pt;
+  font-weight: 600;
+}
+.tar-bullets {
+  margin-top: 4pt;
+}
+.tar-bullets li {
+  position: relative;
+  padding-left: 12pt;
+  margin-bottom: 3pt;
+}
+.tar-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 2pt;
+  top: 4.5pt;
+  width: 3pt;
+  height: 3pt;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--cv-accent) 55%, #fff);
+}
+.tar-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6pt;
+}
+.tar-chips li {
+  padding: 3pt 8pt;
+  border-radius: 6pt;
+  background: #fff;
+  border: 0.5pt solid rgb(20 26 46 / 0.08);
+  box-shadow: 0 1pt 3pt rgb(20 26 46 / 0.08);
+  color: var(--cv-primary);
+  font-size: 6.5pt;
+}
+.tar-edu {
+  margin-bottom: 9pt;
+}
+.tar-edu:last-child {
+  margin-bottom: 0;
+}
+.tar-edu h3 {
+  color: var(--cv-primary);
+  font-size: 8pt;
+  font-weight: 600;
+}
+.tar-edu p {
+  font-size: 7pt;
+}
+.tar-edu strong {
+  color: var(--cv-accent);
+  font-size: 7.5pt;
+  font-weight: 700;
+}
+.tar-lang {
+  font-size: 7.5pt;
+  line-height: 12pt;
+}
+.tar-lang strong {
+  color: var(--cv-primary);
+  font-weight: 600;
+}

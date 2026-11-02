@@ -3,12 +3,30 @@ import type { AppState, CvColors, CvData, TemplateId } from './types';
 export const uid = () => Math.random().toString(36).slice(2, 10);
 
 /** Plantillas disponibles (nombre y descripción vienen de i18n: tpl.<id>.name/desc). */
-export const TEMPLATES: { id: TemplateId }[] = [{ id: 'columna' }, { id: 'retrato' }, { id: 'editorial' }];
+export const TEMPLATES: { id: TemplateId }[] = [
+  { id: 'columna' },
+  { id: 'retrato' },
+  { id: 'editorial' },
+  { id: 'lineal' },
+  { id: 'marco' },
+  { id: 'ejecutivo' },
+  { id: 'tarjetas' },
+  { id: 'boutique' },
+  { id: 'panel' },
+  { id: 'sereno' },
+];
 
 export const DEFAULT_COLORS: Record<TemplateId, CvColors> = {
   columna: { primary: '#2D3039', text: '#4A4B50', accent: '#FFFFFF' },
   retrato: { primary: '#141414', text: '#333333', accent: '#B5B5B5' },
   editorial: { primary: '#161616', text: '#333333', accent: '#C8DD00' },
+  lineal: { primary: '#1A1A1A', text: '#454545', accent: '#1A1A1A' },
+  marco: { primary: '#111111', text: '#3A3A3A', accent: '#111111' },
+  ejecutivo: { primary: '#1E1E1E', text: '#6B6B6B', accent: '#1E1E1E' },
+  tarjetas: { primary: '#141A2E', text: '#3B4256', accent: '#5B3FE0' },
+  boutique: { primary: '#2B2B2B', text: '#4A4A4A', accent: '#E39B7B' },
+  panel: { primary: '#2E2E2E', text: '#555555', accent: '#E4E4E4' },
+  sereno: { primary: '#1F3A68', text: '#36425A', accent: '#DCE7F5' },
 };
 
 export const COLOR_PRESETS = ['#2D3039', '#1F3A5F', '#2F5D50', '#7A2E2A', '#5B3F73', '#3A3A3A'];

@@ -3,6 +3,13 @@ import type { AppState, TemplateId } from '../types';
 import { Columna } from './Columna';
 import { Retrato } from './Retrato';
 import { Editorial } from './Editorial';
+import { Lineal } from './Lineal';
+import { Marco } from './Marco';
+import { Ejecutivo } from './Ejecutivo';
+import { Tarjetas } from './Tarjetas';
+import { Boutique } from './Boutique';
+import { Panel } from './Panel';
+import { Sereno } from './Sereno';
 import './templates.css';
 import { cvLangOf, makeT } from '../i18n';
 
@@ -28,6 +35,13 @@ const COMPONENTS: Record<TemplateId, typeof Columna> = {
   columna: Columna,
   retrato: Retrato,
   editorial: Editorial,
+  lineal: Lineal,
+  marco: Marco,
+  ejecutivo: Ejecutivo,
+  tarjetas: Tarjetas,
+  boutique: Boutique,
+  panel: Panel,
+  sereno: Sereno,
 };
 
 interface Props {

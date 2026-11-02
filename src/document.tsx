@@ -2,7 +2,7 @@
 // desde el Finder) y saber si hay cambios sin guardar.
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useCv } from './state';
-import { SAMPLE_DATA, fullName, initialState } from './sample';
+import { SAMPLE_DATA, TEMPLATES, fullName, initialState } from './sample';
 import type { AppState } from './types';
 import { useT } from './i18n';
 
@@ -140,7 +140,18 @@ export function DocumentProvider({ children }: { children: ReactNode }) {
     (file: CvFilePayload) => {
       try {
         const payload = deserialize(file.content);
-        const next: AppState = { ...initialState(), ...payload, uiLang: latest.current.uiLang, isSample: false, version: 1, doc: null };
+        const base = initialState();
+        const next: AppState = {
+          ...base,
+          ...payload,
+          // Archivos de versiones con menos plantillas: completar colores y validar la plantilla.
+          colors: { ...base.colors, ...payload.colors },
+          template: TEMPLATES.some((x) => x.id === payload.template) ? payload.template : base.template,
+          uiLang: latest.current.uiLang,
+          isSample: false,
+          version: 1,
+          doc: null,
+        };
         next.doc = { path: file.path, name: file.name, savedHash: hashDoc(next) };
         replaceState(next);
         setNotice({ kind: 'ok', text: tRef.current('doc.opened', { name: file.name }) });

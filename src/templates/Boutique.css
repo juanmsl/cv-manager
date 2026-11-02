@@ -1,0 +1,179 @@
+/* 8 · Boutique -------------------------------------------------------------- */
+.cv-page.cv-boutique {
+  background: linear-gradient(
+    to bottom,
+    #e7e8e5 0,
+    #e7e8e5 52%,
+    color-mix(in srgb, var(--cv-accent) 22%, #fff) 52%
+  );
+}
+.bou {
+  min-height: var(--page-h);
+  display: flex;
+  padding: 22pt;
+}
+.bou-sheet {
+  flex: 1;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 172pt minmax(0, 1fr);
+  gap: 30pt;
+  padding: 30pt 28pt 30pt;
+}
+.bou-name {
+  text-align: center;
+  color: var(--cv-primary);
+  font-size: 13pt;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.bou-title {
+  text-align: center;
+  margin-top: 3pt;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 8.5pt;
+  opacity: 0.75;
+}
+.bou-photo {
+  width: 116pt;
+  height: 116pt;
+  border-radius: 50%;
+  margin: 18pt auto 26pt;
+}
+.bou-sec {
+  margin-bottom: 18pt;
+}
+.bou-h {
+  border-top: 0.75pt solid rgb(0 0 0 / 0.3);
+  border-bottom: 0.75pt solid rgb(0 0 0 / 0.3);
+  padding: 8pt 0 8pt;
+  margin-bottom: 12pt;
+  color: var(--cv-primary);
+  font-size: 7.5pt;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.bou-side .bou-h {
+  border-bottom: 0;
+  margin-bottom: 0;
+}
+.bou-contact li {
+  display: grid;
+  grid-template-columns: 26pt minmax(0, 1fr);
+  align-items: center;
+  border-top: 0.5pt solid rgb(0 0 0 / 0.14);
+  min-height: 21pt;
+}
+.bou-contact li:last-child {
+  border-bottom: 0.5pt solid rgb(0 0 0 / 0.14);
+}
+.bou-contact i {
+  display: grid;
+  place-items: center;
+  height: 12pt;
+  border-right: 0.5pt solid rgb(0 0 0 / 0.25);
+  color: var(--cv-primary);
+  font-size: 8.5pt;
+}
+.bou-contact span {
+  text-align: right;
+  font-size: 6pt;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+.bou-text {
+  font-size: 7pt;
+  line-height: 11pt;
+  text-align: justify;
+}
+.bou-profile {
+  margin-bottom: 18pt;
+}
+.bou-skills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10pt;
+  padding-top: 10pt;
+}
+.bou-skills h3 {
+  color: var(--cv-accent);
+  font-size: 6.5pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 5pt;
+}
+.bou-skills li {
+  font-size: 6.5pt;
+  line-height: 11pt;
+}
+.bou-skills em {
+  font-style: normal;
+  opacity: 0.65;
+}
+.bou-item {
+  display: grid;
+  grid-template-columns: 22pt minmax(0, 1fr);
+  gap: 0 6pt;
+  margin-bottom: 4pt;
+}
+.bou-years {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 6.5pt;
+  line-height: 9pt;
+  padding-top: 1pt;
+}
+.bou-years i {
+  font-style: normal;
+  opacity: 0.5;
+}
+.bou-body {
+  position: relative;
+  border-left: 0.75pt solid rgb(0 0 0 / 0.35);
+  padding: 0 0 14pt 12pt;
+}
+.bou-body::before {
+  content: '';
+  position: absolute;
+  left: -2.6pt;
+  top: 2pt;
+  width: 4.5pt;
+  height: 4.5pt;
+  border-radius: 50%;
+  background: var(--cv-primary);
+}
+.bou-body h3 {
+  color: var(--cv-accent);
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.bou-place {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 8pt;
+  color: var(--cv-primary);
+  margin: 2pt 0 6pt;
+}
+.bou-list {
+  margin-top: 4pt;
+  text-align: left;
+}
+.bou-list li {
+  position: relative;
+  padding-left: 9pt;
+}
+.bou-list li::before {
+  content: '·';
+  position: absolute;
+  left: 2pt;
+  font-weight: 700;
+}
