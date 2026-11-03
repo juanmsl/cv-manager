@@ -70,7 +70,7 @@ const metaParts = t('hero.meta')
 
 <section class="hero" aria-labelledby={`hero-title-${lang}`}>
   <div class="wrap hero-grid" data-ledger>
-    <div class="copy">
+    <div class="copy" data-reveal>
       <h1 id={`hero-title-${lang}`} class="display">
         <span>{t('hero.title1')}</span>
         <span class="accent">{t('hero.title2')}</span>
@@ -101,7 +101,7 @@ const metaParts = t('hero.meta')
     <ul class="cards" aria-label={t('hero.cardsLabel')}>
       {
         cards.map((c, i) => (
-          <li class="ficha card" data-card={c.id} data-open={i === 0 ? '' : undefined}>
+          <li class="ficha card" data-card={c.id} data-open={i === 0 ? '' : undefined} data-reveal="fade" style={`--i: ${i + 2}`}>
             <h2 class="card-h">
               <button
                 type="button"
@@ -130,7 +130,7 @@ const metaParts = t('hero.meta')
       }
     </ul>
 
-    <figure class="desk">
+    <figure class="desk" data-reveal="fade" style="--i: 1">
       <div class="sheet paper">
         <Image src={sheet} alt={t('hero.sheetAlt')} widths={[480, 720, 1224]} sizes="(min-width: 960px) 540px, 92vw" loading="lazy" />
         {

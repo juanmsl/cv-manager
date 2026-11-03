@@ -44,7 +44,7 @@ const pct = (n: number) => `${n}%`;
 
 <section id={SLUGS[lang].how} class="how" aria-labelledby={`how-title-${lang}`}>
   <div class="wrap">
-    <header class="head">
+    <header class="head" data-reveal>
       <h2 id={`how-title-${lang}`} class="display h2">{t('how.title')}</h2>
       <p class="lead">{t('how.sub')}</p>
     </header>
@@ -53,7 +53,7 @@ const pct = (n: number) => `${n}%`;
       {
         [0, 1, 2].map((step) => (
           <li class="step" id={step === 0 ? SLUGS[lang].templates : undefined}>
-            <div class="text">
+            <div class="text" data-reveal>
               <h3>{t((['how.t.title', 'how.d.title', 'how.e.title'] as Key[])[step])}</h3>
               <p>{t((['how.t.body', 'how.d.body', 'how.e.body'] as Key[])[step])}</p>
               {step === 1 && (
@@ -64,7 +64,7 @@ const pct = (n: number) => `${n}%`;
               )}
             </div>
 
-            <div class="panel" aria-hidden="true">
+            <div class="panel" aria-hidden="true" data-reveal="scale" style="--i: 1">
               <div class="seg tabs">
                 {tabs.map((key, i) => (
                   <span class={i === step ? 'is-on' : undefined}>{t(key)}</span>
@@ -74,7 +74,7 @@ const pct = (n: number) => `${n}%`;
               {step === 0 && (
                 <ul class="gallery">
                   {templates.map((tpl, i) => (
-                    <li class:list={['thumb', { 'is-on': i === 0 }]}>
+                    <li class:list={['thumb', { 'is-on': i === 0 }]} data-reveal="fade" style={`--i: ${2 + i * 0.5}`}>
                       <Image src={tpl.src} alt="" widths={[230, 459]} sizes="(min-width: 960px) 130px, 28vw" />
                       <span class="sr-only">{tpl.name}</span>
                     </li>

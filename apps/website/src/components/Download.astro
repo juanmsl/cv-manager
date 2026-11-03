@@ -14,7 +14,7 @@ const t = useT(lang);
 
 <section id={SLUGS[lang].download} class="dl" aria-labelledby={`dl-title-${lang}`}>
   <div class="wrap">
-    <div class="ficha box">
+    <div class="ficha box" data-reveal="scale">
       <div class="main">
         <h2 id={`dl-title-${lang}`} class="display h2">{t('dl.title')}</h2>
         <p class="lead">{t('dl.sub')}</p>
@@ -51,7 +51,7 @@ const t = useT(lang);
       </div>
     </div>
 
-    <p class="support">
+    <p class="support" data-reveal="fade" style="--i: 2">
       <span>{t('dl.support')}</span>
       <a href={REPO_URL}>{t('dl.code')}</a>
     </p>
