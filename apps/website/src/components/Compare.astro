@@ -42,8 +42,11 @@ const rows = [1, 2, 3, 4, 5].map((n) => [t(`cmp.${n}a` as Key), t(`cmp.${n}b` as
 </section>
 
 <style>
+  /* Franja con degradado suave: piedra → arena → lila */
   .cmp {
     padding: clamp(64px, 8vw, 120px) 0;
+    background: linear-gradient(135deg, var(--window) 0%, var(--sidebar) 55%, var(--tint) 100%);
+    border-block: 0.5px solid var(--sep);
   }
   .grid {
     display: grid;

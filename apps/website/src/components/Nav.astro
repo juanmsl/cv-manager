@@ -39,14 +39,25 @@ const links = [
 </header>
 
 <style>
+  /* Fija arriba al hacer scroll, con el degradado ciruela del ícono de la app */
   .nav {
-    border-bottom: 1px solid var(--sep);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: linear-gradient(90deg, #4a3160 0%, var(--plum) 55%, #77598f 100%);
+    box-shadow:
+      0 6px 20px rgb(61 41 77 / 0.28),
+      0 1px 2px rgb(0 0 0 / 0.08);
+    color: #fff;
+  }
+  .nav :focus-visible {
+    outline-color: #fff;
   }
   .nav-row {
     display: flex;
     align-items: center;
     gap: 36px;
-    min-height: 76px;
+    min-height: var(--nav-h);
   }
   .brand {
     display: inline-flex;
@@ -60,24 +71,31 @@ const links = [
     letter-spacing: 0.02em;
     border-radius: 8px;
   }
+  .brand :global(svg) {
+    filter: drop-shadow(0 2px 6px rgb(31 15 41 / 0.45));
+  }
   .links {
     display: flex;
     gap: 32px;
   }
   .links a {
-    color: var(--ink-2);
+    color: rgb(255 255 255 / 0.82);
     font-size: 15px;
     font-weight: 500;
     text-decoration: none;
     border-radius: 4px;
   }
   .links a:hover {
-    color: var(--ink);
+    color: #fff;
+  }
+  .lang {
+    background: rgb(255 255 255 / 0.14);
   }
   .lang button {
     padding: 4px 10px;
     border: 0;
     background: none;
+    color: rgb(255 255 255 / 0.82);
     cursor: pointer;
   }
   .lang button[aria-pressed='true'] {
@@ -87,7 +105,7 @@ const links = [
     box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
   }
   .lang button:hover:not([aria-pressed='true']) {
-    color: var(--ink);
+    color: #fff;
   }
   @media (max-width: 900px) {
     .links {
@@ -97,7 +115,7 @@ const links = [
       font-size: 20px;
     }
     .nav-row {
-      min-height: 60px;
+      min-height: var(--nav-h);
     }
   }
 </style>

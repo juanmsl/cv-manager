@@ -1,8 +1,14 @@
 ---
+// "Así funciona": los tres pasos de la app, cada uno con un panel que imita su
+// pantalla real (pestañas Plantilla · Datos · Exportar). Diseño de Figma.
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
-import { SLUGS, TEMPLATES, useT, type Lang } from '../i18n/ui';
+import { SLUGS, TEMPLATES, useT, type Key, type Lang } from '../i18n/ui';
+import { EXP1_BOX, SAMPLE } from '../i18n/sample';
 import type { ImageMetadata } from 'astro';
+import sheetEs from '../assets/sheets/columna-es.png';
+import sheetEn from '../assets/sheets/columna-en.png';
+import sheetPt from '../assets/sheets/columna-pt.png';
 
 interface Props {
   lang: Lang;
@@ -10,6 +16,8 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useT(lang);
+const data = SAMPLE[lang];
+const sheet = { es: sheetEs, en: sheetEn, pt: sheetPt }[lang];
 
 // Miniaturas exportadas por la app con los datos de ejemplo de cada idioma.
 const thumbs = import.meta.glob<{ default: ImageMetadata }>('../assets/templates/*/*.png', { eager: true });
@@ -19,15 +27,19 @@ const templates = TEMPLATES.map((tpl) => ({
   src: thumbs[`../assets/templates/${lang}/${tpl.id}.png`].default,
 }));
 
+// Secciones del editor con el número de elementos de los datos de ejemplo.
 const sections = [
-  ['PiUserCircle', t('section.personal')],
-  ['PiQuotes', t('section.profile')],
-  ['PiAddressBook', t('section.contact')],
-  ['PiBriefcase', t('section.experience')],
-  ['PiGraduationCap', t('section.education')],
-  ['PiWrench', t('section.skills')],
-  ['PiTranslate', t('section.languages')],
+  ['PiUserCircle', t('section.personal'), 2],
+  ['PiQuotes', t('section.profile'), 1],
+  ['PiAddressBook', t('section.contact'), 5],
+  ['PiBriefcase', t('section.experience'), 3],
+  ['PiGraduationCap', t('section.education'), 2],
+  ['PiWrench', t('section.skills'), 4],
+  ['PiTranslate', t('section.languages'), 3],
 ] as const;
+
+const tabs: Key[] = ['step.templates', 'step.editor', 'step.export'];
+const pct = (n: number) => `${n}%`;
 ---
 
 <section id={SLUGS[lang].how} class="how" aria-labelledby={`how-title-${lang}`}>
@@ -38,62 +50,94 @@ const sections = [
     </header>
 
     <ol class="steps">
-      <li class="step step--t" id={SLUGS[lang].templates}>
-        <div class="text">
-          <h3><span class="num" aria-hidden="true">1</span>{t('how.t.title')}</h3>
-          <p>{t('how.t.body')}</p>
-        </div>
-        <ul class="gallery">
-          {
-            templates.map((tpl, i) => (
-              <li class:list={['thumb', { 'is-on': i === 0 }]}>
-                <Image src={tpl.src} alt="" widths={[230, 459]} sizes="(min-width: 960px) 150px, 30vw" />
-                <span>{tpl.name}</span>
-              </li>
-            ))
-          }
-        </ul>
-      </li>
+      {
+        [0, 1, 2].map((step) => (
+          <li class="step" id={step === 0 ? SLUGS[lang].templates : undefined}>
+            <div class="text">
+              <h3>{t((['how.t.title', 'how.d.title', 'how.e.title'] as Key[])[step])}</h3>
+              <p>{t((['how.t.body', 'how.d.body', 'how.e.body'] as Key[])[step])}</p>
+              {step === 1 && (
+                <span class="chip" aria-hidden="true">
+                  <Icon name="PiLinkedinLogo" size={14} />
+                  {t('how.d.import')}
+                </span>
+              )}
+            </div>
 
-      <li class="step step--d">
-        <div class="text">
-          <h3><span class="num" aria-hidden="true">2</span>{t('how.d.title')}</h3>
-          <p>{t('how.d.body')}</p>
-        </div>
-        <div class="editor" aria-hidden="true">
-          <span class="import"><Icon name="PiDownloadSimple" size={14} />{t('how.d.import')}</span>
-          <ul>
-            {
-              sections.map(([icon, label], i) => (
-                <li class:list={['ficha', 'row', { 'is-open': i === 3 }]}>
-                  <Icon name="PiDotsSixVertical" size={14} class="grip" />
-                  <Icon name={icon} size={16} class="row-icon" />
-                  <span>{label}</span>
-                  <Icon name="PiCaretRight" size={12} class="caret" />
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </li>
+            <div class="panel" aria-hidden="true">
+              <div class="seg tabs">
+                {tabs.map((key, i) => (
+                  <span class={i === step ? 'is-on' : undefined}>{t(key)}</span>
+                ))}
+              </div>
 
-      <li class="step step--e">
-        <div class="text">
-          <h3><span class="num" aria-hidden="true">3</span>{t('how.e.title')}</h3>
-          <p>{t('how.e.body')}</p>
-        </div>
-        <div class="export" aria-hidden="true">
-          <div class="page paper">
-            <Image src={templates[0].src} alt="" widths={[230, 459]} sizes="220px" />
-            <span class="letter"></span>
-            <span class="grow">{t('how.e.grows')}</span>
-          </div>
-          <div class="export-bar">
-            <span>{t('how.e.size')}</span>
-            <span class="btn btn--primary btn--sm">{t('how.e.button')}</span>
-          </div>
-        </div>
-      </li>
+              {step === 0 && (
+                <ul class="gallery">
+                  {templates.map((tpl, i) => (
+                    <li class:list={['thumb', { 'is-on': i === 0 }]}>
+                      <Image src={tpl.src} alt="" widths={[230, 459]} sizes="(min-width: 960px) 130px, 28vw" />
+                      <span class="sr-only">{tpl.name}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {step === 1 && (
+                <div class="editor">
+                  <ul class="sidebar">
+                    {sections.map(([icon, label, count]) => (
+                      <li class:list={{ 'is-on': icon === 'PiBriefcase' }}>
+                        <Icon name={icon} size={16} />
+                        <span>{label}</span>
+                        <small>{count}</small>
+                      </li>
+                    ))}
+                  </ul>
+                  <div class="ficha card">
+                    <strong>{data.senior}</strong>
+                    <div class="field">
+                      <span>{t('field.role')}</span>
+                      <output>{data.senior}</output>
+                    </div>
+                    <div class="field">
+                      <span>{t('field.company')}</span>
+                      <output>Pagos Andinos</output>
+                    </div>
+                    <div class="field">
+                      <span>{t('field.achievement')}</span>
+                      <output>{data.win1}</output>
+                    </div>
+                  </div>
+                  <div class="mini paper">
+                    <Image src={sheet} alt="" widths={[300]} sizes="150px" />
+                    <span
+                      class="hl"
+                      style={{ left: pct(EXP1_BOX.left), top: pct(EXP1_BOX.top), width: pct(EXP1_BOX.width), height: pct(EXP1_BOX.height) }}
+                    />
+                    <svg class="link" viewBox="0 0 100 40" preserveAspectRatio="none">
+                      <path d="M0 4 C 45 4, 55 36, 100 36" />
+                    </svg>
+                  </div>
+                </div>
+              )}
+
+              {step === 2 && (
+                <div class="export">
+                  <div class="page">
+                    <Image class="paper" src={templates[0].src} alt="" widths={[230, 459]} sizes="180px" />
+                    <span class="grow">{t('how.e.grows')}</span>
+                  </div>
+                  <div class="ficha file">
+                    <strong>Jhon-Doe-CV.pdf</strong>
+                    <span>{t('how.e.size')}</span>
+                    <span class="btn btn--primary btn--sm">{t('how.e.button')}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </li>
+        ))
+      }
     </ol>
   </div>
 </section>
@@ -101,8 +145,6 @@ const sections = [
 <style>
   .how {
     padding: clamp(64px, 8vw, 120px) 0;
-    background: var(--sidebar);
-    border-block: 0.5px solid var(--sep);
   }
   .head {
     display: grid;
@@ -110,106 +152,36 @@ const sections = [
     max-width: 44rem;
   }
   .steps {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(56px, 7vw, 96px) clamp(32px, 5vw, 80px);
-    margin-top: clamp(48px, 6vw, 80px);
+    margin-top: clamp(40px, 5vw, 64px);
   }
   .step {
     display: grid;
     grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
     gap: clamp(32px, 5vw, 80px);
-    align-items: start;
-    scroll-margin-top: 32px;
-  }
-  .step--t {
-    grid-column: 1 / -1;
-  }
-  .step--d,
-  .step--e {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: subgrid;
-    grid-row: span 2;
-    row-gap: 32px;
-  }
-  .editor,
-  .export {
-    width: 100%;
-    max-width: none;
+    align-items: center;
+    padding-block: 24px;
+    border-top: 1px solid var(--sep);
   }
   .text {
     display: grid;
     gap: 12px;
+    justify-items: start;
     max-width: 26rem;
   }
-  .num {
-    display: inline-grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    margin-right: 12px;
-    border-radius: 50%;
-    border: 1px solid var(--ruled);
-    background: var(--surface);
-    color: var(--plum);
-    font-family: var(--font-ui);
-    font-size: 14px;
-    font-weight: 600;
-    vertical-align: 0.2em;
-  }
   h3 {
-    font-family: var(--font-display);
-    font-weight: 300;
-    font-size: clamp(26px, 2.4vw, 32px);
-    line-height: 1.2;
-    text-wrap: balance;
-  }
-  .text p:last-child {
-    color: var(--ink-2);
-  }
-
-  /* 1 · Galería */
-  .gallery {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 20px 16px;
-  }
-  .thumb {
-    display: grid;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--ink-2);
-    text-align: center;
-  }
-  .thumb img {
-    width: 100%;
-    border-radius: 3px;
-    box-shadow: var(--shadow-paper);
-    background: #fff;
-  }
-  .thumb.is-on img {
-    outline: 2px solid var(--plum);
-    outline-offset: 4px;
-  }
-  .thumb.is-on span {
-    color: var(--plum);
+    font-size: clamp(18px, 1.5vw, 20px);
     font-weight: 600;
+    line-height: 1.3;
   }
-
-  /* 2 · Editor */
-  .editor {
-    display: grid;
-    gap: 12px;
-    padding: 24px;
-    border-radius: 16px;
-    background: var(--window);
-    border: 0.5px solid var(--sep);
+  .text p {
+    color: var(--ink-2);
+    font-size: 15px;
   }
-  .import {
-    justify-self: start;
+  .chip {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    margin-top: 4px;
     padding: 5px 12px;
     border-radius: 7px;
     border: 0.5px solid var(--field);
@@ -217,108 +189,217 @@ const sections = [
     font-size: 12px;
     font-weight: 500;
   }
-  .editor ul {
+
+  /* Panel: el escritorio de la app con sus pestañas */
+  .panel {
     display: grid;
-    gap: 6px;
+    justify-items: center;
+    gap: 20px;
+    padding: 16px clamp(16px, 3vw, 40px) clamp(20px, 3vw, 36px);
+    border-radius: 16px;
+    background: var(--desk);
   }
-  .row {
+  .tabs > span {
+    font-size: 12px;
+  }
+
+  /* 1 · Plantillas */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+  }
+  .thumb {
+    padding: 4px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+  }
+  .thumb.is-on {
+    border-color: var(--plum);
+  }
+  .thumb img {
+    width: 100%;
+    border-radius: 2px;
+    box-shadow: var(--shadow-paper);
+    background: #fff;
+  }
+
+  /* 2 · Datos */
+  .editor {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.2fr) minmax(0, 0.75fr);
+    gap: 24px;
+    align-items: start;
+    width: 100%;
+  }
+  .sidebar {
+    display: grid;
+    gap: 2px;
+    padding: 8px;
+    border-radius: 12px;
+    background: var(--sidebar);
+    font-size: 13px;
+  }
+  .sidebar li {
     display: flex;
     align-items: center;
     gap: 10px;
-    min-height: 40px;
-    padding: 0 12px 0 6px;
-    font-size: 13px;
-    font-weight: 600;
+    padding: 6px 8px;
+    border-radius: 7px;
+    color: var(--ink);
   }
-  .row span {
+  .sidebar li :global(.icon) {
+    color: var(--ink-2);
+  }
+  .sidebar span {
     flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  .row :global(.grip) {
-    color: var(--field);
-  }
-  .row :global(.row-icon) {
-    color: var(--plum);
-  }
-  .row :global(.caret) {
+  .sidebar small {
+    font-size: 11px;
     color: var(--ink-3);
   }
-  .row.is-open::before {
+  .sidebar .is-on {
+    background: var(--surface);
+    font-weight: 600;
+    box-shadow: var(--shadow-control);
+  }
+  .card {
+    display: grid;
+    gap: 10px;
+    padding: 18px 16px 16px;
+    box-shadow: var(--shadow-soft);
+  }
+  .card::before {
     background: var(--plum);
+  }
+  .card strong {
+    font-size: 14px;
+  }
+  .mini {
+    position: relative;
+    border-radius: 2px;
+  }
+  .mini img {
+    width: 100%;
+  }
+  .mini .hl {
+    position: absolute;
+    border: 1.2px dashed var(--plum);
+    border-radius: 3px;
+    background: rgb(91 63 115 / 0.08);
+  }
+  /* Línea de la ficha a su entrada en la hoja */
+  .mini .link {
+    position: absolute;
+    right: calc(100% - 38.7%);
+    top: 4%;
+    width: calc(24px + 38.7%);
+    height: 26%;
+    overflow: visible;
+  }
+  .mini .link path {
+    fill: none;
+    stroke: var(--plum);
+    stroke-width: 1.25;
+    vector-effect: non-scaling-stroke;
   }
 
   /* 3 · Exportar */
   .export {
     display: grid;
-    gap: 16px;
-    justify-items: center;
-    padding: 32px 24px 24px;
-    border-radius: 16px;
-    background: var(--desk);
+    grid-template-columns: auto minmax(0, 260px);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: center;
   }
   .page {
     position: relative;
-    width: 220px;
-    aspect-ratio: 612 / 810;
-    border-radius: 2px;
+    width: 170px;
   }
-  .page img {
+  .page :global(img) {
     width: 100%;
     border-radius: 2px 2px 0 0;
   }
-  .letter {
-    position: absolute;
-    inset: 0 0 auto;
-    height: calc(100% * 792 / 810);
-    border-bottom: 1px dashed var(--ruled);
+  /* La hoja crece hacia abajo si el contenido no cabe */
+  .page::after {
+    content: '';
+    display: block;
+    height: 30px;
+    border: 1px dashed var(--plum);
+    border-top: 0;
+    background: rgb(255 255 255 / 0.5);
   }
   .grow {
     position: absolute;
-    left: calc(100% + 12px);
-    bottom: 0;
+    left: calc(100% + 10px);
+    bottom: 8px;
     font-size: 12px;
-    color: var(--plum);
+    color: var(--ink-2);
     white-space: nowrap;
   }
-  .export-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    width: 100%;
+  .file {
+    display: grid;
+    justify-items: start;
+    gap: 6px;
+    padding: 20px;
+  }
+  .file strong {
+    font-size: 15px;
+  }
+  .file > span:not(.btn) {
     font-size: 13px;
     color: var(--ink-2);
   }
   .btn--sm {
     min-height: 32px;
+    margin-top: 10px;
     padding: 0 14px;
     font-size: 13px;
     border-radius: 7px;
   }
 
   @media (max-width: 959px) {
-    .steps {
-      grid-template-columns: minmax(0, 1fr);
-    }
     .step {
       grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+      padding-block: 32px;
     }
-    .step--d,
-    .step--e {
-      grid-row: auto;
-      grid-template-rows: none;
+    /* Como en Figma móvil: primero el panel, después el texto */
+    .panel {
+      order: -1;
     }
     .gallery {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+    .editor {
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.8fr);
+    }
+    .sidebar {
+      display: none;
+    }
   }
-  @media (max-width: 420px) {
+  @media (max-width: 560px) {
     .gallery {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .thumb {
+      padding: 2px;
+    }
+    .export {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
     }
     .grow {
       left: auto;
       right: 0;
-      bottom: -20px;
+      bottom: -22px;
+    }
+    .file {
+      width: 100%;
     }
   }
 </style>
