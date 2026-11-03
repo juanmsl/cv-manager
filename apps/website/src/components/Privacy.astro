@@ -18,7 +18,7 @@ const points = [
 
 <section id={SLUGS[lang].privacy} class="priv" aria-labelledby={`priv-title-${lang}`}>
   <div class="wrap grid">
-    <figure class="file">
+    <figure class="file" data-reveal="scale">
       <CvDocIcon size={152} />
       <figcaption>
         <strong>Jhon Doe.cv</strong>
@@ -26,11 +26,11 @@ const points = [
       </figcaption>
     </figure>
     <div>
-      <h2 id={`priv-title-${lang}`} class="display h2">{t('priv.title')}</h2>
+      <h2 id={`priv-title-${lang}`} class="display h2" data-reveal style="--i: 1">{t('priv.title')}</h2>
       <ul class="points">
         {
-          points.map(([icon, h, b]) => (
-            <li>
+          points.map(([icon, h, b], i) => (
+            <li data-reveal style={`--i: ${i + 2}`}>
               <Icon name={icon} size={22} class="p-icon" />
               <h3>{h}</h3>
               <p>{b}</p>

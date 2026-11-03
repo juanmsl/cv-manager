@@ -13,11 +13,11 @@ const rows = [1, 2, 3, 4, 5].map((n) => [t(`cmp.${n}a` as Key), t(`cmp.${n}b` as
 
 <section class="cmp" aria-labelledby={`cmp-title-${lang}`}>
   <div class="wrap grid">
-    <header class="head">
+    <header class="head" data-reveal>
       <h2 id={`cmp-title-${lang}`} class="display h2">{t('cmp.title')}</h2>
       <p class="lead">{t('cmp.sub')}</p>
     </header>
-    <table>
+    <table data-reveal="fade" style="--i: 1">
       <thead>
         <tr>
           <th scope="col">{t('cmp.usual')}</th>
@@ -26,8 +26,8 @@ const rows = [1, 2, 3, 4, 5].map((n) => [t(`cmp.${n}a` as Key), t(`cmp.${n}b` as
       </thead>
       <tbody>
         {
-          rows.map(([usual, ours]) => (
-            <tr>
+          rows.map(([usual, ours], i) => (
+            <tr data-reveal style={`--i: ${i + 2}`}>
               <td>{usual}</td>
               <td>
                 <Icon name="PiCheck" size={16} class="check" />

@@ -35,6 +35,7 @@ const site = Astro.site;
           }
         }
         document.documentElement.lang = lang;
+        document.documentElement.classList.add('js'); // habilita las animaciones de entrada (sin JS todo se ve)
         document.title = titles[lang];
         window.__cvmTitles = titles;
       })();
@@ -50,6 +51,26 @@ const site = Astro.site;
   </head>
   <body id="top">
     <slot />
+    <script>
+      // Animaciones de entrada al hacer scroll: cada [data-reveal] aparece una vez,
+      // cuando entra en pantalla. Con prefers-reduced-motion el CSS lo muestra sin moverse.
+      const items = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              e.target.classList.add('is-in');
+              io.unobserve(e.target);
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
+        );
+        items.forEach((el) => io.observe(el));
+      } else {
+        items.forEach((el) => el.classList.add('is-in'));
+      }
+    </script>
     <script is:inline define:vars={{ key: LANG_STORAGE_KEY }}>
       // Cambiar de idioma: se muestra otra versión de la página, sin recargar.
       document.addEventListener('click', function (event) {
