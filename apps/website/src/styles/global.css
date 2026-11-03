@@ -25,6 +25,7 @@
 
   --gutter: clamp(20px, 5.5vw, 80px);
   --max: 1280px;
+  --nav-h: 76px; /* barra de navegación fija */
   color-scheme: light;
 }
 
@@ -34,8 +35,15 @@
   box-sizing: border-box;
 }
 
+@media (max-width: 900px) {
+  :root {
+    --nav-h: 60px;
+  }
+}
+
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h); /* los anclajes no quedan bajo la barra fija */
   -webkit-text-size-adjust: 100%;
 }
 @media (prefers-reduced-motion: reduce) {

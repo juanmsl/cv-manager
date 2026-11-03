@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { DOWNLOAD_URL, REPO_URL, useT, type Lang } from '../i18n/ui';
+import { EXP1_BOX, SAMPLE } from '../i18n/sample';
 import sheetEs from '../assets/sheets/columna-es.png';
 import sheetEn from '../assets/sheets/columna-en.png';
 import sheetPt from '../assets/sheets/columna-pt.png';
@@ -16,18 +17,14 @@ const sheet = { es: sheetEs, en: sheetEn, pt: sheetPt }[lang];
 
 // Datos de ejemplo: los mismos que imprime la hoja en cada idioma (ficticios,
 // ADR-0013). Cajas en % de la página, medidas sobre la hoja exportada por la app.
-const DATA = {
-  es: { senior: 'Diseñador de producto senior', role: 'Diseñador de producto', win1: 'Reduje en 30 % los pagos abandonados.', win2: 'Diseñé el checkout y coordiné pruebas A/B en seis países.' },
-  en: { senior: 'Senior Product Designer', role: 'Product Designer', win1: 'Cut abandoned payments by 30%.', win2: 'Designed the checkout and ran A/B tests in six countries.' },
-  pt: { senior: 'Designer de produto sênior', role: 'Designer de produto', win1: 'Reduzi em 30% os pagamentos abandonados.', win2: 'Desenhei o checkout e coordenei testes A/B em seis países.' },
-}[lang];
+const DATA = SAMPLE[lang];
 const cards = [
   {
     id: 'exp1',
     icon: 'PiBriefcase',
     title: t('section.experience'),
     summary: 'Pagos Andinos',
-    box: { left: 38.7, top: 23.5, width: 56.9, height: 10.8 },
+    box: EXP1_BOX,
     fields: [
       [t('field.role'), DATA.senior],
       [t('field.company'), 'Pagos Andinos'],
