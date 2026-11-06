@@ -37,6 +37,7 @@ export const COLOR_PRESETS = ['#2D3039', '#1F3A5F', '#2F5D50', '#7A2E2A', '#5B3F
 // esté vacía. Hay una versión por idioma; la app usa la del idioma activo.
 const ES: CvData = {
   photo: null,
+  hidePhoto: false,
   firstName: 'Jhon',
   lastName: 'Doe',
   title: 'Diseñador de producto',
@@ -211,6 +212,7 @@ export function sampleLangOf(data: CvData): Lang | null {
 
 export const EMPTY_DATA: CvData = {
   photo: null,
+  hidePhoto: false,
   firstName: '',
   lastName: '',
   title: '',

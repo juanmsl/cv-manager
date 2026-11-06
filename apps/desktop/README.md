@@ -77,6 +77,9 @@ Dates are chosen with a picker (year, year and month, or a full date) and each t
 its own way. Descriptions are written with formatting, Notion-style: `**bold**`, `*italic*`, `- ` for a
 list, or select text to use the toolbar. See ADR-0024.
 
+In **Photo and name**, the **No photo** checkbox hides the photo in every template, even if one is
+loaded (the photo is kept, so it comes back when the box is unchecked).
+
 ## Shortcuts
 
 | Shortcut | Action |

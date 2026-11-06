@@ -29,10 +29,12 @@ export function Retrato({ data: d, highlightId, t }: TemplateProps) {
     <div className="ret-grid">
       <aside className="ret-side">
         <h1 className="ret-name">{name.toUpperCase()}</h1>
-        <div className="ret-photo-wrap">
-          <CvPhoto data={d} className="ret-photo" />
-          <div className="ret-diagonal" />
-        </div>
+        {!d.hidePhoto && (
+          <div className="ret-photo-wrap">
+            <CvPhoto data={d} className="ret-photo" />
+            <div className="ret-diagonal" />
+          </div>
+        )}
         <div className="ret-dark">
           {d.profile && (
             <section>

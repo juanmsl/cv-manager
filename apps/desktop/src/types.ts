@@ -81,6 +81,8 @@ export interface CvColors {
 
 export interface CvData {
   photo: Photo | null;
+  /** "Sin foto": oculta la foto en las plantillas aunque haya una cargada. Opcional en archivos antiguos. */
+  hidePhoto?: boolean;
   firstName: string;
   lastName: string;
   title: string;

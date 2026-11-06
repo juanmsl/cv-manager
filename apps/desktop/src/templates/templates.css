@@ -484,6 +484,10 @@
   width: 86pt;
   height: 160pt;
 }
+/* "Sin foto": el nombre ocupa el lugar de la foto */
+.edi-head--nophoto .edi-id {
+  left: 108pt;
+}
 .edi-id {
   position: absolute;
   left: 224pt;
