@@ -16,7 +16,7 @@ A release has two steps, each a workflow:
    - Adds a section `## [X.Y.Z] - date` to the top of `CHANGELOG.md` with GitHub's automatic release notes: the pull requests merged since the previous `v*` tag.
    - Pushes the branch `release/vX.Y.Z` and opens the pull request `release: vX.Y.Z` with that changelog.
 2. **Release** (`.github/workflows/release.yml`, runs when a `release/v*` pull request is merged into `main`):
-   - **Build job** (`macos-14`, Apple Silicon): checks out the merge commit, checks that the branch matches the version, runs lint and type check for the desktop app and builds the `.dmg` with electron-builder (`--mac --arm64 --publish never`). The app keeps the ad-hoc signature from ADR-0003; there is no Apple certificate or notarization.
+   - **Build job** (`macos-15`, Apple Silicon; GitHub retired the `macos-14` image on 2026-11-02): checks out the merge commit, checks that the branch matches the version, runs lint and type check for the desktop app and builds the `.dmg` with electron-builder (`--mac --arm64 --publish never`). The app keeps the ad-hoc signature from ADR-0003; there is no Apple certificate or notarization.
    - **Release job**: creates the tag `vX.Y.Z` on the merge commit and the GitHub release with the `.dmg` and a `SHA256SUMS.txt`. The notes are `.github/release-notes.md` (download and first-launch steps) followed by the version's section of `CHANGELOG.md`. Versions with a suffix (`1.0.0-beta.1`) are marked as pre-releases.
    - Run by hand, it only builds the `.dmg` and attaches it to the run, to test a build without publishing.
 - The tag is created at release time, on the commit in `main`, so it is correct whatever merge method is used (merge, squash or rebase).
