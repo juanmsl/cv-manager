@@ -14,7 +14,7 @@ GitHub Actions deprecated the Node.js 20 runtime for actions, and the workflows 
 - **Enforced on install:** the root `package.json` declares `engines` (`node >=24`, `pnpm >=11.10.0`) and `pnpm-workspace.yaml` sets `engineStrict: true`, so `pnpm install` fails instead of warning when either is older.
 - **Build scripts:** pnpm 11 removed `onlyBuiltDependencies`; `pnpm-workspace.yaml` uses `allowBuilds` (`electron`, `esbuild`, `sharp`: `true`). pnpm 11 fails the install when a dependency with install scripts isn't listed, so new ones must be added as `true` or `false`.
 - **Workflows:**
-  - `pnpm/setup@v3` (successor of `pnpm/action-setup` for pnpm 11) installs pnpm from `packageManager` and Node.js from `.nvmrc`, and caches the pnpm store; dependencies are still installed with `pnpm install --frozen-lockfile`.
+  - `pnpm/setup@v3` (successor of `pnpm/action-setup` for pnpm 11) installs pnpm from `packageManager` and Node.js from `.nvmrc` (passed explicitly as `node-version-file`, so a job never falls back to the runner's own Node.js, which is 22 on `macos-15`), and caches the pnpm store; dependencies are still installed with `pnpm install --frozen-lockfile`.
   - Actions on the Node.js 24 runtime: `actions/checkout@v7`, `actions/upload-artifact@v7`, `actions/download-artifact@v8`, `actions/upload-pages-artifact@v5`, `actions/deploy-pages@v5`.
   - `ci.yml` is renamed `lint-typecheck-build.yml` ("Lint, type check and build"), which describes what it does, and runs only on pull requests (not again on pushes to `main`).
 

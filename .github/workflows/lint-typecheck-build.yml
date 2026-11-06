@@ -25,11 +25,14 @@ jobs:
       # the pnpm store is cached between runs.
       - uses: pnpm/setup@v3
         with:
+          node-version-file: .nvmrc # explicit: without it the runner's own Node.js is used
           cache: true
           install: false
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: |
+          node --version
+          pnpm install --frozen-lockfile
 
       # Turborepo runs lint and typecheck in every app (desktop and website);
       # --continue reports all failures instead of stopping at the first one.
