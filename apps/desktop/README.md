@@ -73,6 +73,10 @@ page**: Letter width, at least Letter height, growing downward when the content 
 
 There are ten templates (`src/templates/`), based on the mockups in `cv-templates/`.
 
+Dates are chosen with a picker (year, year and month, or a full date) and each template formats them
+its own way. Descriptions are written with formatting, Notion-style: `**bold**`, `*italic*`, `- ` for a
+list, or select text to use the toolbar. See ADR-0024.
+
 ## Shortcuts
 
 | Shortcut | Action |

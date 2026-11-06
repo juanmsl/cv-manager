@@ -1,11 +1,13 @@
 import type { ReactNode } from 'react';
 import { period } from '../sample';
-import { CvPhoto, hl, type TemplateProps } from './shared';
+import { CvPhoto, hl, type TemplateProps, dateFormat, Rich } from './shared';
 import { Achievements, contactItems, linkItems } from './parts';
 import './Marco.css';
 
 /** 5 · Marco clásico: página enmarcada, nombre sobre el filete y filas en tres columnas. */
 export function Marco({ data: d, highlightId, t }: TemplateProps) {
+  // Fechas: estilo 'short' (ver dates.ts)
+  const F = dateFormat(t, 'short');
   const contact = [...contactItems(d, t), ...linkItems(d)];
 
   return (
@@ -38,7 +40,7 @@ export function Marco({ data: d, highlightId, t }: TemplateProps) {
         {d.profile && (
           <section className="mar-sec">
             <Heading>{t('cv.profile')}</Heading>
-            <p className="mar-text">{d.profile}</p>
+            <Rich text={d.profile} className="mar-text" />
           </section>
         )}
 
@@ -53,10 +55,10 @@ export function Marco({ data: d, highlightId, t }: TemplateProps) {
                 </div>
                 <div className="mar-what">
                   <strong>{e.role}</strong>
-                  <span>{period(e.start, e.end, e.current, t('cv.present'))}</span>
+                  <span>{period(e.start, e.end, e.current, t('cv.present'), F)}</span>
                 </div>
                 <div className="mar-text">
-                  {e.description && <p className="mar-dot">{e.description}</p>}
+                  {e.description && <Rich text={e.description} className="mar-dot" />}
                   <Achievements items={e.achievements} className="mar-dots" />
                 </div>
               </article>
@@ -74,9 +76,9 @@ export function Marco({ data: d, highlightId, t }: TemplateProps) {
                 </div>
                 <div className="mar-what">
                   <strong>{e.institution}</strong>
-                  <span>{period(e.start, e.end)}</span>
+                  <span>{period(e.start, e.end, false, '', F)}</span>
                 </div>
-                <div className="mar-text">{e.description && <p className="mar-dot">{e.description}</p>}</div>
+                <div className="mar-text">{e.description && <Rich text={e.description} className="mar-dot" />}</div>
               </article>
             ))}
           </section>
@@ -120,7 +122,7 @@ export function Marco({ data: d, highlightId, t }: TemplateProps) {
         {d.note && (
           <section className="mar-sec">
             <Heading>{t('cv.note')}</Heading>
-            <p className="mar-text">{d.note}</p>
+            <Rich text={d.note} className="mar-text" />
           </section>
         )}
       </div>

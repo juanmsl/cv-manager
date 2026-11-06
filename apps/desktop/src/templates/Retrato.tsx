@@ -1,5 +1,5 @@
 import { fullName, period } from '../sample';
-import { CvPhoto, hl, initials, type TemplateProps } from './shared';
+import { CvPhoto, hl, initials, type TemplateProps, dateFormat, Rich } from './shared';
 
 function Ring({ level }: { level: number }) {
   const r = 24;
@@ -20,6 +20,8 @@ function Ring({ level }: { level: number }) {
 }
 
 export function Retrato({ data: d, highlightId, t }: TemplateProps) {
+  // Fechas: estilo 'year' (ver dates.ts)
+  const F = dateFormat(t, 'year');
   const name = fullName(d);
   const lines = [d.phone, ...d.links.map((l) => l.value), d.email].filter(Boolean);
 
@@ -35,7 +37,7 @@ export function Retrato({ data: d, highlightId, t }: TemplateProps) {
           {d.profile && (
             <section>
               <h2 className="ret-h-light">{t('cv.aboutMe')}</h2>
-              <p>{d.profile}</p>
+              <Rich text={d.profile} />
             </section>
           )}
           {(d.city || lines.length > 0) && (
@@ -79,7 +81,7 @@ export function Retrato({ data: d, highlightId, t }: TemplateProps) {
             <ol className="ret-tl">
               {d.education.map((e) => (
                 <li key={e.id} className={hl(e.id, highlightId).trim()}>
-                  <span className="ret-date">{period(e.start, e.end)}</span>
+                  <span className="ret-date">{period(e.start, e.end, false, '', F)}</span>
                   <div>
                     <strong>{e.degree}</strong>
                     <span>{e.institution}</span>
@@ -97,7 +99,7 @@ export function Retrato({ data: d, highlightId, t }: TemplateProps) {
             <ol className="ret-tl">
               {d.experience.map((e) => (
                 <li key={e.id} className={hl(e.id, highlightId).trim()}>
-                  <span className="ret-date">{period(e.start, e.end, e.current, t('cv.today'))}</span>
+                  <span className="ret-date">{period(e.start, e.end, e.current, t('cv.today'), F)}</span>
                   <div>
                     <strong>{e.role}</strong>
                     <span>{e.company}</span>
@@ -129,7 +131,7 @@ export function Retrato({ data: d, highlightId, t }: TemplateProps) {
         {d.note && (
           <section className="ret-note">
             <strong>{t('cv.note')}:</strong>
-            <p>{d.note}</p>
+            <Rich text={d.note} />
           </section>
         )}
       </main>

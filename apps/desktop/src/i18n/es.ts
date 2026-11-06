@@ -277,6 +277,22 @@ export const es = {
   'cv.emailShort': 'e:',
   'cv.phoneShort': 'p:',
   'cv.noPhoto': 'Sin foto',
+
+  // Selector de fecha
+  'date.pick': 'Elegir fecha',
+  'date.precision': 'Precisión de la fecha',
+  'date.year': 'Año',
+  'date.month': 'Mes',
+  'date.day': 'Día',
+  'date.prev': 'Anterior',
+  'date.next': 'Siguiente',
+  'date.clear': 'Borrar fecha',
+  // Texto con formato
+  'rich.bold': 'Negrilla',
+  'rich.italic': 'Cursiva',
+  'rich.bullets': 'Lista con viñetas',
+  'rich.numbers': 'Lista numerada',
+  'rich.hint': 'Escribe **negrilla**, *cursiva*, «- » para una lista o selecciona texto para darle formato',
 };
 
 export type Dict = Record<keyof typeof es, string>;

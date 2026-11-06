@@ -1,5 +1,6 @@
 import type { AppState, CvColors, CvData, TemplateId } from './types';
 import type { Lang } from './i18n';
+import { formatDate, type DateFormat } from './dates';
 
 export const uid = () => Math.random().toString(36).slice(2, 10);
 
@@ -242,11 +243,17 @@ export const blankSkill = () => ({ id: uid(), name: '', level: 70 });
 export const blankLanguage = () => ({ id: uid(), name: '', level: 70, label: '' });
 export const blankLink = () => ({ id: uid(), label: '', value: '' });
 
-/** "2021 — actual", "2019 — 2021" o un solo año. `present` = palabra para "actual". */
-export function period(start: string, end: string, current = false, present = 'actual') {
-  const e = current ? present : end;
-  if (start && e && start !== e) return `${start} — ${e}`;
-  return start || e || '';
+/**
+ * Periodo "inicio — fin" de una experiencia o estudio: "2021 — actual",
+ * "mar 2019 — dic 2021" o una sola fecha. `present` = palabra para "actual";
+ * `format` = cómo muestra las fechas la plantilla (ver dates.ts).
+ */
+export function period(start: string, end: string, current = false, present = 'actual', format?: DateFormat) {
+  const f = (v: string) => (format ? formatDate(v, format.lang, format.style) : v.trim());
+  const s = start ? f(start) : '';
+  const e = current ? present : end ? f(end) : '';
+  if (s && e && s !== e) return `${s} — ${e}`;
+  return s || e || '';
 }
 
 export function fullName(d: CvData) {

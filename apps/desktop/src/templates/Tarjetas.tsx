@@ -1,12 +1,14 @@
 import type { ReactNode } from 'react';
 import { PiBookOpenText, PiBriefcase, PiGlobeSimple, PiNotePencil, PiSparkle, PiUser } from 'react-icons/pi';
 import { period } from '../sample';
-import { hl, type TemplateProps } from './shared';
+import { hl, type TemplateProps, dateFormat, Rich } from './shared';
 import { Achievements, contactItems, linkItems } from './parts';
 import './Tarjetas.css';
 
 /** 7 · Tarjetas suaves: fondo degradado y secciones en tarjetas blancas. */
 export function Tarjetas({ data: d, highlightId, t }: TemplateProps) {
+  // Fechas: estilo 'short' (ver dates.ts)
+  const F = dateFormat(t, 'short');
   const contact = [...contactItems(d, t), ...linkItems(d)];
 
   return (
@@ -29,7 +31,7 @@ export function Tarjetas({ data: d, highlightId, t }: TemplateProps) {
         <div className="tar-col">
           {d.profile && (
             <Card icon={<PiUser />} title={t('cv.aboutMe')}>
-              <p className="tar-text">{d.profile}</p>
+              <Rich text={d.profile} className="tar-text" />
             </Card>
           )}
           {d.experience.length > 0 && (
@@ -39,10 +41,10 @@ export function Tarjetas({ data: d, highlightId, t }: TemplateProps) {
                   <article key={e.id} className={'tar-job' + hl(e.id, highlightId)}>
                     <div className="tar-job-head">
                       <h3>{e.role}</h3>
-                      {(e.start || e.end || e.current) && <span className="tar-pill">{period(e.start, e.end, e.current, t('cv.present'))}</span>}
+                      {(e.start || e.end || e.current) && <span className="tar-pill">{period(e.start, e.end, e.current, t('cv.present'), F)}</span>}
                     </div>
                     <p className="tar-company">{[e.company, e.city].filter(Boolean).join(' · ')}</p>
-                    {e.description && <p className="tar-text">{e.description}</p>}
+                    {e.description && <Rich text={e.description} className="tar-text" />}
                     <Achievements items={e.achievements} className="tar-text tar-bullets" />
                   </article>
                 ))}
@@ -67,7 +69,7 @@ export function Tarjetas({ data: d, highlightId, t }: TemplateProps) {
                 <article key={e.id} className={'tar-edu' + hl(e.id, highlightId)}>
                   <h3>{e.degree}</h3>
                   <p>{e.institution}</p>
-                  {(e.start || e.end) && <strong>{period(e.start, e.end)}</strong>}
+                  {(e.start || e.end) && <strong>{period(e.start, e.end, false, '', F)}</strong>}
                 </article>
               ))}
             </Card>
@@ -84,7 +86,7 @@ export function Tarjetas({ data: d, highlightId, t }: TemplateProps) {
           )}
           {d.note && (
             <Card icon={<PiNotePencil />} title={t('cv.note')}>
-              <p className="tar-text">{d.note}</p>
+              <Rich text={d.note} className="tar-text" />
             </Card>
           )}
         </div>

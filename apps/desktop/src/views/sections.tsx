@@ -11,7 +11,9 @@ import {
   period,
 } from '../sample';
 import type { Experience } from '../types';
-import { Area, Empty, Field, Icon } from '../components/ui';
+import { Empty, Field, Icon } from '../components/ui';
+import { DateField } from '../components/DateField';
+import { RichField } from '../components/RichField';
 import { EntryCard } from '../components/EntryCard';
 import { useReorder } from '../components/Reorder';
 import { useT } from '../i18n';
@@ -237,20 +239,20 @@ export function ProfileSection() {
       <Head title={t('section.profile')} sub={t('profile.sub')} />
       <div className="stack">
         <section className="panel">
-          <Area
+          <RichField
             label={t('field.profile')}
             rows={5}
             value={d.profile}
             placeholder={t('ph.profile')}
             hint={t('profile.hint', { n: d.profile.length })}
-            onChange={(e) => setData({ profile: e.target.value })}
+            onChange={(v) => setData({ profile: v })}
           />
-          <Area
+          <RichField
             label={t('field.note')}
             rows={2}
             value={d.note}
             placeholder={t('ph.note')}
-            onChange={(e) => setData({ note: e.target.value })}
+            onChange={(v) => setData({ note: v })}
           />
         </section>
       </div>
@@ -310,7 +312,7 @@ export function ContactSection() {
 // ---------------------------------------------------------------------------
 export function ExperienceSection({ activeId, setActiveId }: SectionProps) {
   const { state, addItem, updateItem, removeItem, moveItem } = useCv();
-  const { t } = useT();
+  const { t, lang } = useT();
   const list = state.data.experience;
   const reorder = useReorder((a, b) => moveItem('experience', a, b));
 
@@ -346,7 +348,7 @@ export function ExperienceSection({ activeId, setActiveId }: SectionProps) {
               title={e.role}
               emptyTitle={t('exp.newRole')}
               subtitle={[e.company, e.city].filter(Boolean).join(' · ')}
-              dates={period(e.start, e.end, e.current, t('cv.present'))}
+              dates={period(e.start, e.end, e.current, t('cv.present'), { lang, style: 'short' })}
               onMove={(a, b) => moveItem('experience', a, b)}
               onDelete={() => removeItem('experience', e.id)}
               reorder={reorder}
@@ -356,15 +358,15 @@ export function ExperienceSection({ activeId, setActiveId }: SectionProps) {
                 <Field label={t('field.company')} value={e.company} onChange={(ev) => up(e.id, { company: ev.target.value })} />
               </div>
               <div className="row">
-                <Field label={t('field.start')} value={e.start} placeholder="2021" onChange={(ev) => up(e.id, { start: ev.target.value })} />
-                <Field label={t('field.end')} value={e.current ? '' : e.end} placeholder={e.current ? t('ph.current') : '2023'} disabled={e.current} onChange={(ev) => up(e.id, { end: ev.target.value })} />
+                <DateField label={t('field.start')} value={e.start} onChange={(v) => up(e.id, { start: v })} />
+                <DateField label={t('field.end')} value={e.current ? '' : e.end} placeholder={e.current ? t('ph.current') : undefined} disabled={e.current} onChange={(v) => up(e.id, { end: v })} />
                 <Field label={t('field.city')} value={e.city} onChange={(ev) => up(e.id, { city: ev.target.value })} />
               </div>
               <label className="check">
                 <input type="checkbox" checked={e.current} onChange={(ev) => up(e.id, { current: ev.target.checked })} />
                 {t('exp.current')}
               </label>
-              <Area label={t('field.description')} rows={3} value={e.description} onChange={(ev) => up(e.id, { description: ev.target.value })} />
+              <RichField label={t('field.description')} rows={3} value={e.description} onChange={(v) => up(e.id, { description: v })} />
               <div className="field">
                 <span>{t('exp.achievements')}</span>
                 <div className="bullets">
@@ -413,7 +415,7 @@ export function ExperienceSection({ activeId, setActiveId }: SectionProps) {
 // ---------------------------------------------------------------------------
 export function EducationSection({ activeId, setActiveId }: SectionProps) {
   const { state, addItem, updateItem, removeItem, moveItem } = useCv();
-  const { t } = useT();
+  const { t, lang } = useT();
   const list = state.data.education;
   const reorder = useReorder((a, b) => moveItem('education', a, b));
   const add = () => {
@@ -443,7 +445,7 @@ export function EducationSection({ activeId, setActiveId }: SectionProps) {
               title={e.degree}
               emptyTitle={t('edu.new')}
               subtitle={e.institution}
-              dates={period(e.start, e.end)}
+              dates={period(e.start, e.end, false, '', { lang, style: 'short' })}
               onMove={(a, b) => moveItem('education', a, b)}
               onDelete={() => removeItem('education', e.id)}
               reorder={reorder}
@@ -453,10 +455,10 @@ export function EducationSection({ activeId, setActiveId }: SectionProps) {
                 <Field label={t('field.institution')} value={e.institution} onChange={(ev) => updateItem('education', e.id, { institution: ev.target.value })} />
               </div>
               <div className="row">
-                <Field label={t('field.start')} value={e.start} placeholder="2012" onChange={(ev) => updateItem('education', e.id, { start: ev.target.value })} />
-                <Field label={t('field.end')} value={e.end} placeholder="2017" onChange={(ev) => updateItem('education', e.id, { end: ev.target.value })} />
+                <DateField label={t('field.start')} value={e.start} onChange={(v) => updateItem('education', e.id, { start: v })} />
+                <DateField label={t('field.end')} value={e.end} onChange={(v) => updateItem('education', e.id, { end: v })} />
               </div>
-              <Area label={t('field.descriptionOpt')} rows={2} value={e.description} onChange={(ev) => updateItem('education', e.id, { description: ev.target.value })} />
+              <RichField label={t('field.descriptionOpt')} rows={2} value={e.description} onChange={(v) => updateItem('education', e.id, { description: v })} />
             </EntryCard>
           ))}
         </div>

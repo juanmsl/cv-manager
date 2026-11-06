@@ -1,12 +1,14 @@
 import type { ReactNode } from 'react';
 import { PiBriefcaseFill, PiGraduationCapFill, PiInfoFill, PiTargetBold } from 'react-icons/pi';
 import { period } from '../sample';
-import { CvPhoto, hl, type TemplateProps } from './shared';
+import { CvPhoto, hl, type TemplateProps, dateFormat, Rich } from './shared';
 import { Achievements, contactItems, linkItems } from './parts';
 import './Sereno.css';
 
 /** 10 · Sereno: columna clara con foto redonda, nombre caligráfico e insignias en los títulos. */
 export function Sereno({ data: d, highlightId, t }: TemplateProps) {
+  // Fechas: estilo 'short' (ver dates.ts)
+  const F = dateFormat(t, 'short');
   const contact = [...contactItems(d, t), ...linkItems(d)];
 
   return (
@@ -67,7 +69,7 @@ export function Sereno({ data: d, highlightId, t }: TemplateProps) {
 
         {d.profile && (
           <Section icon={<PiTargetBold />} title={t('cv.profile')}>
-            <p className="ser-text">{d.profile}</p>
+            <Rich text={d.profile} className="ser-text" />
           </Section>
         )}
 
@@ -78,10 +80,10 @@ export function Sereno({ data: d, highlightId, t }: TemplateProps) {
                 <article key={e.id} className={'ser-item' + hl(e.id, highlightId)}>
                   <div className="ser-item-head">
                     <h3>{e.degree}</h3>
-                    <span>{period(e.start, e.end)}</span>
+                    <span>{period(e.start, e.end, false, '', F)}</span>
                   </div>
                   {e.institution && <p className="ser-place">{e.institution}</p>}
-                  {e.description && <p className="ser-text">{e.description}</p>}
+                  {e.description && <Rich text={e.description} className="ser-text" />}
                 </article>
               ))}
             </div>
@@ -95,10 +97,10 @@ export function Sereno({ data: d, highlightId, t }: TemplateProps) {
                 <article key={e.id} className={'ser-item' + hl(e.id, highlightId)}>
                   <div className="ser-item-head">
                     <h3>{e.role}</h3>
-                    <span>{period(e.start, e.end, e.current, t('cv.present'))}</span>
+                    <span>{period(e.start, e.end, e.current, t('cv.present'), F)}</span>
                   </div>
                   {(e.company || e.city) && <p className="ser-place">{[e.company, e.city].filter(Boolean).join(', ')}</p>}
-                  {e.description && <p className="ser-text">{e.description}</p>}
+                  {e.description && <Rich text={e.description} className="ser-text" />}
                   <Achievements items={e.achievements} className="ser-text ser-list" />
                 </article>
               ))}
@@ -108,7 +110,7 @@ export function Sereno({ data: d, highlightId, t }: TemplateProps) {
 
         {d.note && (
           <Section icon={<PiInfoFill />} title={t('cv.note')}>
-            <p className="ser-text">{d.note}</p>
+            <Rich text={d.note} className="ser-text" />
           </Section>
         )}
       </main>

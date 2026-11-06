@@ -1,10 +1,12 @@
 import { period } from '../sample';
-import { hl, type TemplateProps } from './shared';
+import { hl, type TemplateProps, dateFormat, Rich } from './shared';
 import { Achievements, contactItems, linkItems } from './parts';
 import './Lineal.css';
 
 /** 4 · Línea fina: nombre espaciado, filete vertical y dos columnas sobrias. */
 export function Lineal({ data: d, highlightId, t }: TemplateProps) {
+  // Fechas: estilo 'long' (ver dates.ts)
+  const F = dateFormat(t, 'long');
   const contact = [...contactItems(d, t), ...linkItems(d)];
 
   return (
@@ -36,7 +38,7 @@ export function Lineal({ data: d, highlightId, t }: TemplateProps) {
         {d.profile && (
           <section className="lin-sec">
             <h2 className="lin-h">{t('cv.profile')}</h2>
-            <p className="lin-text">{d.profile}</p>
+            <Rich text={d.profile} className="lin-text" />
           </section>
         )}
 
@@ -50,10 +52,10 @@ export function Lineal({ data: d, highlightId, t }: TemplateProps) {
                     <h3>{e.company}</h3>
                     <p className="lin-meta">
                       {e.role}
-                      {(e.start || e.end || e.current) && <> &nbsp;|&nbsp; {period(e.start, e.end, e.current, t('cv.present'))}</>}
+                      {(e.start || e.end || e.current) && <> &nbsp;|&nbsp; {period(e.start, e.end, e.current, t('cv.present'), F)}</>}
                       {e.city && <> &nbsp;·&nbsp; {e.city}</>}
                     </p>
-                    {e.description && <p className="lin-text">{e.description}</p>}
+                    {e.description && <Rich text={e.description} className="lin-text" />}
                     <Achievements items={e.achievements} className="lin-text lin-list" />
                   </article>
                 ))}
@@ -62,7 +64,7 @@ export function Lineal({ data: d, highlightId, t }: TemplateProps) {
             {d.note && (
               <section className="lin-sec">
                 <h2 className="lin-h">{t('cv.note')}</h2>
-                <p className="lin-text">{d.note}</p>
+                <Rich text={d.note} className="lin-text" />
               </section>
             )}
           </main>
@@ -101,9 +103,9 @@ export function Lineal({ data: d, highlightId, t }: TemplateProps) {
                       <h3>{e.degree}</h3>
                       <p>
                         {e.institution}
-                        {(e.start || e.end) && <> &nbsp;|&nbsp; {period(e.start, e.end)}</>}
+                        {(e.start || e.end) && <> &nbsp;|&nbsp; {period(e.start, e.end, false, '', F)}</>}
                       </p>
-                      {e.description && <p className="lin-edu-desc">{e.description}</p>}
+                      {e.description && <Rich text={e.description} className="lin-edu-desc" />}
                     </article>
                   ))}
                 </div>

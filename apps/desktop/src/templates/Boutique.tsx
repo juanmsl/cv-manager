@@ -1,11 +1,14 @@
 import type { ReactNode } from 'react';
 import { period } from '../sample';
-import { CvPhoto, hl, type TemplateProps } from './shared';
+import { CvPhoto, hl, type TemplateProps, dateFormat, Rich } from './shared';
+import { formatDate, type DateFormat } from '../dates';
 import { Achievements, contactItems, linkItems } from './parts';
 import './Boutique.css';
 
 /** 8 · Boutique: hoja sobre fondo de dos tonos, foto redonda y líneas de tiempo con años. */
 export function Boutique({ data: d, highlightId, t }: TemplateProps) {
+  // Fechas: estilo 'year' (ver dates.ts)
+  const F = dateFormat(t, 'year');
   const contact = [...contactItems(d, t), ...linkItems(d)];
 
   return (
@@ -29,7 +32,7 @@ export function Boutique({ data: d, highlightId, t }: TemplateProps) {
             </Section>
           )}
 
-          {d.profile && <p className="bou-text bou-profile">{d.profile}</p>}
+          {d.profile && <Rich text={d.profile} className="bou-text bou-profile" />}
 
           {(d.skills.length > 0 || d.languages.length > 0) && (
             <Section title={t('cv.skills')}>
@@ -67,11 +70,11 @@ export function Boutique({ data: d, highlightId, t }: TemplateProps) {
             <Section title={t('cv.education')}>
               {d.education.map((e) => (
                 <article key={e.id} className={'bou-item' + hl(e.id, highlightId)}>
-                  <Years start={e.start} end={e.end} />
+                  <Years start={e.start} end={e.end} format={F} />
                   <div className="bou-body">
                     <h3>{e.degree}</h3>
                     {e.institution && <p className="bou-place">{e.institution}</p>}
-                    {e.description && <p className="bou-text">{e.description}</p>}
+                    {e.description && <Rich text={e.description} className="bou-text" />}
                   </div>
                 </article>
               ))}
@@ -82,11 +85,11 @@ export function Boutique({ data: d, highlightId, t }: TemplateProps) {
             <Section title={t('cv.experience')}>
               {d.experience.map((e) => (
                 <article key={e.id} className={'bou-item' + hl(e.id, highlightId)}>
-                  <Years start={e.start} end={e.current ? t('cv.today') : e.end} />
+                  <Years start={e.start} end={e.end} current={e.current} present={t('cv.today')} format={F} />
                   <div className="bou-body">
                     <h3>{e.role}</h3>
                     {(e.company || e.city) && <p className="bou-place">{[e.company, e.city].filter(Boolean).join(', ')}</p>}
-                    {e.description && <p className="bou-text">{e.description}</p>}
+                    {e.description && <Rich text={e.description} className="bou-text" />}
                     <Achievements items={e.achievements} className="bou-text bou-list" />
                   </div>
                 </article>
@@ -96,7 +99,7 @@ export function Boutique({ data: d, highlightId, t }: TemplateProps) {
 
           {d.note && (
             <Section title={t('cv.note')}>
-              <p className="bou-text">{d.note}</p>
+              <Rich text={d.note} className="bou-text" />
             </Section>
           )}
         </main>
@@ -114,18 +117,19 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-function Years({ start, end }: { start: string; end: string }) {
-  const one = period(start, end);
+function Years({ start, end, current = false, present = '', format }: { start: string; end: string; current?: boolean; present?: string; format: DateFormat }) {
+  const s = start ? formatDate(start, format.lang, format.style) : '';
+  const e = current ? present : end ? formatDate(end, format.lang, format.style) : '';
   return (
     <div className="bou-years">
-      {start && end && start !== end ? (
+      {s && e && s !== e ? (
         <>
-          <span>{start}</span>
+          <span>{s}</span>
           <i>-</i>
-          <span>{end}</span>
+          <span>{e}</span>
         </>
       ) : (
-        <span>{one}</span>
+        <span>{period(start, end, current, present, format)}</span>
       )}
     </div>
   );
