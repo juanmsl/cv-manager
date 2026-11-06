@@ -16,6 +16,19 @@ contextBridge.exposeInMainWorld('cvApi', {
   confirmUnsaved: (name) => ipcRenderer.invoke('file:confirm-unsaved', name),
   setWindowState: (s) => ipcRenderer.send('win:state', s),
   setLanguage: (lang) => ipcRenderer.send('app:set-lang', lang),
+  updates: {
+    getState: () => ipcRenderer.invoke('update:state'),
+    check: () => ipcRenderer.invoke('update:check'),
+    download: () => ipcRenderer.invoke('update:download'),
+    install: () => ipcRenderer.invoke('update:install'),
+    later: () => ipcRenderer.invoke('update:later'),
+    setAuto: (auto) => ipcRenderer.invoke('update:auto', auto),
+    onState: (cb) => {
+      const listener = (_e, s) => cb(s);
+      ipcRenderer.on('update:state', listener);
+      return () => ipcRenderer.removeListener('update:state', listener);
+    },
+  },
   onMenu: (cb) => {
     const listener = (_e, action) => cb(action);
     ipcRenderer.on('menu', listener);

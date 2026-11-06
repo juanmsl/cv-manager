@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { UpdateToast } from './components/UpdateToast';
 import { PiX } from 'react-icons/pi';
 import { useDocument } from './document';
 import { LANGS, useT, type Lang } from './i18n';
@@ -133,6 +134,8 @@ export function App() {
           </button>
         </div>
       )}
+
+      <UpdateToast />
 
       {/* Copia de la página a tamaño real que solo aparece al imprimir/exportar. */}
       <div className="print-root" aria-hidden="true">

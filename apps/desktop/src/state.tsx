@@ -17,6 +17,15 @@ declare global {
       confirmUnsaved: (name: string) => Promise<'save' | 'discard' | 'cancel'>;
       setWindowState: (s: { path: string; name: string; dirty: boolean }) => void;
       setLanguage: (lang: string) => void;
+      updates?: {
+        getState: () => Promise<import('./components/UpdateToast').UpdateState>;
+        check: () => Promise<unknown>;
+        download: () => Promise<unknown>;
+        install: () => Promise<unknown>;
+        later: () => Promise<unknown>;
+        setAuto: (auto: boolean) => Promise<unknown>;
+        onState: (cb: (s: import('./components/UpdateToast').UpdateState) => void) => () => void;
+      };
     };
   }
 }
