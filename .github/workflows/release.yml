@@ -5,13 +5,19 @@ name: Release
 #   - builds the .dmg on an Apple Silicon runner from the merge commit,
 #   - creates the tag vX.Y.Z on that commit and the GitHub release with the .dmg,
 #     a SHA256SUMS.txt and the version's section of CHANGELOG.md.
-# Running it by hand (Actions → Release → Run workflow) only builds the .dmg and
-# attaches it to the run, without publishing anything.
+# Running it by hand (Actions → Release → Run workflow) builds the .dmg and attaches
+# it to the run. With "Publish the release" checked (only from main), it also
+# creates the tag and the release, e.g. when the run after the merge failed.
 on:
   pull_request:
     types: [closed]
     branches: [main]
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the release (tag + GitHub release) for the version in apps/desktop/package.json. Only from main.
+        type: boolean
+        default: false
 
 concurrency:
   group: release-${{ github.event.pull_request.number || github.ref }}
@@ -100,7 +106,9 @@ jobs:
   release:
     name: Tag and publish the GitHub release
     needs: build
-    if: github.event_name == 'pull_request'
+    if: >-
+      github.event_name == 'pull_request' ||
+      (inputs.publish && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     permissions:
       contents: write
