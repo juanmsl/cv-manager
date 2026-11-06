@@ -79,6 +79,8 @@ export const en: Dict = {
   'photo.changeBtn': 'Change photo…',
   'photo.remove': 'Remove photo',
   'photo.hint': 'A vertical, well-lit photo works best. Templates crop it automatically.',
+  'photo.hide': 'No photo',
+  'photo.hiddenHint': 'The CV is shown without a photo. Any photo you loaded is kept in case you turn it back on.',
   'photo.chooseBtn': 'Choose photo…',
   'personal.nameTitle': 'Name and title',
   'field.firstName': 'First name',

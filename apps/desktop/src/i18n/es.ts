@@ -83,6 +83,8 @@ export const es = {
   'photo.changeBtn': 'Cambiar foto…',
   'photo.remove': 'Quitar foto',
   'photo.hint': 'Una foto vertical con buena luz funciona mejor. Las plantillas la recortan automáticamente.',
+  'photo.hide': 'Sin foto',
+  'photo.hiddenHint': 'El CV se muestra sin foto. La foto cargada se conserva por si la vuelves a activar.',
   'photo.chooseBtn': 'Elegir foto…',
   'personal.nameTitle': 'Nombre y cargo',
   'field.firstName': 'Nombre',

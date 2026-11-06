@@ -11,8 +11,9 @@ export interface TemplateProps {
   t: T;
 }
 
-/** Foto del CV, o una silueta neutra si aún no se ha cargado ninguna. */
+/** Foto del CV, o una silueta neutra si aún no se ha cargado ninguna. Nada con "Sin foto". */
 export function CvPhoto({ data, className }: { data: CvData; className?: string }) {
+  if (data.hidePhoto) return null;
   const p = data.photo;
   if (!p) {
     return (

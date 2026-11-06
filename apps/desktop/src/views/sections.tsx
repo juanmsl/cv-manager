@@ -108,8 +108,19 @@ export function PersonalSection() {
       <Head title={t('section.personal')} sub={t('personal.sub')} />
       <div className="stack">
         <section className="panel">
-          <h2 className="panel-title">{t('photo.title')}</h2>
-          <div className="photo-editor">
+          <div className="panel-head">
+            <h2 className="panel-title">{t('photo.title')}</h2>
+            <label className="check">
+              <input type="checkbox" checked={!!d.hidePhoto} onChange={(e) => setData({ hidePhoto: e.target.checked })} />
+              {t('photo.hide')}
+            </label>
+          </div>
+          {d.hidePhoto && (
+            <p className="field-hint" style={{ margin: 0 }}>
+              {t('photo.hiddenHint')}
+            </p>
+          )}
+          <div className={'photo-editor' + (d.hidePhoto ? ' is-off' : '')}>
             <button
               type="button"
               className={'photo-drop' + (photo ? ' has-photo' : '') + (over ? ' is-over' : '')}

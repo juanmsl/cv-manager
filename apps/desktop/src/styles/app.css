@@ -1332,3 +1332,14 @@ input[type='range'] {
     visibility: visible;
   }
 }
+
+/* Foto: "Sin foto" (sections.tsx) */
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.photo-editor.is-off {
+  opacity: 0.5;
+}

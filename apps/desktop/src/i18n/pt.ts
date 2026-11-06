@@ -80,6 +80,8 @@ export const pt: Dict = {
   'photo.changeBtn': 'Trocar foto…',
   'photo.remove': 'Remover foto',
   'photo.hint': 'Uma foto vertical e bem iluminada funciona melhor. Os modelos a recortam automaticamente.',
+  'photo.hide': 'Sem foto',
+  'photo.hiddenHint': 'O currículo é exibido sem foto. A foto carregada é mantida caso você a reative.',
   'photo.chooseBtn': 'Escolher foto…',
   'personal.nameTitle': 'Nome e cargo',
   'field.firstName': 'Nome',

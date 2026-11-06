@@ -12,14 +12,16 @@ export function Editorial({ data: d, highlightId, t }: TemplateProps) {
 
   return (
     <div className="edi">
-      <header className="edi-head">
+      <header className={'edi-head' + (d.hidePhoto ? ' edi-head--nophoto' : '')}>
         <div className="edi-vertical">
           <span>{t('cv.resume')}</span>
         </div>
         <div className="edi-band" />
-        <div className="edi-photo-back">
-          <CvPhoto data={d} className="edi-photo" />
-        </div>
+        {!d.hidePhoto && (
+          <div className="edi-photo-back">
+            <CvPhoto data={d} className="edi-photo" />
+          </div>
+        )}
         <div className="edi-id">
           <h1 className="edi-name">
             <span>{d.firstName}</span> <strong>{d.lastName}</strong>
