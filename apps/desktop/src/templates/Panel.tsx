@@ -1,11 +1,13 @@
 import type { ReactNode } from 'react';
 import { period } from '../sample';
-import { hl, type TemplateProps } from './shared';
+import { hl, type TemplateProps, dateFormat, Rich } from './shared';
 import { Achievements, linkItems } from './parts';
 import './Panel.css';
 
 /** 9 · Panel gris: columna lateral gris, franja de perfil y años en cápsulas verticales. */
 export function Panel({ data: d, highlightId, t }: TemplateProps) {
+  // Fechas: estilo 'long' (ver dates.ts)
+  const F = dateFormat(t, 'long');
   const contact = [
     d.phone && ['P', d.phone],
     d.email && ['E', d.email],
@@ -26,7 +28,7 @@ export function Panel({ data: d, highlightId, t }: TemplateProps) {
       {d.profile && (
         <section className="pan-band">
           <h2 className="pan-h">{t('cv.profile')}</h2>
-          <p className="pan-text">{d.profile}</p>
+          <Rich text={d.profile} className="pan-text" />
         </section>
       )}
 
@@ -38,12 +40,12 @@ export function Panel({ data: d, highlightId, t }: TemplateProps) {
                 {d.experience.map((e) => (
                   <article key={e.id} className={'pan-job' + hl(e.id, highlightId)}>
                     <div className="pan-when">
-                      {(e.start || e.end || e.current) && <span>{period(e.start, e.end, e.current, t('cv.today'))}</span>}
+                      {(e.start || e.end || e.current) && <span>{period(e.start, e.end, e.current, t('cv.today'), F)}</span>}
                     </div>
                     <div className="pan-job-body">
                       <h3>{e.role}</h3>
                       {(e.company || e.city) && <p className="pan-place">{[e.company, e.city].filter(Boolean).join('  |  ')}</p>}
-                      {e.description && <p className="pan-text">{e.description}</p>}
+                      {e.description && <Rich text={e.description} className="pan-text" />}
                       <Achievements items={e.achievements} className="pan-text pan-list" />
                     </div>
                   </article>
@@ -53,7 +55,7 @@ export function Panel({ data: d, highlightId, t }: TemplateProps) {
           )}
           {d.note && (
             <Section title={t('cv.note')}>
-              <p className="pan-text">{d.note}</p>
+              <Rich text={d.note} className="pan-text" />
             </Section>
           )}
         </main>
@@ -84,7 +86,7 @@ export function Panel({ data: d, highlightId, t }: TemplateProps) {
             <Section title={t('cv.education')}>
               {d.education.map((e) => (
                 <article key={e.id} className={'pan-edu' + hl(e.id, highlightId)}>
-                  {(e.start || e.end) && <span>{period(e.start, e.end)}</span>}
+                  {(e.start || e.end) && <span>{period(e.start, e.end, false, '', F)}</span>}
                   <h3>{e.degree}</h3>
                   <p>{e.institution}</p>
                 </article>

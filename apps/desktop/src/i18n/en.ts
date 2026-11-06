@@ -267,4 +267,20 @@ export const en: Dict = {
   'cv.emailShort': 'e:',
   'cv.phoneShort': 'p:',
   'cv.noPhoto': 'No photo',
+
+  // Date picker
+  'date.pick': 'Choose a date',
+  'date.precision': 'Date precision',
+  'date.year': 'Year',
+  'date.month': 'Month',
+  'date.day': 'Day',
+  'date.prev': 'Previous',
+  'date.next': 'Next',
+  'date.clear': 'Clear date',
+  // Formatted text
+  'rich.bold': 'Bold',
+  'rich.italic': 'Italic',
+  'rich.bullets': 'Bulleted list',
+  'rich.numbers': 'Numbered list',
+  'rich.hint': 'Type **bold**, *italic*, “- ” for a list, or select text to format it',
 };

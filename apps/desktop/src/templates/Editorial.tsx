@@ -1,7 +1,9 @@
 import { period } from '../sample';
-import { CvPhoto, hl, type TemplateProps } from './shared';
+import { CvPhoto, hl, type TemplateProps, dateFormat, Rich } from './shared';
 
 export function Editorial({ data: d, highlightId, t }: TemplateProps) {
+  // Fechas: estilo 'numeric' (ver dates.ts)
+  const F = dateFormat(t, 'numeric');
   const contact = [
     d.email && [t('cv.emailShort'), d.email],
     d.phone && [t('cv.phoneShort'), d.phone],
@@ -36,7 +38,7 @@ export function Editorial({ data: d, highlightId, t }: TemplateProps) {
         </div>
       </header>
 
-      {d.profile && <p className="edi-profile">{d.profile}</p>}
+      {d.profile && <Rich text={d.profile} className="edi-profile" />}
 
       <div className="edi-cols">
         <aside>
@@ -70,7 +72,7 @@ export function Editorial({ data: d, highlightId, t }: TemplateProps) {
               <ol className="edi-tl">
                 {d.education.map((e) => (
                   <li key={e.id} className={hl(e.id, highlightId).trim()}>
-                    <span>{period(e.start, e.end)}</span>
+                    <span>{period(e.start, e.end, false, '', F)}</span>
                     <strong>{e.degree}</strong>
                     <span>{e.institution}</span>
                   </li>
@@ -96,11 +98,11 @@ export function Editorial({ data: d, highlightId, t }: TemplateProps) {
               <h2 className="edi-h">{t('cv.experience')}</h2>
               {d.experience.map((e) => (
                 <article key={e.id} className={'edi-job' + hl(e.id, highlightId)}>
-                  <span className="edi-date">{period(e.start, e.end, e.current, t('cv.present'))}</span>
+                  <span className="edi-date">{period(e.start, e.end, e.current, t('cv.present'), F)}</span>
                   <strong className="edi-role">
                     {[e.role, e.company].filter(Boolean).join(' — ')}
                   </strong>
-                  {e.description && <p>{e.description}</p>}
+                  {e.description && <Rich text={e.description} />}
                   {e.achievements.filter(Boolean).length > 0 && (
                     <ul>
                       {e.achievements.filter(Boolean).map((a, i) => (
@@ -112,7 +114,7 @@ export function Editorial({ data: d, highlightId, t }: TemplateProps) {
               ))}
             </section>
           )}
-          {d.note && <p className="edi-note">{d.note}</p>}
+          {d.note && <Rich text={d.note} className="edi-note" />}
         </main>
       </div>
     </div>

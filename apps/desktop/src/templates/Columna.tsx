@@ -1,7 +1,9 @@
 import { period } from '../sample';
-import { CvPhoto, hl, type TemplateProps } from './shared';
+import { CvPhoto, hl, type TemplateProps, dateFormat, Rich } from './shared';
 
 export function Columna({ data: d, highlightId, t }: TemplateProps) {
+  // Fechas: estilo 'short' (ver dates.ts)
+  const F = dateFormat(t, 'short');
   const contact = [
     [t('cv.email'), d.email],
     [t('cv.phone'), d.phone],
@@ -68,7 +70,7 @@ export function Columna({ data: d, highlightId, t }: TemplateProps) {
         {d.profile && (
           <section>
             <h2 className="col-h">{t('cv.profile')}</h2>
-            <p className="col-profile">{d.profile}</p>
+            <Rich text={d.profile} className="col-profile" />
           </section>
         )}
 
@@ -79,11 +81,11 @@ export function Columna({ data: d, highlightId, t }: TemplateProps) {
               <article key={e.id} className={'col-row' + hl(e.id, highlightId)}>
                 <div className="col-row-meta">
                   <strong>{e.role}</strong>
-                  <span>{period(e.start, e.end, e.current, t('cv.present'))}</span>
+                  <span>{period(e.start, e.end, e.current, t('cv.present'), F)}</span>
                   <span>{e.company}</span>
                 </div>
                 <div className="col-row-desc">
-                  {e.description && <p>{e.description}</p>}
+                  {e.description && <Rich text={e.description} />}
                   {e.achievements.filter(Boolean).length > 0 && (
                     <ul>
                       {e.achievements.filter(Boolean).map((a, i) => (
@@ -104,10 +106,10 @@ export function Columna({ data: d, highlightId, t }: TemplateProps) {
               <article key={e.id} className={'col-row' + hl(e.id, highlightId)}>
                 <div className="col-row-meta">
                   <strong>{e.institution}</strong>
-                  <span>{period(e.start, e.end)}</span>
+                  <span>{period(e.start, e.end, false, '', F)}</span>
                   <span>{e.degree}</span>
                 </div>
-                <div className="col-row-desc">{e.description && <p>{e.description}</p>}</div>
+                <div className="col-row-desc">{e.description && <Rich text={e.description} />}</div>
               </article>
             ))}
           </section>
@@ -132,7 +134,7 @@ export function Columna({ data: d, highlightId, t }: TemplateProps) {
         {d.note && (
           <section>
             <h2 className="col-h">{t('cv.note')}</h2>
-            <p className="col-profile">{d.note}</p>
+            <Rich text={d.note} className="col-profile" />
           </section>
         )}
       </main>

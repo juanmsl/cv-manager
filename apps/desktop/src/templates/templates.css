@@ -663,3 +663,46 @@
   flex: none;
   position: relative;
 }
+
+/* Textos con formato (perfil, descripciones, nota): Markdown → HTML (shared.tsx).
+   Hereda tipografía y color de la clase de cada plantilla. */
+.cv-rich p + p,
+.cv-rich p + ul,
+.cv-rich p + ol,
+.cv-rich ul + p,
+.cv-rich ol + p {
+  margin-top: 0.35em;
+}
+.cv-rich ul,
+.cv-rich ol {
+  padding-left: 1.15em;
+}
+.cv-rich ul {
+  list-style: disc;
+}
+.cv-rich ol {
+  list-style: decimal;
+}
+.cv-rich li + li {
+  margin-top: 0.15em;
+}
+.cv-rich li::marker {
+  color: currentColor;
+}
+/* Las viñetas propias de cada plantilla (::before en sus listas de logros) no
+   aplican aquí: el texto con formato usa las del navegador. */
+.cv-page .cv-rich :is(ul, ol) > li {
+  padding-left: 0;
+}
+.cv-page .cv-rich :is(ul, ol) > li::before {
+  content: none;
+}
+.cv-rich strong,
+.cv-rich b {
+  font-weight: 600;
+}
+.cv-rich a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}

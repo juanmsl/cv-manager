@@ -341,6 +341,239 @@ textarea {
   font-size: 11px;
   color: var(--text-tertiary);
 }
+
+/* Campo de fecha (components/DateField.tsx) ------------------------------ */
+.date-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 32px;
+  border: 0.5px solid var(--line-field);
+  background: var(--bg-field);
+  border-radius: var(--radius-control);
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: default;
+  transition: border-color 140ms, box-shadow 140ms;
+}
+.date-input > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.date-input.is-empty > span {
+  color: var(--text-tertiary);
+}
+.date-input svg {
+  flex: none;
+  color: var(--text-tertiary);
+}
+.date-input:focus-visible,
+.date-input[aria-expanded='true'] {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(91 63 115 / 0.16);
+}
+.date-input:disabled {
+  opacity: 0.45;
+}
+
+.dp {
+  position: fixed;
+  z-index: 1000;
+  width: 264px;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border-radius: var(--radius-card);
+  background: var(--bg-surface);
+  border: 0.5px solid var(--line-separator);
+  box-shadow:
+    var(--shadow-soft),
+    0 2px 6px rgb(0 0 0 / 0.08);
+  animation: dp-in 140ms var(--ease-out);
+}
+@keyframes dp-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dp {
+    animation: none;
+  }
+}
+.dp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dp-flip {
+  display: inline-grid;
+  transform: rotate(180deg);
+}
+.dp-title {
+  border: 0;
+  background: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: capitalize;
+}
+.dp-title:not(:disabled):hover {
+  background: rgb(0 0 0 / 0.05);
+}
+.dp-title:disabled {
+  opacity: 1;
+}
+.dp-grid {
+  display: grid;
+  gap: 4px;
+}
+.dp-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.dp-grid--7 {
+  grid-template-columns: repeat(7, 1fr);
+}
+.dp-grid button {
+  border: 0;
+  background: none;
+  border-radius: 6px;
+  padding: 7px 0;
+  font: inherit;
+  font-size: 12.5px;
+  color: var(--text-primary);
+  text-transform: capitalize;
+  font-variant-numeric: tabular-nums;
+}
+.dp-grid--7 button {
+  padding: 5px 0;
+}
+.dp-grid button:hover {
+  background: var(--accent-tint);
+}
+.dp-grid button.is-today {
+  box-shadow: inset 0 0 0 1px var(--line-ruled);
+}
+.dp-grid button[aria-pressed='true'] {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+.dp-grid button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.dp-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 2px;
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+.dp-foot {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 6px;
+  border-top: 0.5px solid var(--line-separator);
+}
+
+/* Texto con formato (components/RichField.tsx) --------------------------- */
+.rich {
+  position: relative;
+}
+.rich-input {
+  width: 100%;
+  border: 0.5px solid var(--line-field);
+  background: var(--bg-field);
+  border-radius: var(--radius-control);
+  padding: 8px 10px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--text-primary);
+  cursor: text;
+  transition: border-color 140ms, box-shadow 140ms;
+  overflow-wrap: anywhere;
+}
+.rich-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(91 63 115 / 0.16);
+}
+.rich-input p {
+  margin: 0;
+}
+.rich-input p + p,
+.rich-input p + ul,
+.rich-input p + ol,
+.rich-input ul + p,
+.rich-input ol + p {
+  margin-top: 6px;
+}
+.rich-input ul,
+.rich-input ol {
+  margin: 0;
+  padding-left: 18px;
+}
+.rich-input li > p {
+  margin: 0;
+}
+.rich-input strong {
+  font-weight: 600;
+}
+.rich-input a {
+  color: var(--accent);
+}
+.rich-input p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+.rich-menu {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 8px;
+  background: var(--text-primary);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.2);
+}
+.rich-menu button {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: rgb(255 255 255 / 0.85);
+  font: inherit;
+  font-size: 13px;
+}
+.rich-menu button:hover {
+  background: rgb(255 255 255 / 0.12);
+  color: #fff;
+}
+.rich-menu button[aria-pressed='true'] {
+  background: rgb(255 255 255 / 0.22);
+  color: #fff;
+}
 .row {
   display: flex;
   gap: 14px;

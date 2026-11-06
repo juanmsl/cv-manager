@@ -268,4 +268,20 @@ export const pt: Dict = {
   'cv.emailShort': 'e:',
   'cv.phoneShort': 't:',
   'cv.noPhoto': 'Sem foto',
+
+  // Seletor de data
+  'date.pick': 'Escolher data',
+  'date.precision': 'Precisão da data',
+  'date.year': 'Ano',
+  'date.month': 'Mês',
+  'date.day': 'Dia',
+  'date.prev': 'Anterior',
+  'date.next': 'Próximo',
+  'date.clear': 'Apagar data',
+  // Texto formatado
+  'rich.bold': 'Negrito',
+  'rich.italic': 'Itálico',
+  'rich.bullets': 'Lista com marcadores',
+  'rich.numbers': 'Lista numerada',
+  'rich.hint': 'Escreva **negrito**, *itálico*, “- ” para uma lista ou selecione texto para formatá-lo',
 };

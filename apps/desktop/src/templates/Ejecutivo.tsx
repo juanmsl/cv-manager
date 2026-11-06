@@ -1,11 +1,13 @@
 import type { ReactNode } from 'react';
 import { period } from '../sample';
-import { hl, type TemplateProps } from './shared';
+import { hl, type TemplateProps, dateFormat, Rich } from './shared';
 import { Achievements, contactItems } from './parts';
 import './Ejecutivo.css';
 
 /** 6 · Ejecutivo: nombre grande, pestaña oscura de contacto y filete vertical. */
 export function Ejecutivo({ data: d, highlightId, t }: TemplateProps) {
+  // Fechas: estilo 'numeric' (ver dates.ts)
+  const F = dateFormat(t, 'numeric');
   const contact = contactItems(d, t);
   const links = d.links.filter((l) => l.value);
 
@@ -24,7 +26,7 @@ export function Ejecutivo({ data: d, highlightId, t }: TemplateProps) {
 
           {d.profile && (
             <Section title={t('cv.profile')}>
-              <p className="eje-text">{d.profile}</p>
+              <Rich text={d.profile} className="eje-text" />
             </Section>
           )}
 
@@ -34,10 +36,10 @@ export function Ejecutivo({ data: d, highlightId, t }: TemplateProps) {
                 <article key={e.id} className={'eje-job' + hl(e.id, highlightId)}>
                   <div className="eje-job-head">
                     <h3>{e.role}</h3>
-                    <span>{period(e.start, e.end, e.current, t('cv.present'))}</span>
+                    <span>{period(e.start, e.end, e.current, t('cv.present'), F)}</span>
                   </div>
                   <p className="eje-job-place">{[e.company, e.city].filter(Boolean).join(' / ')}</p>
-                  {e.description && <p className="eje-text">{e.description}</p>}
+                  {e.description && <Rich text={e.description} className="eje-text" />}
                   <Achievements items={e.achievements} className="eje-text eje-bullets" />
                 </article>
               ))}
@@ -46,7 +48,7 @@ export function Ejecutivo({ data: d, highlightId, t }: TemplateProps) {
 
           {d.note && (
             <Section title={t('cv.note')}>
-              <p className="eje-text">{d.note}</p>
+              <Rich text={d.note} className="eje-text" />
             </Section>
           )}
         </main>
@@ -72,7 +74,7 @@ export function Ejecutivo({ data: d, highlightId, t }: TemplateProps) {
               {d.education.map((e) => (
                 <article key={e.id} className={'eje-edu' + hl(e.id, highlightId)}>
                   <h3>{e.degree}</h3>
-                  <p>{[e.institution, period(e.start, e.end)].filter(Boolean).join(' | ')}</p>
+                  <p>{[e.institution, period(e.start, e.end, false, '', F)].filter(Boolean).join(' | ')}</p>
                 </article>
               ))}
             </Section>

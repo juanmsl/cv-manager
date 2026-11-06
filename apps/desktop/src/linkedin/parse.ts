@@ -71,6 +71,34 @@ function years(t: string) {
   return t.match(/\b(19|20)\d{2}\b/g) ?? [];
 }
 
+// Meses en español, inglés y portugués (sin tildes, completos y abreviados).
+const MONTHS: Record<string, number> = {};
+[
+  ['enero', 'ene', 'january', 'jan', 'janeiro'],
+  ['febrero', 'feb', 'february', 'fevereiro', 'fev'],
+  ['marzo', 'mar', 'march', 'marco'],
+  ['abril', 'abr', 'april', 'apr'],
+  ['mayo', 'may', 'maio', 'mai'],
+  ['junio', 'jun', 'june', 'junho'],
+  ['julio', 'jul', 'july', 'julho'],
+  ['agosto', 'ago', 'august', 'aug'],
+  ['septiembre', 'setiembre', 'sep', 'sept', 'september', 'setembro', 'set'],
+  ['octubre', 'oct', 'october', 'outubro', 'out'],
+  ['noviembre', 'nov', 'november', 'novembro'],
+  ['diciembre', 'dic', 'december', 'dec', 'dezembro', 'dez'],
+].forEach((names, i) => names.forEach((n) => (MONTHS[n] = i + 1)));
+
+/** Fechas de una línea de LinkedIn como ISO parcial: "marzo de 2021" → "2021-03", "2019" → "2019". */
+function isoDates(t: string): string[] {
+  const out: string[] = [];
+  for (const m of t.matchAll(/(?:([a-zA-ZÀ-ÿ]+)\.?\s+(?:de\s+)?)?\b((?:19|20)\d{2})\b/g)) {
+    const name = m[1]?.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const month = name ? MONTHS[name] : undefined;
+    out.push(month ? `${m[2]}-${String(month).padStart(2, '0')}` : m[2]);
+  }
+  return out;
+}
+
 function bodySize(lines: PdfLine[]) {
   const count = new Map<number, number>();
   for (const l of lines) {
@@ -159,7 +187,7 @@ function parseExperience(lines: PdfLine[], body: number): Experience[] {
   heads.forEach((h, k) => {
     if (h.company >= 0) company = lines[h.company].text;
     const dates = lines[h.di].text;
-    const ys = years(dates);
+    const ys = isoDates(dates);
     const current = CURRENT.test(dates);
     const end = k + 1 < heads.length ? heads[k + 1].start : lines.length;
     let bodyLines = lines.slice(h.di + 1, end).filter((l) => !DURATION_ONLY.test(norm(l.text)));
