@@ -4,6 +4,7 @@ const { app, BrowserWindow, ipcMain, dialog, Menu, shell, session } = require('e
 const path = require('node:path');
 const fs = require('node:fs/promises');
 const { LANGS, pickLang, makeT } = require('./i18n.cjs');
+const updater = require('./updater.cjs');
 
 // La app no guarda nada por su cuenta: cada vez que se abre empieza con los
 // datos de ejemplo y en el idioma del sistema. Estos archivos son de versiones
@@ -103,7 +104,32 @@ function send(channel, payload) {
 function buildMenu() {
   const isMac = process.platform === 'darwin';
   const template = [
-    ...(isMac ? [{ role: 'appMenu' }] : []),
+    ...(isMac
+      ? [
+          {
+            label: app.name,
+            submenu: [
+              { role: 'about', label: t('about') },
+              { type: 'separator' },
+              { label: t('checkUpdates'), click: () => updater.check({ manual: true }) },
+              {
+                label: t('autoUpdate'),
+                type: 'checkbox',
+                checked: updater.getState().auto,
+                click: (item) => updater.setAuto(item.checked),
+              },
+              { type: 'separator' },
+              { role: 'services', label: t('services') },
+              { type: 'separator' },
+              { role: 'hide', label: t('hide') },
+              { role: 'hideOthers', label: t('hideOthers') },
+              { role: 'unhide', label: t('showAll') },
+              { type: 'separator' },
+              { role: 'quit', label: t('quit') },
+            ],
+          },
+        ]
+      : []),
     {
       label: t('file'),
       submenu: [
@@ -269,6 +295,18 @@ app.on('before-quit', () => {
 
 ipcMain.handle('pdf:reveal', (_e, filePath) => shell.showItemInFolder(filePath));
 
+// --- Actualizaciones (updater.cjs) -------------------------------------------
+ipcMain.handle('update:state', () => updater.getState());
+ipcMain.handle('update:check', () => updater.check({ manual: true }));
+ipcMain.handle('update:download', () => updater.download());
+ipcMain.handle('update:install', () => updater.installNow());
+ipcMain.handle('update:later', () => updater.later());
+ipcMain.handle('update:auto', (_e, auto) => {
+  updater.setAuto(auto);
+  buildMenu();
+});
+app.on('will-quit', () => updater.applyOnQuit());
+
 // La interfaz avisa el idioma elegido: se reconstruye el menú.
 ipcMain.on('app:set-lang', (_e, l) => {
   const next = pickLang(l);
@@ -290,6 +328,7 @@ app.whenReady().then(async () => {
   }
   lang = pickLang([...app.getPreferredSystemLanguages(), app.getLocale()]);
   t = makeT(lang);
+  updater.start((s) => send('update:state', s));
   buildMenu();
   createWindow();
   app.on('activate', () => {

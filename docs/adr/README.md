@@ -40,3 +40,4 @@ Statuses: **Proposed**, **Accepted**, **Superseded**, **Deprecated**.
 | [0022](0022-website-on-github-pages.md) | Website hosted on GitHub Pages with a custom domain | Accepted | 2026-11-02 |
 | [0023](0023-node-24-and-pnpm-11.md) | Node.js 24 and pnpm 11, enforced with engines | Accepted | 2026-11-02 |
 | [0024](0024-dates-and-formatted-text.md) | Date pickers and formatted text in the CV data | Accepted | 2026-11-06 |
+| [0025](0025-in-app-updates.md) | In-app updates without Squirrel | Accepted | 2026-11-06 |

@@ -295,6 +295,22 @@ export const es = {
   'rich.bullets': 'Lista con viñetas',
   'rich.numbers': 'Lista numerada',
   'rich.hint': 'Escribe **negrilla**, *cursiva*, «- » para una lista o selecciona texto para darle formato',
+  // Actualizaciones
+  'update.checking': 'Buscando actualizaciones…',
+  'update.upToDate': 'Tienes la última versión ({version}).',
+  'update.available': 'CV Manager {version} está disponible.',
+  'update.notes': 'Ver novedades',
+  'update.install': 'Descargar e instalar',
+  'update.auto': 'Actualizar automáticamente',
+  'update.downloading': 'Descargando la versión {version}… {pct} %',
+  'update.ready': 'La versión {version} está lista.',
+  'update.onQuit': 'Se instalará al cerrar la app.',
+  'update.devOnly': 'Para instalarla, abre el instalador.',
+  'update.restart': 'Reiniciar y actualizar',
+  'update.openInstaller': 'Abrir instalador',
+  'update.manualInstall': 'Abrimos el instalador: arrastra CV Manager a Aplicaciones para reemplazar la versión actual.',
+  'update.error': 'No se pudo actualizar ({error}).',
+  'update.retry': 'Reintentar',
 };
 
 export type Dict = Record<keyof typeof es, string>;

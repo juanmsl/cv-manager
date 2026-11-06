@@ -57,6 +57,13 @@ opens a release pull request; merging it builds the `.dmg` and publishes the rel
 README and ADR-0021). They use the same ad-hoc signature, so the first launch needs
 the same **Open Anyway** step.
 
+### Updates
+
+The app checks GitHub for a new release when it opens (and every 6 hours while open). A notice
+offers to **download and install** it; it is replaced when you quit, or right away with **Restart
+and update**. Use **CV Manager → Check for Updates…** to check on demand, and **Update
+Automatically** to download and install new versions without asking. See ADR-0025.
+
 ### Distributing it to other people
 
 Opening without warnings on any Mac requires an Apple Developer Program account, a
