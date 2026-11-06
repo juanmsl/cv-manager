@@ -60,7 +60,7 @@ Two workflows publish a new version (ADR-0021):
    builds the `.dmg` on an Apple Silicon runner, tags the merge commit `vX.Y.Z` and publishes the
    GitHub release with the installer and the changelog.
 
-Running **Release** by hand only builds the `.dmg` and attaches it to the run, without publishing.
+Running **Release** by hand builds the `.dmg` and attaches it to the run, without publishing. Check **Publish the release** (from `main`) to also create the tag and the release, for example when the run after the merge failed.
 
 The first time, enable **Settings → Actions → General → Workflow permissions → Allow GitHub Actions
 to create and approve pull requests**. CI doesn't run on pull requests opened by the default
